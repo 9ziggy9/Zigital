@@ -1,2 +1,2 @@
 # Zigital
-https://github.com/9ziggy9/Zigital/blob/main/Wireframe.png?raw=true
+[img]https://github.com/9ziggy9/Zigital/blob/main/Wireframe.png?raw=true[/img]
