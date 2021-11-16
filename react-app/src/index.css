@@ -43,15 +43,6 @@ img {
     grid-area: 1 / 1 / 2 / 2;
 }
 
-.components-btn {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    color: #444444;
-    background-color: #eeeeee;
-    grid-area: 1 / 1 / 2 / 2;
-}
-
 .logo {
     display: flex;
     align-items: center;
@@ -62,16 +53,32 @@ img {
     grid-area: 1 / 7 / 2 / 8;
 }
 
-.profile-btn {
+#components-btn {
     display: flex;
     align-items: center;
     justify-content: center;
-    color: #444444;
-    background-color: #eeeeee;
+    grid-area: 1 / 1 / 2 / 2;
+}
+
+
+#profile-btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
     grid-area: 1 / 13 / 2 / 14;
 }
 
-.profile-btn:hover, .components-btn:hover{
+#profile-btn:hover, #components-btn:hover{
+    background-color: #444444;
+    color: #eeeeee;
+}
+
+.unhighlight {
+    color: #444444;
+    background-color: #eeeeee;
+}
+
+.highlight {
     background-color: #444444;
     color: #eeeeee;
 }
@@ -109,11 +116,24 @@ img {
     height: 100%;
     position: relative;
     z-index:1;
-    background-color:red;
+}
+
+.components-area {
+    position:relative;
+    grid-area: 1 / 1 / 2 / 4;
+}
+
+#components-tree {
+    background-color:#eeeeee;
+    z-index:2;
+    width:100%;
+    height:50%;
 }
 
 /* USE AS NEEDED */
 /* .div1 { grid-area: 1 / 1 / 2 / 4; } */
+/* ----> .components-area */
+
 /* .div2 { grid-area: 1 / 4 / 2 / 11; } */
 /* .div3 { grid-area: 1 / 11 / 2 / 14; } */
 /* END CANVAS */
