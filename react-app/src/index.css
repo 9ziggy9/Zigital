@@ -24,9 +24,33 @@ html, body {
 }
 
 .toolbar {
+    display: grid;
+    grid-template-columns: repeat(13, 1fr);
+    grid-template-rows: 40px;
+    grid-column-gap: 0px;
+    grid-row-gap: 0px;
     background-color: #eeeeee;
     grid-area: 1 / 1 / 2 / 2;
 }
+
+.profile-btn {
+    background-color: red;
+    grid-area: 1 / 13 / 2 / 14;
+}
+
+/* USE AS NEEDED */
+/* .div1 { grid-area: 1 / 1 / 2 / 2; } */
+/* .div2 { grid-area: 1 / 2 / 2 / 3; } */
+/* .div3 { grid-area: 1 / 3 / 2 / 4; } */
+/* .div4 { grid-area: 1 / 4 / 2 / 5; } */
+/* .div5 { grid-area: 1 / 5 / 2 / 6; } */
+/* .div6 { grid-area: 1 / 6 / 2 / 7; } */
+/* .div7 { grid-area: 1 / 7 / 2 / 8; } */
+/* .div8 { grid-area: 1 / 8 / 2 / 9; } */
+/* .div9 { grid-area: 1 / 9 / 2 / 10; } */
+/* .div10 { grid-area: 1 / 10 / 2 / 11; } */
+/* .div11 { grid-area: 1 / 11 / 2 / 12; } */
+/* .div12 { grid-area: 1 / 12 / 2 / 13; } */
 
 .canvas-area {
     background-color:#eeeeee;
