@@ -1,4 +1,5 @@
 import React from 'react';
+import ComponentsTree from '../ComponentsTree/ComponentsTree'
 import "../../index.css"
 
 const ToolBar = () => {
@@ -37,7 +38,7 @@ const ToolBar = () => {
     <div className="canvas-overlay">
         <div className="components-area">
             <div id="components-tree" className="hidden">
-                hello world
+              <ComponentsTree />
             </div>
         </div>
     </div>

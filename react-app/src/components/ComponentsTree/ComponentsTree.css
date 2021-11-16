@@ -1,0 +1,22 @@
+.btn-list {
+    padding: 4px;
+    display: flex-column;
+    align-items: center;
+    justify-content: center;
+}
+
+#not-btn, #or-btn, #and-btn,
+#xor-btn, #nand-btn, #xnor-btn {
+    height:40px;
+    width: 100%;
+    font-family: 'VT323', monospace;
+    font-weight: bold;
+    font-size:24px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.btn-list > button:hover {
+    background-color: #d7af5f;
+}
