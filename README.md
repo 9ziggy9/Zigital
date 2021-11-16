@@ -12,3 +12,5 @@ https://medium.com/@pdx.lucasm/canvas-with-react-js-32e133c05258
 https://github.com/johnwinans
 https://github.com/johnwinans/rvalp/releases
 https://www.youtube.com/watch?v=em1zDi6q06o
+#### JSON in SQLAlchemy best practices
+https://amercader.net/blog/beware-of-json-fields-in-sqlalchemy/
