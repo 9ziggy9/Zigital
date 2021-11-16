@@ -12,11 +12,11 @@ const ToolBar = () => {
       <div className="logo">
         zigital
       </div>
-      <div className="profile-btn">
+      <button className="profile-btn">
         <span class="material-icons">
           settings
         </span>
-      </div>
+      </button>
     </div>
   )
 }
