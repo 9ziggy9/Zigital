@@ -16,3 +16,5 @@ https://www.youtube.com/watch?v=em1zDi6q06o
 https://amercader.net/blog/beware-of-json-fields-in-sqlalchemy/
 #### Wikipedia references
 https://en.wikipedia.org/wiki/Combinational_logic
+#### FOSS svgs
+https://www.svgrepo.com/svg/115674/profile
