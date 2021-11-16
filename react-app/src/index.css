@@ -24,11 +24,12 @@ html, body {
 }
 
 .toolbar {
-    background-color:red;
+    background-color: #eeeeee;
     grid-area: 1 / 1 / 2 / 2;
 }
 
 .canvas-area {
+    background-image: url("./img/bg.png");
     background-color:#eeeeee;
     grid-area: 2 / 1 / 3 / 2;
 }
