@@ -13,6 +13,11 @@ html, body {
     margin:0;
 }
 
+img {
+    max-width:100%;
+    max-height:100%;
+}
+
 .app-container {
     display: grid;
     width:100%;
@@ -23,6 +28,7 @@ html, body {
     grid-row-gap: 0px;
 }
 
+/* TOOL BAR */
 .toolbar {
     display: grid;
     grid-template-columns: repeat(13, 1fr);
@@ -33,13 +39,32 @@ html, body {
     grid-area: 1 / 1 / 2 / 2;
 }
 
+.components-btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #444444;
+    background-color: #eeeeee;
+    grid-area: 1 / 13 / 2 / 14;
+    grid-area: 1 / 1 / 2 / 2;
+}
+
 .profile-btn {
-    background-color: red;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #444444;
+    background-color: #eeeeee;
     grid-area: 1 / 13 / 2 / 14;
 }
 
+.profile-btn:hover, .components-btn:hover{
+    background-color: #444444;
+    color: #eeeeee;
+}
+
 /* USE AS NEEDED */
-/* .div1 { grid-area: 1 / 1 / 2 / 2; } */
+/* DIV1 --> .components-btn */
 /* .div2 { grid-area: 1 / 2 / 2 / 3; } */
 /* .div3 { grid-area: 1 / 3 / 2 / 4; } */
 /* .div4 { grid-area: 1 / 4 / 2 / 5; } */
@@ -51,6 +76,9 @@ html, body {
 /* .div10 { grid-area: 1 / 10 / 2 / 11; } */
 /* .div11 { grid-area: 1 / 11 / 2 / 12; } */
 /* .div12 { grid-area: 1 / 12 / 2 / 13; } */
+/* DIV13 --> .profile-btn */
+
+/* END TOOLBAR */
 
 .canvas-area {
     background-color:#eeeeee;
