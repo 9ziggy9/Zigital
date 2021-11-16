@@ -1,12 +1,15 @@
+import "./index.css";
 import React, { useState, useEffect } from 'react';
 import { BrowserRouter, Route, Switch } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 import LoginForm from './components/auth/LoginForm';
 import SignUpForm from './components/auth/SignUpForm';
-import NavBar from './components/NavBar';
+import NavBar from './components/NavBar/NavBar';
 import ProtectedRoute from './components/auth/ProtectedRoute';
 import UsersList from './components/UsersList';
 import User from './components/User';
+import Home from './components/Home/Home';
+import ToolBar from './components/ToolBar/ToolBar';
 import { authenticate } from './store/session';
 
 function App() {
@@ -26,7 +29,6 @@ function App() {
 
   return (
     <BrowserRouter>
-      <NavBar />
       <Switch>
         <Route path='/login' exact={true}>
           <LoginForm />
@@ -41,7 +43,14 @@ function App() {
           <User />
         </ProtectedRoute>
         <ProtectedRoute path='/' exact={true} >
-          <h1>My Home Page</h1>
+          <NavBar />
+          <h1>My Splash Page</h1>
+        </ProtectedRoute>
+        <ProtectedRoute path='/home' exact={true} >
+          <div className="app-container">
+            <ToolBar />
+            <Home />
+          </div>
         </ProtectedRoute>
       </Switch>
     </BrowserRouter>
