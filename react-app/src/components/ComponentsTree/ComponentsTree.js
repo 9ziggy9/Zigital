@@ -31,6 +31,9 @@ const ComponentsTree = () => {
         <button id="xor-btn">
           <p>XOR</p>
         </button>
+        <button id="xor-btn">
+          <p>NOR</p>
+        </button>
         <button id="nand-btn">
           <p>NAND</p>
         </button>
