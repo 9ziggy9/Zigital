@@ -4,7 +4,7 @@
 ![alt text](https://github.com/9ziggy9/Zigital/blob/main/Wireframe.png?raw=true)
 
 ## DB Schema
-![alt_text]()
+![alt_text](https://github.com/9ziggy9/Zigital/blob/main/dbschema.png)
 
 References:
 
