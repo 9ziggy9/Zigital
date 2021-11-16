@@ -29,6 +29,10 @@ img {
 }
 
 /* TOOL BAR */
+.toolbar > button {
+    border: none;
+}
+
 .toolbar {
     display: grid;
     grid-template-columns: repeat(13, 1fr);
@@ -86,9 +90,9 @@ img {
 /* .div11 { grid-area: 1 / 11 / 2 / 12; } */
 /* .div12 { grid-area: 1 / 12 / 2 / 13; } */
 /* DIV13 --> .profile-btn */
-
 /* END TOOLBAR */
 
+/* CANVAS AREA AND OVERLAY */
 .canvas-area {
     background-color:#eeeeee;
     grid-area: 2 / 1 / 3 / 2;
@@ -96,12 +100,23 @@ img {
 
 .canvas-overlay {
     grid-area: 2 / 1 / 3 / 2;
+    display: grid;
+    grid-template-columns: repeat(13, 1fr);
+    grid-template-rows: 1fr;
+    grid-column-gap: 0px;
+    grid-row-gap: 0px;
     width: 100%;
     height: 100%;
     position: relative;
     z-index:1;
     background-color:red;
 }
+
+/* USE AS NEEDED */
+/* .div1 { grid-area: 1 / 1 / 2 / 4; } */
+/* .div2 { grid-area: 1 / 4 / 2 / 11; } */
+/* .div3 { grid-area: 1 / 11 / 2 / 14; } */
+/* END CANVAS */
 
 .hidden {
     display:none;

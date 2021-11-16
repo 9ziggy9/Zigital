@@ -4,11 +4,11 @@ import "../../index.css"
 const ToolBar = () => {
   return (
     <div className="toolbar">
-      <div className="components-btn">
+      <button className="components-btn">
         <span class="material-icons">
           build
         </span>
-      </div>
+      </button>
       <div className="logo">
         zigital
       </div>
