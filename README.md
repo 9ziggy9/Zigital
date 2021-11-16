@@ -15,4 +15,4 @@ https://www.rit.edu/academicsuccesscenter/sites/rit.edu.academicsuccesscenter/fi
 https://en.wikipedia.org/wiki/Finite-state_machine
 https://medium.com/@pdx.lucasm/canvas-with-react-js-32e133c05258
 
-![alt_text](https://www.youtube.com/watch?v=em1zDi6q06o&t=969s)
+https://www.youtube.com/watch?v=em1zDi6q06o&t=969s
