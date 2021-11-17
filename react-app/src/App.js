@@ -17,7 +17,7 @@ function App() {
   const [loaded, setLoaded] = useState(false);
   const dispatch = useDispatch();
   // TOOL BAR STATE //
-  const [tool, setTool] = useState('none');
+  const [tool, setTool] = useState('black');
 
 
   useEffect(() => {

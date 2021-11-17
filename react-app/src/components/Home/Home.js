@@ -1,14 +1,14 @@
 import React, {useRef,
                useState,
                useEffect} from 'react';
-import {Cell, createGrid, handleGrid} from '../../logic/classes/generic';
+import {createGrid, handleGrid} from '../../logic/grid';
 import "../../index.css";
 
 // Global canvas variables
 const CELL_SIZE = 40;
 const GRID = [];
 
-const Home = () => {
+const Home = ({tool}) => {
   const canvasRef = useRef(null);
   const contextRef = useRef(null);
   const [isDrawing, setIsDrawing] = useState(false);
@@ -63,8 +63,8 @@ const Home = () => {
     handleGrid(GRID);
     createGrid(contextRef.current, CELL_SIZE, GRID);
     handleGrid(GRID);
-    context.strokeStyle = "black"
-  }, [])
+    context.strokeStyle = tool;
+  }, [tool]);
 
   // useEffect(() => {
   //   const canvas = canvasRef.current;
