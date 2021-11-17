@@ -41,10 +41,7 @@ const Home = () => {
   return (
     <>
         <div className="canvas-area">
-        <canvas ref={canvasRef} />
-        </div>
-        <div className="canvas-overlay hidden">
-          overlay
+            <canvas ref={canvasRef} />
         </div>
     </>
   )
