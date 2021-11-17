@@ -5,7 +5,7 @@ import {Cell, createGrid, handleGrid} from '../../logic/classes/generic';
 import "../../index.css";
 
 // Global canvas variables
-const CELL_SIZE = 5;
+const CELL_SIZE = 30;
 const GRID = [];
 
 const Home = () => {
@@ -56,10 +56,14 @@ const Home = () => {
     const context = canvas.getContext('2d');
     context.scale(2,2); //target higher resolution screens
     context.lineCap = "round" //looks better
-    context.strokeStyle = "black"
-    context.lineWidth = 5;
+    context.lineWidth = 2;
     contextRef.current = context;
     drawBackground(contextRef.current);
+    createGrid(contextRef.current, CELL_SIZE/2, GRID, 0.25);
+    handleGrid(GRID);
+    createGrid(contextRef.current, CELL_SIZE, GRID);
+    handleGrid(GRID);
+    context.strokeStyle = "black"
   }, [])
 
   // useEffect(() => {
