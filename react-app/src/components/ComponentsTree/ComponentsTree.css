@@ -5,7 +5,7 @@
     justify-content: center;
 }
 
-#not-btn, #or-btn, #and-btn,
+#not-btn, #or-btn, #and-btn, #nor-btn,
 #xor-btn, #nand-btn, #xnor-btn {
     height:40px;
     width: 100%;
@@ -13,10 +13,14 @@
     font-weight: bold;
     font-size:24px;
     display: flex;
-    justify-content: center;
+    justify-content: space-evenly;
     align-items: center;
 }
 
 .btn-list > button:hover {
     background-color: #d7af5f;
+}
+
+img {
+    height: 100px;
 }
