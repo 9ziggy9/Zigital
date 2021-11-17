@@ -4,6 +4,9 @@ import "./ComponentsTree.css"
 const ComponentsTree = () => {
 
   const selectGate = (id) => {
+    const gateLabels = ['not', 'or', 'and',
+                    'xor', 'nor', 'nand',
+                    'xnor']
     switch(id) {
       case 'not':
         console.log('GATE: not selected');
@@ -27,21 +30,20 @@ const ComponentsTree = () => {
         console.log('GATE: xnor selected');
         break;
     }
+    const buttonNode = document.getElementById(id);
+    if (!buttonNode.classList.contains("g-highlight")) {
+      buttonNode.classList.add('g-highlight');
+    }
+    else {
+      buttonNode.classList.remove('g-highlight');
+    }
+    gateLabels.forEach(label => {
+      const gateNode = document.getElementById(label);
+      if(label !== id)
+        gateNode.classList.remove('g-highlight')
+    });
   }
-  // const toggleMenu = (id, menu) => {
-  //   const menuNode = document.getElementById(menu);
-  //   const buttonNode = document.getElementById(id);
-  //   if (!menuNode.classList.contains("hidden")) {
-  //     menuNode.classList.add("hidden");
-  //     buttonNode.classList.remove('highlight');
-  //     buttonNode.classList.add('unhighlight');
-  //   }
-  //   else {
-  //     menuNode.classList.remove("hidden");
-  //     buttonNode.classList.add('highlight');
-  //     buttonNode.classList.remove('unhighlight');
-  //   }
-  // }
+
   return (
     <>
       <div className='btn-list'>
