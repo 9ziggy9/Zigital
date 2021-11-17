@@ -5,8 +5,8 @@
     justify-content: center;
 }
 
-#not-btn, #or-btn, #and-btn, #nor-btn,
-#xor-btn, #nand-btn, #xnor-btn {
+#not, #or, #and, #nor,
+#xor, #nand, #xnor {
     height:40px;
     width: 100%;
     font-family: 'VT323', monospace;
@@ -18,7 +18,11 @@
 }
 
 .btn-list > button:hover {
-    background-color: #d7af5f;
+    background-color: #5f8700;
+}
+
+.g-highlight {
+    background-color: #5f8700;
 }
 
 img {
