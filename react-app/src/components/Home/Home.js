@@ -2,6 +2,10 @@ import React, {useRef,
                useEffect} from 'react';
 import "../../index.css";
 
+// Global canvas variables
+const CELL_SIZE = 100;
+const GRID = [];
+
 const Home = () => {
   const canvasRef = useRef(null);
 

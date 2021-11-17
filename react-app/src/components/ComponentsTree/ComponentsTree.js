@@ -5,8 +5,8 @@ const ComponentsTree = () => {
 
   const selectGate = (id) => {
     const gateLabels = ['not', 'or', 'and',
-                    'xor', 'nor', 'nand',
-                    'xnor']
+                        'xor', 'nor', 'nand',
+                        'xnor']
     switch(id) {
       case 'not':
         console.log('GATE: not selected');
