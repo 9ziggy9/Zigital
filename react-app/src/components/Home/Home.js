@@ -59,6 +59,7 @@ const Home = () => {
     context.strokeStyle = "black"
     context.lineWidth = 5;
     contextRef.current = context;
+    drawBackground(contextRef.current);
   }, [])
 
   // useEffect(() => {
