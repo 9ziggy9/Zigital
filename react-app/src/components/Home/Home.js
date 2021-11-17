@@ -5,7 +5,7 @@ import {Cell, createGrid, handleGrid} from '../../logic/classes/generic';
 import "../../index.css";
 
 // Global canvas variables
-const CELL_SIZE = 30;
+const CELL_SIZE = 40;
 const GRID = [];
 
 const Home = () => {

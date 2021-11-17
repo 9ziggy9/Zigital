@@ -13,8 +13,12 @@ import ToolBar from './components/ToolBar/ToolBar';
 import { authenticate } from './store/session';
 
 function App() {
+  // User authorization, login loading params
   const [loaded, setLoaded] = useState(false);
   const dispatch = useDispatch();
+  // TOOL BAR STATE //
+  const [tool, setTool] = useState('none');
+
 
   useEffect(() => {
     (async() => {
@@ -48,8 +52,8 @@ function App() {
         </ProtectedRoute>
         <ProtectedRoute path='/home' exact={true} >
           <div className="app-container">
-            <ToolBar />
-            <Home />
+            <ToolBar setTool={setTool}/>
+            <Home tool={tool}/>
           </div>
         </ProtectedRoute>
       </Switch>
