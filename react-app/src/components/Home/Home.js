@@ -1,21 +1,44 @@
 import React, {useRef,
+               useState,
                useEffect} from 'react';
+import {Cell, createGrid, handleGrid} from '../../logic/classes/generic';
 import "../../index.css";
 
 // Global canvas variables
-const CELL_SIZE = 100;
+const CELL_SIZE = 5;
 const GRID = [];
 
 const Home = () => {
   const canvasRef = useRef(null);
+  const contextRef = useRef(null);
+  const [isDrawing, setIsDrawing] = useState(false);
 
-  const draw = (ctx, frameCount) => {
-    ctx.clearRect(0, 0, ctx.canvas.width, ctx.canvas.height)
-    drawBackground(ctx);
-    ctx.fillStyle = '#000000';
-    ctx.beginPath();
-    ctx.arc(50, 100, 20*Math.sin(frameCount*0.05)**2, 0, 2*Math.PI);
-    ctx.fill();
+  // const draw = (ctx, frameCount, canvas) => {
+  //   ctx.clearRect(0, 0, ctx.canvas.width, ctx.canvas.height)
+  //   drawBackground(ctx);
+  //   createGrid(ctx, CELL_SIZE, GRID);
+  //   handleGrid(GRID);
+  // }
+
+  const handleMouseDown = ({nativeEvent}) => {
+    const {offsetX, offsetY} = nativeEvent;
+    contextRef.current.beginPath();
+    contextRef.current.moveTo(offsetX,offsetY);
+    setIsDrawing(true);
+  }
+
+  const handleMouseUp = () => {
+    contextRef.current.closePath();
+    setIsDrawing(false);
+  }
+
+  const draw = ({nativeEvent}) => {
+    if(!isDrawing) {
+      return
+    }
+    const {offsetX, offsetY} = nativeEvent;
+    contextRef.current.lineTo(offsetX, offsetY);
+    contextRef.current.stroke();
   }
 
   const drawBackground = (ctx) => {
@@ -25,27 +48,47 @@ const Home = () => {
 
   useEffect(() => {
     const canvas = canvasRef.current;
+    canvas.width = window.innerWidth * 2; //target higher resolution screens
+    canvas.height = window.innerHeight * 2; //target higher resolution screens
+    canvas.style.width = `${window.innerWidth}px`;
+    canvas.style.height = `${window.innerHeight}px`;
+
     const context = canvas.getContext('2d');
-    let frameCount = 0;
-    let animationFrameId;
+    context.scale(2,2); //target higher resolution screens
+    context.lineCap = "round" //looks better
+    context.strokeStyle = "black"
+    context.lineWidth = 5;
+    contextRef.current = context;
+  }, [])
 
-    const render = () => {
-      frameCount++;
-      draw(context, frameCount);
-      animationFrameId = window.requestAnimationFrame(render);
-    }
+  // useEffect(() => {
+  //   const canvas = canvasRef.current;
+  //   const context = canvas.getContext('2d');
+  //   let frameCount = 0;
+  //   let animationFrameId;
 
-    render();
+  //   const render = () => {
+  //     frameCount++;
+  //     draw(context, frameCount);
+  //     animationFrameId = window.requestAnimationFrame(render);
+  //   }
 
-    return () => {
-      window.cancelAnimationFrame(animationFrameId);
-    }
-  }, [draw])
+  //   render();
+
+  //   return () => {
+  //     window.cancelAnimationFrame(animationFrameId);
+  //   }
+  // }, [draw])
 
   return (
     <>
         <div className="canvas-area">
-            <canvas ref={canvasRef} />
+            <canvas
+              onMouseDown={handleMouseDown}
+              onMouseUp={handleMouseUp}
+              onMouseMove = {draw}
+              ref={canvasRef}
+            />
         </div>
     </>
   )

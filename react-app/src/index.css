@@ -106,6 +106,8 @@ img {
 }
 
 .canvas-overlay {
+    /* DISABLE POINTER EVENTS */
+    pointer-events: none;
     grid-area: 2 / 1 / 3 / 2;
     display: grid;
     grid-template-columns: repeat(13, 1fr);
@@ -119,11 +121,15 @@ img {
 }
 
 .components-area {
+    /* DISABLE POINTER EVENTS */
+    pointer-events: none;
     position:relative;
     grid-area: 1 / 1 / 2 / 4;
 }
 
 #components-tree {
+    /* RESTORE POINTER EVENTS */
+    pointer-events: auto;
     background-color:#eeeeee;
     border: 2px solid #444444;
     border-left: none;
