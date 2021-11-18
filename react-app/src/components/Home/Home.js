@@ -26,7 +26,10 @@ const Home = ({tool}) => {
 
   const handleClick = ({nativeEvent}) => {
     const mouse = mouseRef.current;
+    const gridPositionX = mouse.x - (mouse.x % (CELL_SIZE * 2));
+    const gridPositionY = mouse.y - (mouse.y % (CELL_SIZE * 2));
     console.log('click');
+    console.log(gridPositionX, gridPositionY);
     console.log(mouse.x, mouse.y);
   }
 
