@@ -85,7 +85,7 @@ const Home = ({tool}) => {
 
     // Initialize background grid
     drawBackground(backgroundCtxRef.current);
-    createGrid(backgroundCtxRef.current, CELL_SIZE/4, GRID, 0.25);
+    createGrid(backgroundCtxRef.current, CELL_SIZE/2, GRID, 0.25);
     handleGrid(GRID);
     createGrid(backgroundCtxRef.current, CELL_SIZE, GRID);
     handleGrid(GRID);
