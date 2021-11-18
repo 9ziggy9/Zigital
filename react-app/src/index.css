@@ -105,6 +105,11 @@ img {
     grid-area: 2 / 1 / 3 / 2;
 }
 
+.canvas-bg-area {
+    background-color:red;
+    grid-area: 2 / 1 / 3 / 2;
+}
+
 .canvas-overlay {
     /* DISABLE POINTER EVENTS */
     pointer-events: none;
