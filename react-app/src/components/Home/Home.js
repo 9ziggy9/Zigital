@@ -7,6 +7,7 @@ import "../../index.css";
 // Global canvas variables
 const CELL_SIZE = 40;
 const GRID = [];
+const CIRCUIT_BOARD = [];
 
 const Home = ({tool}) => {
   const backgroundRef = useRef(null);
@@ -68,16 +69,20 @@ const Home = ({tool}) => {
     app_ctx.lineWidth = 2;
     contextRef.current = context;
 
+    // Initialize background grid
     drawBackground(backgroundCtxRef.current);
     createGrid(backgroundCtxRef.current, CELL_SIZE/2, GRID, 0.25);
     handleGrid(GRID);
     createGrid(backgroundCtxRef.current, CELL_SIZE, GRID);
     handleGrid(GRID);
+
+    // Initialize circuit board
+    createGrid(contextRef.current, CELL_SIZE, CIRCUIT_BOARD);
   }, []);
 
   const draw = (ctx, frameCount) => {
     ctx.clearRect(0, 0, ctx.canvas.width, ctx.canvas.height)
-    ctx.fillStyle = '#000000'
+    ctx.fillStyle = '#eeeeee'
     ctx.beginPath()
     ctx.arc(580, 360, 80*Math.sin(frameCount*0.05)**2, 0, 2*Math.PI)
     ctx.fill()
@@ -92,6 +97,7 @@ const Home = ({tool}) => {
     contextRef.current = context;
     context.strokeStyle = tool;
   }, [tool])
+
 
   useEffect(() => {
     const canvas = canvasRef.current;
