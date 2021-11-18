@@ -1,7 +1,7 @@
 import React, {useRef,
                useState,
                useEffect} from 'react';
-import {createGrid, handleGrid, highlightCurrentCell} from '../../logic/grid';
+import {createGrid, handleGrid, handleHighlight} from '../../logic/grid';
 import "../../index.css";
 
 // Global canvas variables
@@ -83,11 +83,9 @@ const Home = ({tool}) => {
 
   // THIS IS FRAME RENDERING CALLED BY ANIMATION LOOP
   const draw = (ctx, frameCount) => {
+    let mouse = mouseRef.current;
     ctx.clearRect(0, 0, ctx.canvas.width, ctx.canvas.height)
-    ctx.fillStyle = '#eeeeee'
-    ctx.beginPath()
-    ctx.arc(580, 360, 80*Math.sin(frameCount*0.05)**2, 0, 2*Math.PI)
-    ctx.fill()
+    handleHighlight(CIRCUIT_BOARD,mouse);
     if(!isDrawing) {
       return
     }
