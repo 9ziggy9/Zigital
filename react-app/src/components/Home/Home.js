@@ -8,6 +8,7 @@ import "../../index.css";
 const CELL_SIZE = 40;
 const GRID = [];
 const CIRCUIT_BOARD = [];
+const GATES = [];
 
 const Home = ({tool}) => {
   const backgroundRef = useRef(null);
