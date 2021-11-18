@@ -7,9 +7,14 @@ export class Gate {
     this.ctx = ctx;
   }
 
-  draw(tool='white'){
+  draw(tool='and'){
     let img = new Image();
-    img.src = 'logic_gates/AND.svg';
+    switch (tool) {
+      case 'and':
+        img.src = 'logic_gates/AND.svg';
+        break;
+      default: break;
+    }
     this.ctx.drawImage(img, this.x, this.y - 9.5, this.width, this.height);
   }
 }
