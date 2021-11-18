@@ -58,13 +58,20 @@ const Home = ({tool}) => {
     context.lineCap = "round" //looks better
     context.lineWidth = 2;
     contextRef.current = context;
+
     drawBackground(contextRef.current);
     createGrid(contextRef.current, CELL_SIZE/2, GRID, 0.25);
     handleGrid(GRID);
     createGrid(contextRef.current, CELL_SIZE, GRID);
     handleGrid(GRID);
+  }, []);
+
+  useEffect(() => {
+    const canvas = canvasRef.current;
+    const context = canvas.getContext('2d');
+    contextRef.current = context;
     context.strokeStyle = tool;
-  }, [tool]);
+  }, [tool])
 
   // useEffect(() => {
   //   const canvas = canvasRef.current;

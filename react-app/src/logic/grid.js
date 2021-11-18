@@ -21,4 +21,11 @@ export function collision(first, second) {
       first.y > second.y + second.height ||
       first.y + first.height < second.y)
   ) { return true; }
+  return false;
+}
+
+export function handleHighlights(grid, mouse) {
+  for (let i = 0; i < grid.length; i++) {
+    grid[i].draw(mouse);
+  }
 }
