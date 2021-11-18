@@ -56,6 +56,13 @@ function App() {
             <Home tool={tool}/>
           </div>
         </ProtectedRoute>
+        {/* Development route only */}
+        <ProtectedRoute path='/dev' exact={true} >
+          <div className="app-container">
+            <ToolBar setTool={setTool}/>
+            <Home tool={tool}/>
+          </div>
+        </ProtectedRoute>
       </Switch>
     </BrowserRouter>
   );
