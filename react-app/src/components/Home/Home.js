@@ -10,6 +10,7 @@ const CELL_SIZE = 40;
 const GRID = [];
 const CIRCUIT_BOARD = [];
 const GATES = [];
+let OCCUPIED;
 
 const Home = ({tool}) => {
   const backgroundRef = useRef(null);
@@ -31,6 +32,7 @@ const Home = ({tool}) => {
     const gridPositionX = mouse.x - (mouse.x % (CELL_SIZE * 2));
     const gridPositionY = mouse.y - (mouse.y % (CELL_SIZE * 2));
     GATES.push(new Gate(gridPositionX, gridPositionY, CELL_SIZE, context));
+    console.log(gridPositionX / (CELL_SIZE * 2), gridPositionY / (CELL_SIZE * 2));
   }
 
   const handleMouseDown = ({nativeEvent}) => {
@@ -92,6 +94,9 @@ const Home = ({tool}) => {
 
     // Initialize circuit board
     createGrid(contextRef.current, CELL_SIZE*2, CIRCUIT_BOARD, 4);
+    OCCUPIED = [...Array(Math.floor(canvasRef.current.width / (CELL_SIZE * 4)))]
+          .map(e => Array(Math.floor(canvasRef.current.height / (CELL_SIZE * 4)))
+          .fill(0));
   }, []);
 
   // THIS IS FRAME RENDERING CALLED BY ANIMATION LOOP
@@ -101,6 +106,11 @@ const Home = ({tool}) => {
     ctx.fillStyle = tool;
     handleHighlight(CIRCUIT_BOARD, mouse, tool);
     handleGates(GATES);
+    // Let's see what circuit board grid looks like
+    // CIRCUIT_BOARD.forEach(e => {
+    //   ctx.strokeStyle = 'red';
+    //   ctx.strokeRect(e.x, e.y, e.width, e.height);
+    // })
     ctx.beginPath()
     ctx.arc(580, 360, 80*Math.sin(frameCount*0.05)**2, 0, 2*Math.PI)
     ctx.fill()
@@ -111,11 +121,11 @@ const Home = ({tool}) => {
     const context = canvas.getContext('2d');
     contextRef.current = context;
     context.strokeStyle = tool;
+    console.log(OCCUPIED);
   }, [tool])
 
 
   useEffect(() => {
-    const canvas = canvasRef.current;
     const context = contextRef.current;
     let frameCount = 0;
     let animationFrameId;
