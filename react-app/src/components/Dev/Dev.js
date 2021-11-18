@@ -5,7 +5,7 @@ import "./canvas.css";
 import frameRenderer from "./frameRenderer";
 
 const Dev = ({tool}) => {
-  const size = {width: window.innerWidth, height: window.innerHeight - 40};
+  const size = {width: window.innerWidth, height: window.innerHeight};
   const canvasRef = useRef(null);
   const ballRef = useRef({ x: 50, y: 50, vx: 3.9, vy: 3.3, radius: 20 });
   const requestIdRef = useRef(null);
