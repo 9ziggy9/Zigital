@@ -1,7 +1,8 @@
 import React, {useRef,
                useState,
                useEffect} from 'react';
-import {createGrid, handleGrid, handleHighlight} from '../../logic/grid';
+import {createGrid, handleGrid, handleHighlight, handleGates} from '../../logic/grid';
+import {Gate} from '../../logic/classes/gates';
 import "../../index.css";
 
 // Global canvas variables
@@ -26,8 +27,10 @@ const Home = ({tool}) => {
 
   const handleClick = ({nativeEvent}) => {
     const mouse = mouseRef.current;
+    const context = contextRef.current;
     const gridPositionX = mouse.x - (mouse.x % (CELL_SIZE * 2));
     const gridPositionY = mouse.y - (mouse.y % (CELL_SIZE * 2));
+    GATES.push(new Gate(gridPositionX, gridPositionY, CELL_SIZE, context));
     console.log('click');
     console.log(gridPositionX, gridPositionY);
     console.log(mouse.x, mouse.y);
@@ -100,6 +103,7 @@ const Home = ({tool}) => {
     let mouse = mouseRef.current;
     ctx.fillStyle = tool;
     handleHighlight(CIRCUIT_BOARD, mouse, tool);
+    handleGates(GATES);
     ctx.beginPath()
     ctx.arc(580, 360, 80*Math.sin(frameCount*0.05)**2, 0, 2*Math.PI)
     ctx.fill()

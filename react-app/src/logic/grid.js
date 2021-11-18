@@ -30,8 +30,8 @@ export function handleHighlight(grid, mouse, tool='white') {
   }
 }
 
-export function handleGates(gates, pos) {
+export function handleGates(gates) {
   for(let i = 0; i < gates.length; i++) {
-    gates[i].draw(pos);
+    gates[i].draw();
   }
 }
