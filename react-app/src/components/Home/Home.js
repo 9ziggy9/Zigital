@@ -1,7 +1,14 @@
-import React, {useRef,
-               useState,
-               useEffect} from 'react';
-import {createGrid, handleGrid, handleHighlight, handleGates} from '../../logic/grid';
+import React, {
+  useRef,
+  useState,
+  useEffect
+} from 'react';
+import {
+  createGrid,
+  handleGrid,
+  handleHighlight,
+  handleGates
+} from '../../logic/grid';
 import {Gate} from '../../logic/classes/gates';
 import "../../index.css";
 
@@ -25,35 +32,6 @@ const Home = ({tool}) => {
     height: 0.1,
   });
   const [isDrawing, setIsDrawing] = useState(false);
-
-  const handleClick = ({nativeEvent}) => {
-    const mouse = mouseRef.current;
-    const context = contextRef.current;
-    const gridPositionX = mouse.x - (mouse.x % (CELL_SIZE * 2));
-    const gridPositionY = mouse.y - (mouse.y % (CELL_SIZE * 2));
-    GATES.push(new Gate(gridPositionX, gridPositionY, CELL_SIZE, context));
-    console.log(gridPositionX / (CELL_SIZE * 2), gridPositionY / (CELL_SIZE * 2));
-  }
-
-  const handleMouseDown = ({nativeEvent}) => {
-    // const {offsetX, offsetY} = nativeEvent;
-    // contextRef.current.beginPath();
-    // contextRef.current.moveTo(offsetX,offsetY);
-    // setIsDrawing(true);
-  }
-
-  const handleMouseUp = () => {
-    contextRef.current.closePath();
-    setIsDrawing(false);
-  }
-
-  const mouseMove = ({nativeEvent}) => {
-    const {offsetX, offsetY} = nativeEvent;
-    mouseRef.current.x = offsetX;
-    mouseRef.current.y = offsetY;
-    mouseRef.current.width = 0.1;
-    mouseRef.current.height = 0.1;
-  }
 
   const drawBackground = (ctx) => {
     ctx.fillStyle = '#5fafd7';
@@ -119,9 +97,12 @@ const Home = ({tool}) => {
       ctx.strokeStyle = 'red';
       ctx.strokeRect(e.x, e.y, e.width, e.height);
     })
+
+    // Using this as a performance indication
     ctx.beginPath()
-    ctx.arc(580, 360, 80*Math.sin(frameCount*0.05)**2, 0, 2*Math.PI)
+    ctx.arc(1100, 720, 80*Math.sin(frameCount*0.05)**2, 0, 2*Math.PI)
     ctx.fill()
+    // Using this as a speed indication
   }
 
   useEffect(() => {
@@ -150,6 +131,36 @@ const Home = ({tool}) => {
       window.cancelAnimationFrame(animationFrameId);
     }
   }, [draw])
+
+  const handleClick = ({nativeEvent}) => {
+    const mouse = mouseRef.current;
+    const context = contextRef.current;
+    const gridPositionX = mouse.x - (mouse.x % (CELL_SIZE * 2));
+    const gridPositionY = mouse.y - (mouse.y % (CELL_SIZE * 2));
+    GATES.push(new Gate(gridPositionX, gridPositionY, CELL_SIZE, context));
+    console.log(gridPositionX / (CELL_SIZE * 2), gridPositionY / (CELL_SIZE * 2));
+  }
+
+  const handleMouseDown = ({nativeEvent}) => {
+    // const {offsetX, offsetY} = nativeEvent;
+    // contextRef.current.beginPath();
+    // contextRef.current.moveTo(offsetX,offsetY);
+    // setIsDrawing(true);
+  }
+
+  const handleMouseUp = () => {
+    contextRef.current.closePath();
+    setIsDrawing(false);
+  }
+
+  const mouseMove = ({nativeEvent}) => {
+    const {offsetX, offsetY} = nativeEvent;
+    mouseRef.current.x = offsetX;
+    mouseRef.current.y = offsetY;
+    mouseRef.current.width = 0.1;
+    mouseRef.current.height = 0.1;
+  }
+
 
   return (
     <>
