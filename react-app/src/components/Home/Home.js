@@ -23,11 +23,17 @@ const Home = ({tool}) => {
   });
   const [isDrawing, setIsDrawing] = useState(false);
 
+  const handleClick = ({nativeEvent}) => {
+    const mouse = mouseRef.current;
+    console.log('click');
+    console.log(mouse.x, mouse.y);
+  }
+
   const handleMouseDown = ({nativeEvent}) => {
-    const {offsetX, offsetY} = nativeEvent;
-    contextRef.current.beginPath();
-    contextRef.current.moveTo(offsetX,offsetY);
-    setIsDrawing(true);
+    // const {offsetX, offsetY} = nativeEvent;
+    // contextRef.current.beginPath();
+    // contextRef.current.moveTo(offsetX,offsetY);
+    // setIsDrawing(true);
   }
 
   const handleMouseUp = () => {
@@ -75,7 +81,7 @@ const Home = ({tool}) => {
 
     // Initialize background grid
     drawBackground(backgroundCtxRef.current);
-    createGrid(backgroundCtxRef.current, CELL_SIZE/2, GRID, 0.25);
+    createGrid(backgroundCtxRef.current, CELL_SIZE/4, GRID, 0.25);
     handleGrid(GRID);
     createGrid(backgroundCtxRef.current, CELL_SIZE, GRID);
     handleGrid(GRID);
@@ -131,6 +137,7 @@ const Home = ({tool}) => {
       </div>
       <div className="canvas-area">
         <canvas
+          onClick={handleClick}
           onMouseDown={handleMouseDown}
           onMouseUp={handleMouseUp}
           onMouseMove={mouseMove}
