@@ -14,6 +14,12 @@ const Home = ({tool}) => {
   const backgroundCtxRef = useRef(null);
   const canvasRef = useRef(null);
   const contextRef = useRef(null);
+  const mouseRef = useRef({
+    x: undefined,
+    y: undefined,
+    width: 0.1,
+    height: 0.1,
+  });
   const [isDrawing, setIsDrawing] = useState(false);
 
   const handleMouseDown = ({nativeEvent}) => {
@@ -28,16 +34,11 @@ const Home = ({tool}) => {
     setIsDrawing(false);
   }
 
-  // const draw = ({nativeEvent}) => {
-  //   const {offsetX, offsetY} = nativeEvent;
-  //   if(!isDrawing) {
-  //     highlightCurrentCell(contextRef.current, offsetX, offsetY);
-  //     contextRef.current.clearRect(0,0,canvasRef.current.width,canvasRef.current.height);
-  //     return
-  //   }
-  //   contextRef.current.lineTo(offsetX, offsetY);
-  //   contextRef.current.stroke();
-  // }
+  const mouseMove = ({nativeEvent}) => {
+    const {offsetX, offsetY} = nativeEvent;
+    mouseRef.current.x = offsetX;
+    mouseRef.current.y = offsetY;
+  }
 
   const drawBackground = (ctx) => {
     ctx.fillStyle = '#5fafd7';
@@ -80,6 +81,7 @@ const Home = ({tool}) => {
     createGrid(contextRef.current, CELL_SIZE, CIRCUIT_BOARD);
   }, []);
 
+  // THIS IS FRAME RENDERING CALLED BY ANIMATION LOOP
   const draw = (ctx, frameCount) => {
     ctx.clearRect(0, 0, ctx.canvas.width, ctx.canvas.height)
     ctx.fillStyle = '#eeeeee'
@@ -129,6 +131,7 @@ const Home = ({tool}) => {
         <canvas
           onMouseDown={handleMouseDown}
           onMouseUp={handleMouseUp}
+          onMouseMove={mouseMove}
           ref={canvasRef}
         />
       </div>
