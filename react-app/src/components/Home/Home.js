@@ -31,9 +31,6 @@ const Home = ({tool}) => {
     const gridPositionX = mouse.x - (mouse.x % (CELL_SIZE * 2));
     const gridPositionY = mouse.y - (mouse.y % (CELL_SIZE * 2));
     GATES.push(new Gate(gridPositionX, gridPositionY, CELL_SIZE, context));
-    console.log('click');
-    console.log(gridPositionX, gridPositionY);
-    console.log(mouse.x, mouse.y);
   }
 
   const handleMouseDown = ({nativeEvent}) => {

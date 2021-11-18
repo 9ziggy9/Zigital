@@ -8,7 +8,8 @@ export class Gate {
   }
 
   draw(tool='white'){
-    this.ctx.fillStyle = tool;
-    this.ctx.fillRect(this.x,this.y,this.width,this.height);
+    let img = new Image();
+    img.src = 'logic_gates/AND.svg';
+    this.ctx.drawImage(img, this.x, this.y, this.width, this.height);
   }
 }
