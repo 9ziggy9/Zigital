@@ -29,3 +29,9 @@ export function handleHighlight(grid, mouse, tool='white') {
     grid[i].draw(mouse, tool);
   }
 }
+
+export function handleGates(gates, pos) {
+  for(let i = 0; i < gates.length; i++) {
+    gates[i].draw(pos);
+  }
+}
