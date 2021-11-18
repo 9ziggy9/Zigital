@@ -71,7 +71,7 @@ const Home = ({tool}) => {
     app_ctx.scale(2,2); //target higher resolution screens
     app_ctx.lineCap = "round" //looks better
     app_ctx.lineWidth = 2;
-    contextRef.current = context;
+    contextRef.current = app_ctx;
 
     // Initialize background grid
     drawBackground(backgroundCtxRef.current);
@@ -90,7 +90,7 @@ const Home = ({tool}) => {
     let mouse = mouseRef.current;
     ctx.strokeStyle = tool;
     ctx.fillStyle = tool;
-    ctx.strokeRect(mouse.x, mouse.y, CELL_SIZE, CELL_SIZE);
+    handleHighlight(CIRCUIT_BOARD, mouse);
     ctx.beginPath()
     ctx.arc(580, 360, 80*Math.sin(frameCount*0.05)**2, 0, 2*Math.PI)
     ctx.fill()
