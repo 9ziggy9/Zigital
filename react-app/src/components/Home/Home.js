@@ -15,13 +15,6 @@ const Home = ({tool}) => {
   const contextRef = useRef(null);
   const [isDrawing, setIsDrawing] = useState(false);
 
-  // const draw = (ctx, frameCount, canvas) => {
-  //   ctx.clearRect(0, 0, ctx.canvas.width, ctx.canvas.height)
-  //   drawBackground(ctx);
-  //   createGrid(ctx, CELL_SIZE, GRID);
-  //   handleGrid(GRID);
-  // }
-
   const handleMouseDown = ({nativeEvent}) => {
     const {offsetX, offsetY} = nativeEvent;
     contextRef.current.beginPath();
@@ -34,16 +27,16 @@ const Home = ({tool}) => {
     setIsDrawing(false);
   }
 
-  const draw = ({nativeEvent}) => {
-    const {offsetX, offsetY} = nativeEvent;
-    if(!isDrawing) {
-      highlightCurrentCell(contextRef.current, offsetX, offsetY);
-      contextRef.current.clearRect(0,0,canvasRef.current.width,canvasRef.current.height);
-      return
-    }
-    contextRef.current.lineTo(offsetX, offsetY);
-    contextRef.current.stroke();
-  }
+  // const draw = ({nativeEvent}) => {
+  //   const {offsetX, offsetY} = nativeEvent;
+  //   if(!isDrawing) {
+  //     highlightCurrentCell(contextRef.current, offsetX, offsetY);
+  //     contextRef.current.clearRect(0,0,canvasRef.current.width,canvasRef.current.height);
+  //     return
+  //   }
+  //   contextRef.current.lineTo(offsetX, offsetY);
+  //   contextRef.current.stroke();
+  // }
 
   const drawBackground = (ctx) => {
     ctx.fillStyle = '#5fafd7';
@@ -82,6 +75,15 @@ const Home = ({tool}) => {
     handleGrid(GRID);
   }, []);
 
+   const draw = (ctx, frameCount) => {
+    ctx.clearRect(0, 0, ctx.canvas.width, ctx.canvas.height)
+    ctx.fillStyle = '#000000'
+    ctx.beginPath()
+    ctx.arc(50, 100, 20*Math.sin(frameCount*0.05)**2, 0, 2*Math.PI)
+    ctx.fill()
+  }
+
+
   useEffect(() => {
     const canvas = canvasRef.current;
     const context = canvas.getContext('2d');
@@ -89,24 +91,24 @@ const Home = ({tool}) => {
     context.strokeStyle = tool;
   }, [tool])
 
-  // useEffect(() => {
-  //   const canvas = canvasRef.current;
-  //   const context = canvas.getContext('2d');
-  //   let frameCount = 0;
-  //   let animationFrameId;
+  useEffect(() => {
+    const canvas = canvasRef.current;
+    const context = canvas.getContext('2d');
+    let frameCount = 0;
+    let animationFrameId;
 
-  //   const render = () => {
-  //     frameCount++;
-  //     draw(context, frameCount);
-  //     animationFrameId = window.requestAnimationFrame(render);
-  //   }
+    const render = () => {
+      frameCount++;
+      draw(context, frameCount);
+      animationFrameId = window.requestAnimationFrame(render);
+    }
 
-  //   render();
+    render();
 
-  //   return () => {
-  //     window.cancelAnimationFrame(animationFrameId);
-  //   }
-  // }, [draw])
+    return () => {
+      window.cancelAnimationFrame(animationFrameId);
+    }
+  }, [draw])
 
   return (
     <>
@@ -117,9 +119,6 @@ const Home = ({tool}) => {
       </div>
       <div className="canvas-area">
         <canvas
-          onMouseDown={handleMouseDown}
-          onMouseUp={handleMouseUp}
-          onMouseMove = {draw}
           ref={canvasRef}
         />
       </div>
