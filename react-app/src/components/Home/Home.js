@@ -107,10 +107,10 @@ const Home = ({tool}) => {
     handleHighlight(CIRCUIT_BOARD, mouse, tool);
     handleGates(GATES);
     // Let's see what circuit board grid looks like
-    // CIRCUIT_BOARD.forEach(e => {
-    //   ctx.strokeStyle = 'red';
-    //   ctx.strokeRect(e.x, e.y, e.width, e.height);
-    // })
+    CIRCUIT_BOARD.forEach(e => {
+      ctx.strokeStyle = 'red';
+      ctx.strokeRect(e.x, e.y, e.width, e.height);
+    })
     ctx.beginPath()
     ctx.arc(580, 360, 80*Math.sin(frameCount*0.05)**2, 0, 2*Math.PI)
     ctx.fill()
