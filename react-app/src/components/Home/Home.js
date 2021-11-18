@@ -94,8 +94,8 @@ const Home = ({tool}) => {
 
     // Initialize circuit board
     createGrid(contextRef.current, CELL_SIZE*2, CIRCUIT_BOARD, 4);
-    OCCUPIED = [...Array(Math.floor(canvasRef.current.width / (CELL_SIZE * 4)))]
-          .map(e => Array(Math.floor(canvasRef.current.height / (CELL_SIZE * 4)))
+    OCCUPIED = [...Array(Math.floor(canvasRef.current.width / (CELL_SIZE * 2)))]
+          .map(e => Array(Math.floor(canvasRef.current.height / (CELL_SIZE * 2)))
           .fill(0));
   }, []);
 
@@ -106,6 +106,14 @@ const Home = ({tool}) => {
     ctx.fillStyle = tool;
     handleHighlight(CIRCUIT_BOARD, mouse, tool);
     handleGates(GATES);
+    // And now what the occupied cells look like in time
+    for (let y = 0; y < OCCUPIED[0].length; y++) {
+      for (let x= 0; x < OCCUPIED.length; x++) {
+        ctx.lineWidth=4;
+        ctx.strokeStyle="green";
+        ctx.strokeRect(x*CELL_SIZE,y*CELL_SIZE,CELL_SIZE,CELL_SIZE);
+      }
+    }
     // Let's see what circuit board grid looks like
     CIRCUIT_BOARD.forEach(e => {
       ctx.strokeStyle = 'red';
