@@ -8,6 +8,9 @@ import NavBar from './components/NavBar/NavBar';
 import ProtectedRoute from './components/auth/ProtectedRoute';
 import UsersList from './components/UsersList';
 import User from './components/User';
+// Development Component
+import Dev from './components/Dev/Dev';
+// Development Component
 import Home from './components/Home/Home';
 import ToolBar from './components/ToolBar/ToolBar';
 import { authenticate } from './store/session';
@@ -17,7 +20,7 @@ function App() {
   const [loaded, setLoaded] = useState(false);
   const dispatch = useDispatch();
   // TOOL BAR STATE //
-  const [tool, setTool] = useState('none');
+  const [tool, setTool] = useState('black');
 
 
   useEffect(() => {
@@ -54,6 +57,13 @@ function App() {
           <div className="app-container">
             <ToolBar setTool={setTool}/>
             <Home tool={tool}/>
+          </div>
+        </ProtectedRoute>
+        {/* Development route only */}
+        <ProtectedRoute path='/dev' exact={true} >
+          <div className="app-container">
+            <ToolBar setTool={setTool}/>
+            <Dev tool={tool}/>
           </div>
         </ProtectedRoute>
       </Switch>

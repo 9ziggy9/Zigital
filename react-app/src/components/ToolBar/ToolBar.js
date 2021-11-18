@@ -2,7 +2,7 @@ import React from 'react';
 import ComponentsTree from '../ComponentsTree/ComponentsTree'
 import "../../index.css"
 
-const ToolBar = () => {
+const ToolBar = ({setTool}) => {
   const toggleMenu = (id, menu) => {
     const menuNode = document.getElementById(menu);
     const buttonNode = document.getElementById(id);
@@ -38,7 +38,7 @@ const ToolBar = () => {
     <div className="canvas-overlay">
         <div className="components-area">
             <div id="components-tree" className="hidden">
-              <ComponentsTree />
+              <ComponentsTree setTool={setTool}/>
             </div>
         </div>
     </div>
