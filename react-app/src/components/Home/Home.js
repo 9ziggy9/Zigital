@@ -14,6 +14,7 @@ const Home = ({tool}) => {
   const backgroundCtxRef = useRef(null);
   const canvasRef = useRef(null);
   const contextRef = useRef(null);
+  const circuitBoardRef = useRef([]);
   const mouseRef = useRef({
     x: undefined,
     y: undefined,
@@ -38,6 +39,8 @@ const Home = ({tool}) => {
     const {offsetX, offsetY} = nativeEvent;
     mouseRef.current.x = offsetX;
     mouseRef.current.y = offsetY;
+    mouseRef.current.width = 0.1;
+    mouseRef.current.height = 0.1;
   }
 
   const drawBackground = (ctx) => {
@@ -83,12 +86,14 @@ const Home = ({tool}) => {
 
   // THIS IS FRAME RENDERING CALLED BY ANIMATION LOOP
   const draw = (ctx, frameCount) => {
-    let mouse = mouseRef.current;
     ctx.clearRect(0, 0, ctx.canvas.width, ctx.canvas.height)
-    handleHighlight(CIRCUIT_BOARD,mouse);
-    if(!isDrawing) {
-      return
-    }
+    let mouse = mouseRef.current;
+    ctx.strokeStyle = tool;
+    ctx.fillStyle = tool;
+    ctx.strokeRect(mouse.x, mouse.y, CELL_SIZE, CELL_SIZE);
+    ctx.beginPath()
+    ctx.arc(580, 360, 80*Math.sin(frameCount*0.05)**2, 0, 2*Math.PI)
+    ctx.fill()
   }
 
   useEffect(() => {
@@ -101,7 +106,7 @@ const Home = ({tool}) => {
 
   useEffect(() => {
     const canvas = canvasRef.current;
-    const context = canvas.getContext('2d');
+    const context = contextRef.current;
     let frameCount = 0;
     let animationFrameId;
 
