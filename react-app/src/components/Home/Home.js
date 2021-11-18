@@ -81,7 +81,7 @@ const Home = ({tool}) => {
     handleGrid(GRID);
 
     // Initialize circuit board
-    createGrid(contextRef.current, CELL_SIZE, CIRCUIT_BOARD);
+    createGrid(contextRef.current, CELL_SIZE*2, CIRCUIT_BOARD, 4);
   }, []);
 
   // THIS IS FRAME RENDERING CALLED BY ANIMATION LOOP

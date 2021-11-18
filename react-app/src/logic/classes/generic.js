@@ -19,6 +19,7 @@ export class Cell {
   draw(mouse, tool='white'){
     if (collision(this, mouse)) {
       this.ctx.strokeStyle = tool;
+      this.ctx.lineWidth = this.lw;
       this.ctx.strokeRect(this.x, this.y, this.width, this.height);
     }
   }
