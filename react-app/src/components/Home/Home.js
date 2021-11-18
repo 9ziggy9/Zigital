@@ -1,18 +1,26 @@
 import React, {useRef,
                useState,
                useEffect} from 'react';
-import {createGrid, handleGrid, highlightCurrentCell} from '../../logic/grid';
+import {createGrid, handleGrid, handleHighlight} from '../../logic/grid';
 import "../../index.css";
 
 // Global canvas variables
 const CELL_SIZE = 40;
 const GRID = [];
+const CIRCUIT_BOARD = [];
 
 const Home = ({tool}) => {
   const backgroundRef = useRef(null);
   const backgroundCtxRef = useRef(null);
   const canvasRef = useRef(null);
   const contextRef = useRef(null);
+  const circuitBoardRef = useRef([]);
+  const mouseRef = useRef({
+    x: undefined,
+    y: undefined,
+    width: 0.1,
+    height: 0.1,
+  });
   const [isDrawing, setIsDrawing] = useState(false);
 
   const handleMouseDown = ({nativeEvent}) => {
@@ -27,16 +35,13 @@ const Home = ({tool}) => {
     setIsDrawing(false);
   }
 
-  // const draw = ({nativeEvent}) => {
-  //   const {offsetX, offsetY} = nativeEvent;
-  //   if(!isDrawing) {
-  //     highlightCurrentCell(contextRef.current, offsetX, offsetY);
-  //     contextRef.current.clearRect(0,0,canvasRef.current.width,canvasRef.current.height);
-  //     return
-  //   }
-  //   contextRef.current.lineTo(offsetX, offsetY);
-  //   contextRef.current.stroke();
-  // }
+  const mouseMove = ({nativeEvent}) => {
+    const {offsetX, offsetY} = nativeEvent;
+    mouseRef.current.x = offsetX;
+    mouseRef.current.y = offsetY;
+    mouseRef.current.width = 0.1;
+    mouseRef.current.height = 0.1;
+  }
 
   const drawBackground = (ctx) => {
     ctx.fillStyle = '#5fafd7';
@@ -66,24 +71,28 @@ const Home = ({tool}) => {
     app_ctx.scale(2,2); //target higher resolution screens
     app_ctx.lineCap = "round" //looks better
     app_ctx.lineWidth = 2;
-    contextRef.current = context;
+    contextRef.current = app_ctx;
 
+    // Initialize background grid
     drawBackground(backgroundCtxRef.current);
     createGrid(backgroundCtxRef.current, CELL_SIZE/2, GRID, 0.25);
     handleGrid(GRID);
     createGrid(backgroundCtxRef.current, CELL_SIZE, GRID);
     handleGrid(GRID);
+
+    // Initialize circuit board
+    createGrid(contextRef.current, CELL_SIZE, CIRCUIT_BOARD);
   }, []);
 
+  // THIS IS FRAME RENDERING CALLED BY ANIMATION LOOP
   const draw = (ctx, frameCount) => {
     ctx.clearRect(0, 0, ctx.canvas.width, ctx.canvas.height)
-    ctx.fillStyle = '#000000'
+    let mouse = mouseRef.current;
+    ctx.fillStyle = tool;
+    handleHighlight(CIRCUIT_BOARD, mouse, tool);
     ctx.beginPath()
     ctx.arc(580, 360, 80*Math.sin(frameCount*0.05)**2, 0, 2*Math.PI)
     ctx.fill()
-    if(!isDrawing) {
-      return
-    }
   }
 
   useEffect(() => {
@@ -93,9 +102,10 @@ const Home = ({tool}) => {
     context.strokeStyle = tool;
   }, [tool])
 
+
   useEffect(() => {
     const canvas = canvasRef.current;
-    const context = canvas.getContext('2d');
+    const context = contextRef.current;
     let frameCount = 0;
     let animationFrameId;
 
@@ -123,6 +133,7 @@ const Home = ({tool}) => {
         <canvas
           onMouseDown={handleMouseDown}
           onMouseUp={handleMouseUp}
+          onMouseMove={mouseMove}
           ref={canvasRef}
         />
       </div>

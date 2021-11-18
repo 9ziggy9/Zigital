@@ -24,7 +24,8 @@ export function collision(first, second) {
   return false;
 }
 
-export function highlightCurrentCell(ctx, x, y) {
-    ctx.strokeStyle = 'white';
-    ctx.strokeRect(x, y, 40, 40);
+export function handleHighlight(grid, mouse, tool='white') {
+  for (let i = 0; i < grid.length; i++) {
+    grid[i].draw(mouse, tool);
+  }
 }

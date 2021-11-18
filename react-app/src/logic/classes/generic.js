@@ -16,9 +16,9 @@ export class Cell {
     this.ctx.strokeRect(this.x, this.y, this.width, this.height);
   }
 
-  draw(mouse){
+  draw(mouse, tool='white'){
     if (collision(this, mouse)) {
-      this.ctx.strokeStyle = 'white';
+      this.ctx.strokeStyle = tool;
       this.ctx.strokeRect(this.x, this.y, this.width, this.height);
     }
   }
