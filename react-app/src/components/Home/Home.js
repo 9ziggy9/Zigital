@@ -10,6 +10,7 @@ import {
   handleGates
 } from '../../logic/grid';
 import {Gate} from '../../logic/classes/gates';
+import {toolLabels} from '../ComponentsTree/ComponentsTree';
 import "../../index.css";
 
 // Global canvas variables
@@ -136,6 +137,7 @@ const Home = ({tool}) => {
     const context = contextRef.current;
     const gridPositionX = mouse.x - (mouse.x % (CELL_SIZE * 2));
     const gridPositionY = mouse.y - (mouse.y % (CELL_SIZE * 2));
+
     GATES.push(new Gate(gridPositionX, gridPositionY, CELL_SIZE, context));
 
     // INPUT JUNCTIONS

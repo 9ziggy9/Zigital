@@ -1,12 +1,13 @@
 import React from 'react';
 import "./ComponentsTree.css"
 
-const ComponentsTree = ({setTool}) => {
 
+export const toolLabels = new Set(['not', 'or', 'and',
+                                  'xor', 'nor', 'nand',
+                                  'xnor', 'wire']);
+
+const ComponentsTree = ({setTool}) => {
   const selectTool = (id) => {
-    const toolLabels = ['not', 'or', 'and',
-                        'xor', 'nor', 'nand',
-                        'xnor', 'wire']
     switch(id) {
       case 'not':
         console.log('GATE: not selected');
