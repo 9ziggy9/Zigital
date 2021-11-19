@@ -1,6 +1,10 @@
 # Zigital
 A combinational logic simulator.
 
+## Develoment Notes
+11/18/2021: I am going to have to implement A* with Manhattan distance as a heuristic in order to cleanly depict wiring.
+The following gif illustrates why.
+
 ## References
 ##### Color Theme
 https://github.com/NLKNguyen/papercolor-theme
