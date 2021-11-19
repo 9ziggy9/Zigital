@@ -1,7 +1,7 @@
 export class Wire {
   constructor(x0,y0) {
     this.x0 = x0;
-    this.y = y0;
+    this.y0 = y0;
   }
 
   //Manhattan distance
@@ -33,8 +33,10 @@ export class Wire {
     const end = history[0];
     while (next !== end) {
       path.push(next.point);
-      next = history.find(prev => next.parent.x === prev.point.x &&
-                          next.parent.y === prev.point.y);
+      next = history.find(
+        prev => next.parent.x === prev.point.x &&
+                next.parent.y === prev.point.y
+      );
     }
     path.push(end.point);
     return path;
