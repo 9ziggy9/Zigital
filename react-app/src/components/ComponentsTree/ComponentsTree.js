@@ -4,9 +4,9 @@ import "./ComponentsTree.css"
 const ComponentsTree = ({setTool}) => {
 
   const selectTool = (id) => {
-    const gateLabels = ['not', 'or', 'and',
+    const toolLabels = ['not', 'or', 'and',
                         'xor', 'nor', 'nand',
-                        'xnor']
+                        'xnor', 'wire']
     switch(id) {
       case 'not':
         console.log('GATE: not selected');
@@ -36,6 +36,10 @@ const ComponentsTree = ({setTool}) => {
         console.log('GATE: xnor selected');
         setTool('white')
         break;
+      case 'wire':
+        console.log('OTHER: wire selected');
+        setTool('wire');
+        break;
       default: break;
     }
     const buttonNode = document.getElementById(id);
@@ -45,7 +49,7 @@ const ComponentsTree = ({setTool}) => {
     else {
       buttonNode.classList.remove('g-highlight');
     }
-    gateLabels.forEach(label => {
+    toolLabels.forEach(label => {
       const gateNode = document.getElementById(label);
       if(label !== id)
         gateNode.classList.remove('g-highlight')

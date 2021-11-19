@@ -30,7 +30,7 @@ const Home = ({tool}) => {
     width: 0.1,
     height: 0.1,
   });
-  const [isDrawing, setIsDrawing] = useState(false);
+  const [isWiring, setIsWiring] = useState(false);
 
   const drawBackground = (ctx) => {
     ctx.fillStyle = '#5fafd7';
@@ -153,15 +153,15 @@ const Home = ({tool}) => {
   }
 
   const handleMouseDown = ({nativeEvent}) => {
-    // const {offsetX, offsetY} = nativeEvent;
-    // contextRef.current.beginPath();
-    // contextRef.current.moveTo(offsetX,offsetY);
-    // setIsDrawing(true);
+    const {offsetX, offsetY} = nativeEvent;
+    contextRef.current.beginPath();
+    contextRef.current.moveTo(offsetX,offsetY);
+    setIsWiring(true);
   }
 
   const handleMouseUp = () => {
     contextRef.current.closePath();
-    setIsDrawing(false);
+    setIsWiring(false);
   }
 
   const mouseMove = ({nativeEvent}) => {
