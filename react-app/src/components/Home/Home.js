@@ -90,7 +90,8 @@ const Home = ({tool}) => {
         ctx.lineWidth=4;
         ctx.strokeStyle="green";
         ctx.strokeRect(x*CELL_SIZE,y*CELL_SIZE,CELL_SIZE,CELL_SIZE);
-        if (OCCUPIED[y][x]===1) ctx.fillRect(x*CELL_SIZE,y*CELL_SIZE,CELL_SIZE,CELL_SIZE);
+        if (OCCUPIED[y][x]===1)
+          ctx.fillRect(x*CELL_SIZE,y*CELL_SIZE,CELL_SIZE,CELL_SIZE);
       }
     }
     // Let's see what circuit board grid looks like
