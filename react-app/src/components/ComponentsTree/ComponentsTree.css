@@ -6,7 +6,7 @@
 }
 
 #not, #or, #and, #nor,
-#xor, #nand, #xnor {
+#xor, #nand, #xnor, #wire {
     height:40px;
     width: 100%;
     font-family: 'VT323', monospace;
