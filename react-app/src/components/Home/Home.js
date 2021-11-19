@@ -24,7 +24,6 @@ const Home = ({tool}) => {
   const backgroundCtxRef = useRef(null);
   const canvasRef = useRef(null);
   const contextRef = useRef(null);
-  const circuitBoardRef = useRef([]);
   const mouseRef = useRef({
     x: undefined,
     y: undefined,
@@ -112,7 +111,6 @@ const Home = ({tool}) => {
     const context = canvas.getContext('2d');
     contextRef.current = context;
     context.strokeStyle = tool;
-    console.log(OCCUPIED);
   }, [tool])
 
 
@@ -140,7 +138,6 @@ const Home = ({tool}) => {
     const gridPositionX = mouse.x - (mouse.x % (CELL_SIZE * 2));
     const gridPositionY = mouse.y - (mouse.y % (CELL_SIZE * 2));
     GATES.push(new Gate(gridPositionX, gridPositionY, CELL_SIZE, context));
-    console.log(gridPositionX / (CELL_SIZE), gridPositionY / (CELL_SIZE));
 
     // INPUT JUNCTIONS
     OCCUPIED[gridPositionY/CELL_SIZE][gridPositionX/CELL_SIZE] = 'i';

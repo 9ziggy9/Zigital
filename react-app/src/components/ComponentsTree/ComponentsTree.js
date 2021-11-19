@@ -3,7 +3,7 @@ import "./ComponentsTree.css"
 
 const ComponentsTree = ({setTool}) => {
 
-  const selectGate = (id) => {
+  const selectTool = (id) => {
     const gateLabels = ['not', 'or', 'and',
                         'xor', 'nor', 'nand',
                         'xnor']
@@ -55,33 +55,37 @@ const ComponentsTree = ({setTool}) => {
   return (
     <>
       <div className='btn-list'>
-        <button id="not" onClick={() => selectGate('not')}>
+        <button id="not" onClick={() => selectTool('not')}>
           <img src="logic_gates/NOT.svg" alt=""/>
           <p>NOT</p>
         </button>
-        <button id="or" onClick={() => selectGate('or')}>
+        <button id="or" onClick={() => selectTool('or')}>
           <img src="logic_gates/OR.svg" alt=""/>
           <p>OR</p>
         </button>
-        <button id="and" onClick={() => selectGate('and')}>
+        <button id="and" onClick={() => selectTool('and')}>
           <img src="logic_gates/AND.svg" alt=""/>
           <p>AND</p>
         </button>
-        <button id="xor" onClick={() => selectGate('xor')}>
+        <button id="xor" onClick={() => selectTool('xor')}>
           <img src="logic_gates/XOR.svg" alt=""/>
           <p>XOR</p>
         </button>
-        <button id="nor" onClick={() => selectGate('nor')}>
+        <button id="nor" onClick={() => selectTool('nor')}>
           <img src="logic_gates/NOR.svg" alt=""/>
           <p>NOR</p>
         </button>
-        <button id="nand" onClick={() => selectGate('nand')}>
+        <button id="nand" onClick={() => selectTool('nand')}>
           <img src="logic_gates/NAND.svg" alt=""/>
           <p>NAND</p>
         </button>
-        <button id="xnor" onClick={() => selectGate('xnor')}>
+        <button id="xnor" onClick={() => selectTool('xnor')}>
           <img src="logic_gates/XNOR.svg" alt=""/>
           <p>XNOR</p>
+        </button>
+        <button id="wire" onClick={() => selectTool('wire')}>
+          <img src="logic_gates/WIRE.svg" alt=""/>
+          <p>WIRE</p>
         </button>
       </div>
     </>
