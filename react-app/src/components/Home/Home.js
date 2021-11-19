@@ -81,8 +81,8 @@ const Home = ({tool}) => {
   const draw = (ctx, frameCount) => {
     ctx.clearRect(0, 0, ctx.canvas.width, ctx.canvas.height)
     let mouse = mouseRef.current;
-    handleHighlight(CIRCUIT_BOARD, mouse, tool);
-    handleGates(GATES);
+    handleHighlight(CIRCUIT_BOARD, mouse);
+    handleGates(GATES, tool);
 
     // for (let y = 0; y < OCCUPIED[0].length; y++) {
     //   for (let x= 0; x < OCCUPIED.length; x++) {
