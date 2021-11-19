@@ -90,6 +90,7 @@ const Home = ({tool}) => {
         ctx.lineWidth=4;
         ctx.strokeStyle="green";
         ctx.strokeRect(x*CELL_SIZE,y*CELL_SIZE,CELL_SIZE,CELL_SIZE);
+        if (OCCUPIED[y][x]) ctx.fillRect(x*CELL_SIZE,y*CELL_SIZE,CELL_SIZE,CELL_SIZE);
       }
     }
     // Let's see what circuit board grid looks like
@@ -138,7 +139,20 @@ const Home = ({tool}) => {
     const gridPositionX = mouse.x - (mouse.x % (CELL_SIZE * 2));
     const gridPositionY = mouse.y - (mouse.y % (CELL_SIZE * 2));
     GATES.push(new Gate(gridPositionX, gridPositionY, CELL_SIZE, context));
-    console.log(gridPositionX / (CELL_SIZE * 2), gridPositionY / (CELL_SIZE * 2));
+    console.log(gridPositionX / (CELL_SIZE), gridPositionY / (CELL_SIZE));
+
+    // INPUT JUNCTIONS
+    OCCUPIED[gridPositionY/CELL_SIZE][gridPositionX/CELL_SIZE] = 'i';
+    OCCUPIED[(gridPositionY/CELL_SIZE) + 1][gridPositionX/CELL_SIZE] = 'i';
+    // GATE ITSELF (expanded to deter path finding along edges)
+    // Primary cells
+    OCCUPIED[gridPositionY/CELL_SIZE][(gridPositionX/CELL_SIZE) + 1] = 1;
+    OCCUPIED[gridPositionY/CELL_SIZE][(gridPositionX/CELL_SIZE) + 2] = 1;
+    OCCUPIED[(gridPositionY/CELL_SIZE)+1][(gridPositionX/CELL_SIZE) + 1] = 1;
+    OCCUPIED[(gridPositionY/CELL_SIZE)+1][(gridPositionX/CELL_SIZE) + 2] = 1;
+    // OUTPUT JUNCTIONS
+    OCCUPIED[gridPositionY/CELL_SIZE][(gridPositionX/CELL_SIZE)+3] = 'i';
+    OCCUPIED[(gridPositionY/CELL_SIZE) + 1][(gridPositionX/CELL_SIZE)+3] = 'i';
   }
 
   const handleMouseDown = ({nativeEvent}) => {
