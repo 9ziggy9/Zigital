@@ -84,15 +84,15 @@ const Home = ({tool}) => {
     handleHighlight(CIRCUIT_BOARD, mouse, tool);
     handleGates(GATES);
 
-    for (let y = 0; y < OCCUPIED[0].length; y++) {
-      for (let x= 0; x < OCCUPIED.length; x++) {
-        ctx.lineWidth=4;
-        ctx.strokeStyle="green";
-        ctx.strokeRect(x*CELL_SIZE,y*CELL_SIZE,CELL_SIZE,CELL_SIZE);
-        if (OCCUPIED[y][x]===1)
-          ctx.fillRect(x*CELL_SIZE,y*CELL_SIZE,CELL_SIZE,CELL_SIZE);
-      }
-    }
+    // for (let y = 0; y < OCCUPIED[0].length; y++) {
+    //   for (let x= 0; x < OCCUPIED.length; x++) {
+    //     ctx.lineWidth=4;
+    //     ctx.strokeStyle="green";
+    //     ctx.strokeRect(x*CELL_SIZE,y*CELL_SIZE,CELL_SIZE,CELL_SIZE);
+    //     if (OCCUPIED[y][x]===1)
+    //       ctx.fillRect(x*CELL_SIZE,y*CELL_SIZE,CELL_SIZE,CELL_SIZE);
+    //   }
+    // }
     // CIRCUIT_BOARD.forEach(e => {
     //   ctx.strokeStyle = 'red';
     //   ctx.strokeRect(e.x, e.y, e.width, e.height);
@@ -141,7 +141,6 @@ const Home = ({tool}) => {
 
     if (gateLabels.has(tool)) {
       GATES.push(new Gate(gridPositionX, gridPositionY, CELL_SIZE, context));
-
       // INPUT JUNCTIONS
       OCCUPIED[gridPositionY/CELL_SIZE][gridPositionX/CELL_SIZE] = 'i';
       OCCUPIED[(gridPositionY/CELL_SIZE) + 1][gridPositionX/CELL_SIZE] = 'i';
