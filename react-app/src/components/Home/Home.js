@@ -83,7 +83,7 @@ const Home = ({tool}) => {
     ctx.fillStyle = tool;
     handleHighlight(CIRCUIT_BOARD, mouse, tool);
     handleGates(GATES);
-    // And now what the occupied cells look like in time
+
     for (let y = 0; y < OCCUPIED[0].length; y++) {
       for (let x= 0; x < OCCUPIED.length; x++) {
         ctx.lineWidth=4;
@@ -93,11 +93,10 @@ const Home = ({tool}) => {
           ctx.fillRect(x*CELL_SIZE,y*CELL_SIZE,CELL_SIZE,CELL_SIZE);
       }
     }
-    // Let's see what circuit board grid looks like
-    CIRCUIT_BOARD.forEach(e => {
-      ctx.strokeStyle = 'red';
-      ctx.strokeRect(e.x, e.y, e.width, e.height);
-    })
+    // CIRCUIT_BOARD.forEach(e => {
+    //   ctx.strokeStyle = 'red';
+    //   ctx.strokeRect(e.x, e.y, e.width, e.height);
+    // })
 
     // Using this as a performance indication
     ctx.beginPath()
