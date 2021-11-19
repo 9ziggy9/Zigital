@@ -10,7 +10,7 @@ import {
   handleGates
 } from '../../logic/grid';
 import {Gate} from '../../logic/classes/gates';
-import {toolLabels} from '../ComponentsTree/ComponentsTree';
+import {toolLabels, gateLabels} from '../ComponentsTree/ComponentsTree';
 import "../../index.css";
 
 // Global canvas variables
@@ -81,7 +81,6 @@ const Home = ({tool}) => {
   const draw = (ctx, frameCount) => {
     ctx.clearRect(0, 0, ctx.canvas.width, ctx.canvas.height)
     let mouse = mouseRef.current;
-    ctx.fillStyle = tool;
     handleHighlight(CIRCUIT_BOARD, mouse, tool);
     handleGates(GATES);
 
@@ -138,20 +137,24 @@ const Home = ({tool}) => {
     const gridPositionX = mouse.x - (mouse.x % (CELL_SIZE * 2));
     const gridPositionY = mouse.y - (mouse.y % (CELL_SIZE * 2));
 
-    GATES.push(new Gate(gridPositionX, gridPositionY, CELL_SIZE, context));
+    console.log(tool);
 
-    // INPUT JUNCTIONS
-    OCCUPIED[gridPositionY/CELL_SIZE][gridPositionX/CELL_SIZE] = 'i';
-    OCCUPIED[(gridPositionY/CELL_SIZE) + 1][gridPositionX/CELL_SIZE] = 'i';
-    // GATE ITSELF (expanded to deter path finding along edges)
-    // Primary cells
-    OCCUPIED[gridPositionY/CELL_SIZE][(gridPositionX/CELL_SIZE) + 1] = 1;
-    OCCUPIED[gridPositionY/CELL_SIZE][(gridPositionX/CELL_SIZE) + 2] = 1;
-    OCCUPIED[(gridPositionY/CELL_SIZE)+1][(gridPositionX/CELL_SIZE) + 1] = 1;
-    OCCUPIED[(gridPositionY/CELL_SIZE)+1][(gridPositionX/CELL_SIZE) + 2] = 1;
-    // OUTPUT JUNCTIONS
-    OCCUPIED[gridPositionY/CELL_SIZE][(gridPositionX/CELL_SIZE)+3] = 'i';
-    OCCUPIED[(gridPositionY/CELL_SIZE) + 1][(gridPositionX/CELL_SIZE)+3] = 'i';
+    if (gateLabels.has(tool)) {
+      GATES.push(new Gate(gridPositionX, gridPositionY, CELL_SIZE, context));
+
+      // INPUT JUNCTIONS
+      OCCUPIED[gridPositionY/CELL_SIZE][gridPositionX/CELL_SIZE] = 'i';
+      OCCUPIED[(gridPositionY/CELL_SIZE) + 1][gridPositionX/CELL_SIZE] = 'i';
+      // GATE ITSELF (expanded to deter path finding along edges)
+      // Primary cells
+      OCCUPIED[gridPositionY/CELL_SIZE][(gridPositionX/CELL_SIZE) + 1] = 1;
+      OCCUPIED[gridPositionY/CELL_SIZE][(gridPositionX/CELL_SIZE) + 2] = 1;
+      OCCUPIED[(gridPositionY/CELL_SIZE)+1][(gridPositionX/CELL_SIZE) + 1] = 1;
+      OCCUPIED[(gridPositionY/CELL_SIZE)+1][(gridPositionX/CELL_SIZE) + 2] = 1;
+      // OUTPUT JUNCTIONS
+      OCCUPIED[gridPositionY/CELL_SIZE][(gridPositionX/CELL_SIZE)+3] = 'i';
+      OCCUPIED[(gridPositionY/CELL_SIZE) + 1][(gridPositionX/CELL_SIZE)+3] = 'i';
+    }
   }
 
   const handleMouseDown = ({nativeEvent}) => {
