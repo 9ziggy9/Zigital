@@ -1,15 +1,16 @@
 export class Gate {
-  constructor(x, y, cellSize, ctx) {
+  constructor(x, y, cellSize, ctx, gate) {
     this.x = x;
     this.y = y;
     this.width = cellSize*4.25;
     this.height = cellSize*2.5;
     this.ctx = ctx;
+    this.gate = gate;
   }
 
-  draw(tool='and'){
+  draw(){
     let img = new Image();
-    switch (tool) {
+    switch (this.gate) {
       case 'not':
         img.src = 'logic_gates/NOT.svg';
         break;

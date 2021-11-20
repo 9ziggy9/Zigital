@@ -140,7 +140,7 @@ const Home = ({tool}) => {
     console.log(tool);
 
     if (gateLabels.has(tool)) {
-      GATES.push(new Gate(gridPositionX, gridPositionY, CELL_SIZE, context));
+      GATES.push(new Gate(gridPositionX, gridPositionY, CELL_SIZE, context, tool));
       // INPUT JUNCTIONS
       OCCUPIED[gridPositionY/CELL_SIZE][gridPositionX/CELL_SIZE] = 'i';
       OCCUPIED[(gridPositionY/CELL_SIZE) + 1][gridPositionX/CELL_SIZE] = 'i';
