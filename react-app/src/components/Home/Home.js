@@ -18,6 +18,7 @@ import "../../index.css";
 const CELL_SIZE = 40;
 const GRID = [];
 const CIRCUIT_BOARD = [];
+const WIRE_BOARD = [];
 const GATES = [];
 let OCCUPIED;
 
@@ -73,6 +74,7 @@ const Home = ({tool}) => {
 
     // Initialize circuit board
     createGrid(contextRef.current, CELL_SIZE*2, CIRCUIT_BOARD, 4);
+    createGrid(contextRef.current, CELL_SIZE, WIRE_BOARD, 4);
     OCCUPIED = [...Array(Math.floor(canvasRef.current.width / (CELL_SIZE * 2)))]
           .map(e => Array(Math.floor(canvasRef.current.height / (CELL_SIZE * 2)))
           .fill(0));
@@ -88,7 +90,7 @@ const Home = ({tool}) => {
       handleGateHighlight(CIRCUIT_BOARD, mouse);
     }
     if (tool === "wire") {
-      handleWireHighlight(OCCUPIED, mouse);
+      handleWireHighlight(WIRE_BOARD, mouse);
     }
 
     handleGates(GATES, tool);

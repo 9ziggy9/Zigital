@@ -30,6 +30,12 @@ export function handleGateHighlight(grid, mouse, tool='white') {
   }
 }
 
+export function handleWireHighlight(grid, mouse, tool='white') {
+  for (let i = 0; i < grid.length; i++) {
+    grid[i].drawWireCell(mouse, tool);
+  }
+}
+
 export function handleGates(gates) {
   for(let i = 0; i < gates.length; i++) {
     gates[i].draw();
