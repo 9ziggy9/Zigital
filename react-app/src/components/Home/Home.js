@@ -95,15 +95,15 @@ const Home = ({tool}) => {
 
     handleGates(GATES, tool);
 
-    // for (let y = 0; y < OCCUPIED[0].length; y++) {
-    //   for (let x= 0; x < OCCUPIED.length; x++) {
-    //     ctx.lineWidth=4;
-    //     ctx.strokeStyle="green";
-    //     ctx.strokeRect(x*CELL_SIZE,y*CELL_SIZE,CELL_SIZE,CELL_SIZE);
-    //     if (OCCUPIED[y][x]===1)
-    //       ctx.fillRect(x*CELL_SIZE,y*CELL_SIZE,CELL_SIZE,CELL_SIZE);
-    //   }
-    // }
+    for (let y = 0; y < OCCUPIED[0].length; y++) {
+      for (let x= 0; x < OCCUPIED.length; x++) {
+        ctx.lineWidth=4;
+        ctx.strokeStyle="green";
+        ctx.strokeRect(x*CELL_SIZE,y*CELL_SIZE,CELL_SIZE,CELL_SIZE);
+        if (OCCUPIED[y][x]===1)
+          ctx.fillRect(x*CELL_SIZE,y*CELL_SIZE,CELL_SIZE,CELL_SIZE);
+      }
+    }
     // CIRCUIT_BOARD.forEach(e => {
     //   ctx.strokeStyle = 'red';
     //   ctx.strokeRect(e.x, e.y, e.width, e.height);
@@ -145,10 +145,11 @@ const Home = ({tool}) => {
   const handleClick = ({nativeEvent}) => {
     const mouse = mouseRef.current;
     const context = contextRef.current;
-    const gridPositionX = mouse.x - (mouse.x % (CELL_SIZE * 2));
-    const gridPositionY = mouse.y - (mouse.y % (CELL_SIZE * 2));
+    let gridPositionX, gridPositionY;
 
     if (gateLabels.has(tool)) {
+      gridPositionX = mouse.x - (mouse.x % (CELL_SIZE * 2));
+      gridPositionY = mouse.y - (mouse.y % (CELL_SIZE * 2));
       GATES.push(new Gate(gridPositionX, gridPositionY, CELL_SIZE, context, tool));
       // INPUT JUNCTIONS
       OCCUPIED[gridPositionY/CELL_SIZE][gridPositionX/CELL_SIZE] = 'i';
@@ -162,6 +163,11 @@ const Home = ({tool}) => {
       // OUTPUT JUNCTIONS
       OCCUPIED[gridPositionY/CELL_SIZE][(gridPositionX/CELL_SIZE)+3] = 'i';
       OCCUPIED[(gridPositionY/CELL_SIZE) + 1][(gridPositionX/CELL_SIZE)+3] = 'i';
+    }
+    if (tool === 'wire') {
+      gridPositionX = mouse.x - (mouse.x % CELL_SIZE);
+      gridPositionY = mouse.y - (mouse.y % CELL_SIZE);
+      OCCUPIED[gridPositionY/CELL_SIZE][gridPositionX/CELL_SIZE] = 1;
     }
   }
 
