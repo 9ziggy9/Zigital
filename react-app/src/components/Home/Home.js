@@ -6,7 +6,8 @@ import React, {
 import {
   createGrid,
   handleGrid,
-  handleHighlight,
+  handleGateHighlight,
+  handleWireHighlight,
   handleGates
 } from '../../logic/grid';
 import {Gate} from '../../logic/classes/gates';
@@ -81,7 +82,15 @@ const Home = ({tool}) => {
   const draw = (ctx, frameCount) => {
     ctx.clearRect(0, 0, ctx.canvas.width, ctx.canvas.height)
     let mouse = mouseRef.current;
-    handleHighlight(CIRCUIT_BOARD, mouse);
+
+    // Selection highlighting
+    if (gateLabels.has(tool)) {
+      handleGateHighlight(CIRCUIT_BOARD, mouse);
+    }
+    if (tool === "wire") {
+      handleWireHighlight(OCCUPIED, mouse);
+    }
+
     handleGates(GATES, tool);
 
     // for (let y = 0; y < OCCUPIED[0].length; y++) {
@@ -136,8 +145,6 @@ const Home = ({tool}) => {
     const context = contextRef.current;
     const gridPositionX = mouse.x - (mouse.x % (CELL_SIZE * 2));
     const gridPositionY = mouse.y - (mouse.y % (CELL_SIZE * 2));
-
-    console.log(tool);
 
     if (gateLabels.has(tool)) {
       GATES.push(new Gate(gridPositionX, gridPositionY, CELL_SIZE, context, tool));

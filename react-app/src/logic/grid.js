@@ -24,7 +24,7 @@ export function collision(first, second) {
   return false;
 }
 
-export function handleHighlight(grid, mouse, tool='white') {
+export function handleGateHighlight(grid, mouse, tool='white') {
   for (let i = 0; i < grid.length; i++) {
     grid[i].draw(mouse, tool);
   }
