@@ -8,7 +8,10 @@ import {
   handleGrid,
   handleGateHighlight,
   handleWireHighlight,
-  handleGates
+  handleGates,
+  AStar,
+  reconstructPath,
+  neighbors,
 } from '../../logic/grid';
 import {Gate} from '../../logic/classes/gates';
 import {toolLabels, gateLabels} from '../ComponentsTree/ComponentsTree';
@@ -34,6 +37,7 @@ const Home = ({tool}) => {
     height: 0.1,
   });
   const [isWiring, setIsWiring] = useState(false);
+  const [start, setStart] = useState({x:null, y:null});
 
   const drawBackground = (ctx) => {
     ctx.fillStyle = '#5fafd7';
@@ -165,9 +169,16 @@ const Home = ({tool}) => {
       OCCUPIED[(gridPositionY/CELL_SIZE) + 1][(gridPositionX/CELL_SIZE)+3] = 'i';
     }
     if (tool === 'wire') {
-      gridPositionX = mouse.x - (mouse.x % CELL_SIZE);
-      gridPositionY = mouse.y - (mouse.y % CELL_SIZE);
-      OCCUPIED[gridPositionY/CELL_SIZE][gridPositionX/CELL_SIZE] = 1;
+      if (!isWiring) {
+        setStart({x:mouse.x - (mouse.x % CELL_SIZE),
+                  y:mouse.y - (mouse.y % CELL_SIZE)});
+        setIsWiring(true);
+        console.log(start);
+      } else {
+        setStart({x:null, y:null});
+        setIsWiring(false);
+        console.log(start);
+      }
     }
   }
 
@@ -189,6 +200,10 @@ const Home = ({tool}) => {
     mouseRef.current.y = offsetY;
     mouseRef.current.width = 0.1;
     mouseRef.current.height = 0.1;
+    if (isWiring) {
+      const endX = mouseRef.current.x - mouseRef.current.x % CELL_SIZE;
+      const endY = mouseRef.current.y - mouseRef.current.y % CELL_SIZE;
+    }
   }
 
 
