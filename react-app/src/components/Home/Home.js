@@ -9,7 +9,6 @@ import {
   handleGateHighlight,
   handleWireHighlight,
   handleGates,
-  aStar
 } from '../../logic/grid';
 import {Gate} from '../../logic/classes/gates';
 import {toolLabels, gateLabels} from '../ComponentsTree/ComponentsTree';
@@ -35,7 +34,7 @@ const Home = ({tool}) => {
     height: 0.1,
   });
   const [isWiring, setIsWiring] = useState(false);
-  const [start, setStart] = useState({point: {x:null, y:null}, parent: null});
+  const [start, setStart] = useState({x:null, y:null});
 
   const drawBackground = (ctx) => {
     ctx.fillStyle = '#5fafd7';
@@ -92,20 +91,23 @@ const Home = ({tool}) => {
       handleGateHighlight(CIRCUIT_BOARD, mouse);
     }
     if (tool === "wire") {
-      handleWireHighlight(WIRE_BOARD, mouse);
+      if (isWiring) {
+        const ctx = contextRef.current;
+        const endX = mouseRef.current.x - mouseRef.current.x % CELL_SIZE;
+        const endY = mouseRef.current.y - mouseRef.current.y % CELL_SIZE;
+        console.log(ctx);
+        ctx.beginPath();
+        ctx.strokeStyle = 'white';
+        ctx.moveTo(start.x, start.y);
+        ctx.lineTo(endX, endY);
+        ctx.stroke();
+      } else {
+        handleWireHighlight(WIRE_BOARD, mouse);
+      }
     }
 
     handleGates(GATES, tool);
 
-    for (let y = 0; y < OCCUPIED[0].length; y++) {
-      for (let x= 0; x < OCCUPIED.length; x++) {
-        ctx.lineWidth=4;
-        ctx.strokeStyle="green";
-        ctx.strokeRect(x*CELL_SIZE,y*CELL_SIZE,CELL_SIZE,CELL_SIZE);
-        if (OCCUPIED[y][x]===1)
-          ctx.fillRect(x*CELL_SIZE,y*CELL_SIZE,CELL_SIZE,CELL_SIZE);
-      }
-    }
     // CIRCUIT_BOARD.forEach(e => {
     //   ctx.strokeStyle = 'red';
     //   ctx.strokeRect(e.x, e.y, e.width, e.height);
@@ -168,15 +170,11 @@ const Home = ({tool}) => {
     }
     if (tool === 'wire') {
       if (!isWiring) {
-        setStart({point: {x:mouse.x - (mouse.x % CELL_SIZE),
-                          y:mouse.y - (mouse.y % CELL_SIZE)},
-                  parent: null});
+        setStart({x:mouse.x - (mouse.x % CELL_SIZE),
+                  y:mouse.y - (mouse.y % CELL_SIZE)});
         setIsWiring(true);
-        console.log(start);
       } else {
-        setStart({point: {x:null, y:null}, parent: null});
         setIsWiring(false);
-        console.log(start);
       }
     }
   }
@@ -199,19 +197,6 @@ const Home = ({tool}) => {
     mouseRef.current.y = offsetY;
     mouseRef.current.width = 0.1;
     mouseRef.current.height = 0.1;
-    if (isWiring) {
-      const endX = mouseRef.current.x - mouseRef.current.x % CELL_SIZE;
-      const endY = mouseRef.current.y - mouseRef.current.y % CELL_SIZE;
-      const end = {
-        point: {x: endX, y: endY},
-        parent: null
-      }
-      const ACCESSIBLE = OCCUPIED.map(o => {
-        if (o === true) return false;
-        else return true;
-      });
-      aStar(start,end,OCCUPIED[0].length,OCCUPIED.length,ACCESSIBLE);
-    }
   }
 
 
