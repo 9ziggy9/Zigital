@@ -20,6 +20,7 @@ const GRID = [];
 const CIRCUIT_BOARD = [];
 const WIRE_BOARD = [];
 const GATES = [];
+const WIRE_SEGMENTS = [];
 let OCCUPIED;
 
 const Home = ({tool}) => {
@@ -93,12 +94,10 @@ const Home = ({tool}) => {
     }
     if (tool === "wire") {
       if (isWiring) {
-        const ctx = contextRef.current;
         const endX = mouseRef.current.x - mouseRef.current.x % CELL_SIZE
               + CELL_SIZE/2;
         const endY = mouseRef.current.y - mouseRef.current.y % CELL_SIZE
               + CELL_SIZE/2;
-        console.log(ctx);
         ctx.beginPath();
         ctx.strokeStyle = 'black';
         ctx.moveTo(start.x, start.y);
@@ -110,6 +109,13 @@ const Home = ({tool}) => {
     }
 
     handleGates(GATES, tool);
+    WIRE_SEGMENTS.forEach(w => {
+      ctx.beginPath();
+      ctx.strokeStyle = 'black';
+      ctx.moveTo(w.start.x, w.start.y);
+      ctx.lineTo(w.end.x, w.end.y);
+      ctx.stroke();
+    })
 
     // CIRCUIT_BOARD.forEach(e => {
     //   ctx.strokeStyle = 'red';
@@ -149,6 +155,10 @@ const Home = ({tool}) => {
     }
   }, [draw])
 
+  useEffect(() => {
+    WIRE_SEGMENTS.push({start,end});
+  },[end]);
+
   const handleClick = ({nativeEvent}) => {
     const mouse = mouseRef.current;
     const context = contextRef.current;
@@ -177,10 +187,9 @@ const Home = ({tool}) => {
                   y:mouse.y - (mouse.y % CELL_SIZE) + CELL_SIZE/2});
         setIsWiring(true);
       } else {
-        setIsWiring(false);
         setEnd({x:mouse.x - (mouse.x % CELL_SIZE) + CELL_SIZE/2,
                 y:mouse.y - (mouse.y % CELL_SIZE) + CELL_SIZE/2});
-        console.log('end');
+        setIsWiring(false);
       }
     }
   }
