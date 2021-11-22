@@ -6,16 +6,19 @@ import React, {
 import {
   createGrid,
   handleGrid,
-  handleHighlight,
+  handleGateHighlight,
+  handleWireHighlight,
   handleGates
 } from '../../logic/grid';
 import {Gate} from '../../logic/classes/gates';
+import {toolLabels, gateLabels} from '../ComponentsTree/ComponentsTree';
 import "../../index.css";
 
 // Global canvas variables
 const CELL_SIZE = 40;
 const GRID = [];
 const CIRCUIT_BOARD = [];
+const WIRE_BOARD = [];
 const GATES = [];
 let OCCUPIED;
 
@@ -30,7 +33,7 @@ const Home = ({tool}) => {
     width: 0.1,
     height: 0.1,
   });
-  const [isDrawing, setIsDrawing] = useState(false);
+  const [isWiring, setIsWiring] = useState(false);
 
   const drawBackground = (ctx) => {
     ctx.fillStyle = '#5fafd7';
@@ -71,6 +74,7 @@ const Home = ({tool}) => {
 
     // Initialize circuit board
     createGrid(contextRef.current, CELL_SIZE*2, CIRCUIT_BOARD, 4);
+    createGrid(contextRef.current, CELL_SIZE, WIRE_BOARD, 4);
     OCCUPIED = [...Array(Math.floor(canvasRef.current.width / (CELL_SIZE * 2)))]
           .map(e => Array(Math.floor(canvasRef.current.height / (CELL_SIZE * 2)))
           .fill(0));
@@ -80,10 +84,17 @@ const Home = ({tool}) => {
   const draw = (ctx, frameCount) => {
     ctx.clearRect(0, 0, ctx.canvas.width, ctx.canvas.height)
     let mouse = mouseRef.current;
-    ctx.fillStyle = tool;
-    handleHighlight(CIRCUIT_BOARD, mouse, tool);
-    handleGates(GATES);
-    // And now what the occupied cells look like in time
+
+    // Selection highlighting
+    if (gateLabels.has(tool)) {
+      handleGateHighlight(CIRCUIT_BOARD, mouse);
+    }
+    if (tool === "wire") {
+      handleWireHighlight(WIRE_BOARD, mouse);
+    }
+
+    handleGates(GATES, tool);
+
     for (let y = 0; y < OCCUPIED[0].length; y++) {
       for (let x= 0; x < OCCUPIED.length; x++) {
         ctx.lineWidth=4;
@@ -93,11 +104,10 @@ const Home = ({tool}) => {
           ctx.fillRect(x*CELL_SIZE,y*CELL_SIZE,CELL_SIZE,CELL_SIZE);
       }
     }
-    // Let's see what circuit board grid looks like
-    CIRCUIT_BOARD.forEach(e => {
-      ctx.strokeStyle = 'red';
-      ctx.strokeRect(e.x, e.y, e.width, e.height);
-    })
+    // CIRCUIT_BOARD.forEach(e => {
+    //   ctx.strokeStyle = 'red';
+    //   ctx.strokeRect(e.x, e.y, e.width, e.height);
+    // })
 
     // Using this as a performance indication
     ctx.beginPath()
@@ -135,35 +145,43 @@ const Home = ({tool}) => {
   const handleClick = ({nativeEvent}) => {
     const mouse = mouseRef.current;
     const context = contextRef.current;
-    const gridPositionX = mouse.x - (mouse.x % (CELL_SIZE * 2));
-    const gridPositionY = mouse.y - (mouse.y % (CELL_SIZE * 2));
-    GATES.push(new Gate(gridPositionX, gridPositionY, CELL_SIZE, context));
+    let gridPositionX, gridPositionY;
 
-    // INPUT JUNCTIONS
-    OCCUPIED[gridPositionY/CELL_SIZE][gridPositionX/CELL_SIZE] = 'i';
-    OCCUPIED[(gridPositionY/CELL_SIZE) + 1][gridPositionX/CELL_SIZE] = 'i';
-    // GATE ITSELF (expanded to deter path finding along edges)
-    // Primary cells
-    OCCUPIED[gridPositionY/CELL_SIZE][(gridPositionX/CELL_SIZE) + 1] = 1;
-    OCCUPIED[gridPositionY/CELL_SIZE][(gridPositionX/CELL_SIZE) + 2] = 1;
-    OCCUPIED[(gridPositionY/CELL_SIZE)+1][(gridPositionX/CELL_SIZE) + 1] = 1;
-    OCCUPIED[(gridPositionY/CELL_SIZE)+1][(gridPositionX/CELL_SIZE) + 2] = 1;
-    // OUTPUT JUNCTIONS
-    OCCUPIED[gridPositionY/CELL_SIZE][(gridPositionX/CELL_SIZE)+3] = 'i';
-    OCCUPIED[(gridPositionY/CELL_SIZE) + 1][(gridPositionX/CELL_SIZE)+3] = 'i';
+    if (gateLabels.has(tool)) {
+      gridPositionX = mouse.x - (mouse.x % (CELL_SIZE * 2));
+      gridPositionY = mouse.y - (mouse.y % (CELL_SIZE * 2));
+      GATES.push(new Gate(gridPositionX, gridPositionY, CELL_SIZE, context, tool));
+      // INPUT JUNCTIONS
+      OCCUPIED[gridPositionY/CELL_SIZE][gridPositionX/CELL_SIZE] = 'i';
+      OCCUPIED[(gridPositionY/CELL_SIZE) + 1][gridPositionX/CELL_SIZE] = 'i';
+      // GATE ITSELF (expanded to deter path finding along edges)
+      // Primary cells
+      OCCUPIED[gridPositionY/CELL_SIZE][(gridPositionX/CELL_SIZE) + 1] = 1;
+      OCCUPIED[gridPositionY/CELL_SIZE][(gridPositionX/CELL_SIZE) + 2] = 1;
+      OCCUPIED[(gridPositionY/CELL_SIZE)+1][(gridPositionX/CELL_SIZE) + 1] = 1;
+      OCCUPIED[(gridPositionY/CELL_SIZE)+1][(gridPositionX/CELL_SIZE) + 2] = 1;
+      // OUTPUT JUNCTIONS
+      OCCUPIED[gridPositionY/CELL_SIZE][(gridPositionX/CELL_SIZE)+3] = 'i';
+      OCCUPIED[(gridPositionY/CELL_SIZE) + 1][(gridPositionX/CELL_SIZE)+3] = 'i';
+    }
+    if (tool === 'wire') {
+      gridPositionX = mouse.x - (mouse.x % CELL_SIZE);
+      gridPositionY = mouse.y - (mouse.y % CELL_SIZE);
+      OCCUPIED[gridPositionY/CELL_SIZE][gridPositionX/CELL_SIZE] = 1;
+    }
   }
 
-  const handleMouseDown = ({nativeEvent}) => {
-    // const {offsetX, offsetY} = nativeEvent;
-    // contextRef.current.beginPath();
-    // contextRef.current.moveTo(offsetX,offsetY);
-    // setIsDrawing(true);
-  }
+  // const handleMouseDown = ({nativeEvent}) => {
+  //   const {offsetX, offsetY} = nativeEvent;
+  //   contextRef.current.beginPath();
+  //   contextRef.current.moveTo(offsetX,offsetY);
+  //   setIsWiring(true);
+  // }
 
-  const handleMouseUp = () => {
-    contextRef.current.closePath();
-    setIsDrawing(false);
-  }
+  // const handleMouseUp = () => {
+  //   contextRef.current.closePath();
+  //   setIsWiring(false);
+  // }
 
   const mouseMove = ({nativeEvent}) => {
     const {offsetX, offsetY} = nativeEvent;
@@ -184,8 +202,8 @@ const Home = ({tool}) => {
       <div className="canvas-area">
         <canvas
           onClick={handleClick}
-          onMouseDown={handleMouseDown}
-          onMouseUp={handleMouseUp}
+          /* onMouseDown={handleMouseDown} */
+          /* onMouseUp={handleMouseUp} */
           onMouseMove={mouseMove}
           ref={canvasRef}
         />

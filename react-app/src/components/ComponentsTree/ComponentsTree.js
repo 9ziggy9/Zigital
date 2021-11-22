@@ -1,40 +1,46 @@
 import React from 'react';
 import "./ComponentsTree.css"
 
-const ComponentsTree = ({setTool}) => {
 
+export const gateLabels = new Set(['not', 'or', 'and',
+                                  'xor', 'nor', 'nand',
+                                  'xnor']);
+export const toolLabels = new Set(['wire']);
+
+const ComponentsTree = ({setTool}) => {
   const selectTool = (id) => {
-    const gateLabels = ['not', 'or', 'and',
-                        'xor', 'nor', 'nand',
-                        'xnor']
     switch(id) {
       case 'not':
         console.log('GATE: not selected');
-        setTool('red');
+        setTool('not');
         break;
       case 'or':
         console.log('GATE: or selected');
-        setTool('green');
+        setTool('or');
         break;
       case 'and':
         console.log('GATE: and selected');
-        setTool('blue');
+        setTool('and');
         break;
       case 'xor':
         console.log('GATE: xor selected');
-        setTool('yellow');
+        setTool('xor');
         break;
       case 'nor':
         console.log('GATE: nor selected');
-        setTool('purple')
+        setTool('nor')
         break;
       case 'nand':
         console.log('GATE: nand selected');
-        setTool('black')
+        setTool('nand')
         break;
       case 'xnor':
         console.log('GATE: xnor selected');
-        setTool('white')
+        setTool('xnor')
+        break;
+      case 'wire':
+        console.log('OTHER: wire selected');
+        setTool('wire');
         break;
       default: break;
     }
@@ -45,7 +51,7 @@ const ComponentsTree = ({setTool}) => {
     else {
       buttonNode.classList.remove('g-highlight');
     }
-    gateLabels.forEach(label => {
+    [...gateLabels, ...toolLabels].forEach(label => {
       const gateNode = document.getElementById(label);
       if(label !== id)
         gateNode.classList.remove('g-highlight')

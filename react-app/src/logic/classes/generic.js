@@ -16,11 +16,19 @@ export class Cell {
     this.ctx.strokeRect(this.x, this.y, this.width, this.height);
   }
 
-  draw(mouse, tool='white'){
+  draw(mouse, color='white'){
     if (collision(this, mouse)) {
-      this.ctx.strokeStyle = tool;
+      this.ctx.strokeStyle = color;
       this.ctx.lineWidth = this.lw;
       this.ctx.strokeRect(this.x, this.y, this.width*2, this.height);
+    }
+  }
+
+  drawWireCell(mouse, color='white'){
+    if (collision(this, mouse)) {
+      this.ctx.strokeStyle = color;
+      this.ctx.lineWidth = this.lw;
+      this.ctx.strokeRect(this.x, this.y, this.width, this.height);
     }
   }
 }
