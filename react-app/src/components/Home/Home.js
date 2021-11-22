@@ -171,17 +171,17 @@ const Home = ({tool}) => {
     }
   }
 
-  const handleMouseDown = ({nativeEvent}) => {
-    const {offsetX, offsetY} = nativeEvent;
-    contextRef.current.beginPath();
-    contextRef.current.moveTo(offsetX,offsetY);
-    setIsWiring(true);
-  }
+  // const handleMouseDown = ({nativeEvent}) => {
+  //   const {offsetX, offsetY} = nativeEvent;
+  //   contextRef.current.beginPath();
+  //   contextRef.current.moveTo(offsetX,offsetY);
+  //   setIsWiring(true);
+  // }
 
-  const handleMouseUp = () => {
-    contextRef.current.closePath();
-    setIsWiring(false);
-  }
+  // const handleMouseUp = () => {
+  //   contextRef.current.closePath();
+  //   setIsWiring(false);
+  // }
 
   const mouseMove = ({nativeEvent}) => {
     const {offsetX, offsetY} = nativeEvent;
@@ -202,8 +202,8 @@ const Home = ({tool}) => {
       <div className="canvas-area">
         <canvas
           onClick={handleClick}
-          onMouseDown={handleMouseDown}
-          onMouseUp={handleMouseUp}
+          /* onMouseDown={handleMouseDown} */
+          /* onMouseUp={handleMouseUp} */
           onMouseMove={mouseMove}
           ref={canvasRef}
         />
