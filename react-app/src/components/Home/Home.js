@@ -35,6 +35,7 @@ const Home = ({tool}) => {
   });
   const [isWiring, setIsWiring] = useState(false);
   const [start, setStart] = useState({x:null, y:null});
+  const [end, setEnd] = useState({x:null, y:null});
 
   const drawBackground = (ctx) => {
     ctx.fillStyle = '#5fafd7';
@@ -99,7 +100,7 @@ const Home = ({tool}) => {
               + CELL_SIZE/2;
         console.log(ctx);
         ctx.beginPath();
-        ctx.strokeStyle = 'white';
+        ctx.strokeStyle = 'black';
         ctx.moveTo(start.x, start.y);
         ctx.lineTo(endX, endY);
         ctx.stroke();
@@ -177,6 +178,9 @@ const Home = ({tool}) => {
         setIsWiring(true);
       } else {
         setIsWiring(false);
+        setEnd({x:mouse.x - (mouse.x % CELL_SIZE) + CELL_SIZE/2,
+                y:mouse.y - (mouse.y % CELL_SIZE) + CELL_SIZE/2});
+        console.log('end');
       }
     }
   }
