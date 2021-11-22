@@ -93,8 +93,10 @@ const Home = ({tool}) => {
     if (tool === "wire") {
       if (isWiring) {
         const ctx = contextRef.current;
-        const endX = mouseRef.current.x - mouseRef.current.x % CELL_SIZE;
-        const endY = mouseRef.current.y - mouseRef.current.y % CELL_SIZE;
+        const endX = mouseRef.current.x - mouseRef.current.x % CELL_SIZE
+              + CELL_SIZE/2;
+        const endY = mouseRef.current.y - mouseRef.current.y % CELL_SIZE
+              + CELL_SIZE/2;
         console.log(ctx);
         ctx.beginPath();
         ctx.strokeStyle = 'white';
@@ -170,8 +172,8 @@ const Home = ({tool}) => {
     }
     if (tool === 'wire') {
       if (!isWiring) {
-        setStart({x:mouse.x - (mouse.x % CELL_SIZE),
-                  y:mouse.y - (mouse.y % CELL_SIZE)});
+        setStart({x:mouse.x - (mouse.x % CELL_SIZE) + CELL_SIZE/2,
+                  y:mouse.y - (mouse.y % CELL_SIZE) + CELL_SIZE/2});
         setIsWiring(true);
       } else {
         setIsWiring(false);
