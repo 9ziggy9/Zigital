@@ -250,8 +250,6 @@ const Home = ({tool}) => {
         !(mouse.x - G.x <= G.width && mouse.x - G.x > 0 &&
           mouse.y - G.y <= G.height && mouse.y - G.y > 0 ));
     }
-    const project = new Project(GATES, BULBS, POWER, WIRE_SEGMENTS, OCCUPIED);
-    console.log(project.pack());
   }
 
   // const handleMouseDown = ({nativeEvent}) => {
