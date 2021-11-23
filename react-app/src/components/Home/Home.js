@@ -95,18 +95,18 @@ const Home = ({tool}) => {
     if (tool === "wire") {
       let endX, endY;
       if (isWiring) {
-        if (!(mouse.y % CELL_SIZE < (CELL_SIZE / 2)) ||
-            !(mouse.x % CELL_SIZE < (CELL_SIZE / 2)))
+        if (!(start.y % CELL_SIZE < (CELL_SIZE / 2)) ||
+            !(start.x % CELL_SIZE < (CELL_SIZE / 2)))
         {
           endX = mouse.x - mouse.x % CELL_SIZE
-                + CELL_SIZE;
+                + CELL_SIZE/2;
           endY = mouse.y - mouse.y % CELL_SIZE
-                + CELL_SIZE;
+                + CELL_SIZE/2;
         } else {
           endX = mouseRef.current.x - mouseRef.current.x % CELL_SIZE
-                + CELL_SIZE/2;
+                + CELL_SIZE;
           endY = mouseRef.current.y - mouseRef.current.y % CELL_SIZE
-                + CELL_SIZE/2;
+                + CELL_SIZE;
         }
         ctx.beginPath();
         ctx.strokeStyle = 'black';
@@ -195,25 +195,31 @@ const Home = ({tool}) => {
       if (!isWiring) {
         // TODO: Found this condition through experimentation, please return
         // and prove that it works, kind of surprising.
-        if (!(mouse.y % CELL_SIZE < (CELL_SIZE / 2)) ||
-            !(mouse.x % CELL_SIZE < (CELL_SIZE / 2)))
-        {
-          setStart({x:mouse.x - (mouse.x % CELL_SIZE) + CELL_SIZE,
-                    y:mouse.y - (mouse.y % CELL_SIZE) + CELL_SIZE});
+        const cellQuad = {x: mouse.x % CELL_SIZE - (CELL_SIZE/2),
+                           y: mouse.y % CELL_SIZE - (CELL_SIZE/2)}
+
+        if (cellQuad.x < 0 && cellQuad.y < 0) {
+          console.log('upper left');
+        } else if (cellQuad.x < 0 && cellQuad.y > 0){
+          console.log('lower left');
+        } else if (cellQuad.x > 0 && cellQuad.y < 0) {
+          console.log('upper right');
         } else {
-          setStart({x:mouse.x - (mouse.x % CELL_SIZE) + CELL_SIZE/2,
-                    y:mouse.y - (mouse.y % CELL_SIZE) + CELL_SIZE/2});
+          console.log('lower right');
         }
+
+        setStart({x:mouse.x - (mouse.x % CELL_SIZE) + CELL_SIZE/2,
+                  y:mouse.y - (mouse.y % CELL_SIZE) + CELL_SIZE/2});
         setIsWiring(true);
       } else {
-        if (!(mouse.y % CELL_SIZE < (CELL_SIZE / 2)) ||
-            !(mouse.x % CELL_SIZE < (CELL_SIZE / 2)))
+        if (!(start.y % CELL_SIZE < (CELL_SIZE / 2)) ||
+            !(start.x % CELL_SIZE < (CELL_SIZE / 2)))
         {
-          setEnd({x:mouse.x - (mouse.x % CELL_SIZE) + CELL_SIZE,
-                    y:mouse.y - (mouse.y % CELL_SIZE) + CELL_SIZE});
-        } else {
           setEnd({x:mouse.x - (mouse.x % CELL_SIZE) + CELL_SIZE/2,
                     y:mouse.y - (mouse.y % CELL_SIZE) + CELL_SIZE/2});
+        } else {
+          setEnd({x:mouse.x - (mouse.x % CELL_SIZE) + CELL_SIZE,
+                    y:mouse.y - (mouse.y % CELL_SIZE) + CELL_SIZE});
         }
         setIsWiring(false);
       }
@@ -222,7 +228,6 @@ const Home = ({tool}) => {
       GATES = GATES.filter(G =>
         !(mouse.x - G.x <= G.width && mouse.x - G.x > 0 &&
           mouse.y - G.y <= G.height && mouse.y - G.y > 0 ));
-      console.log(GATES);
     }
   }
 
