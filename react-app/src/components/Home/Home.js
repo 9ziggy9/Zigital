@@ -77,7 +77,7 @@ const Home = ({tool}) => {
 
     // Initialize circuit board
     createGrid(contextRef.current, CELL_SIZE*2, CIRCUIT_BOARD, 4);
-    createGrid(contextRef.current, CELL_SIZE, WIRE_BOARD, 4);
+    createGrid(contextRef.current, CELL_SIZE/2, WIRE_BOARD, 4);
     OCCUPIED = [...Array(Math.floor(canvasRef.current.width / (CELL_SIZE * 2)))]
           .map(e => Array(Math.floor(canvasRef.current.height / (CELL_SIZE * 2)))
           .fill(0));
