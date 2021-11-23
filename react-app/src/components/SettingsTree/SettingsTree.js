@@ -4,17 +4,16 @@ import "./SettingsTree.css";
 
 const SettingsTree = () => {
   const user = useSelector(state => state.session.user);
-  console.log(user);
 
   return (
     <>
       <div className='btn-list'>
         <div id="act-info">
-            <span class="material-icons">
+            <span className="material-icons">
                 account_circle
             </span>
             <div className='lil-pad'>
-                {user.email}
+                {user?.email}
             </div>
         </div>
         <button id="about">
