@@ -56,5 +56,4 @@ export function quadrantSnapper(cell, mouse, size) {
     return {x:mouse.x - (mouse.x % size) + size,
             y:mouse.y - (mouse.y % size) + size};
   }
-
 }

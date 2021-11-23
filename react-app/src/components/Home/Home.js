@@ -19,8 +19,8 @@ import "../../index.css";
 const CELL_SIZE = 40;
 const GRID = []; // general grid, used in bg rendering process
 const CIRCUIT_BOARD = []; // contains drawable gate elements
-const WIRE_SEGMENTS = []; // contains drawable wire segments
 const WIRE_BOARD = []; // contains cells in which wires are instantiated
+let WIRE_SEGMENTS = []; // contains drawable wire segments
 let GATES = []; // set of instantiated gates
 let OCCUPIED; // occupation array for collisions
 
@@ -173,6 +173,7 @@ const Home = ({tool}) => {
     const mouse = mouseRef.current;
     const context = contextRef.current;
     let gridPositionX, gridPositionY;
+    console.log(WIRE_SEGMENTS);
 
     // // // // // // // // // // //
     // GATE STATE LOGIC HANDLING //
@@ -235,6 +236,9 @@ const Home = ({tool}) => {
       GATES = GATES.filter(G =>
         !(mouse.x - G.x <= G.width && mouse.x - G.x > 0 &&
           mouse.y - G.y <= G.height && mouse.y - G.y > 0 ));
+      WIRE_SEGMENTS = WIRE_SEGMENTS.filter(W =>
+        !(mouse.x < Math.abs(W.end.x - W.start.x) &&
+          mouse.y < Math.abs(W.end.y - W.start.x)));
     }
   }
 
