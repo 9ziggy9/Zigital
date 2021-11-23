@@ -5,7 +5,31 @@
     justify-content: center;
 }
 
-#delete-act {
+#delete-act, #about {
+    height:40px;
+    width: 100%;
+    font-family: 'VT323', monospace;
+    font-weight: bold;
+    font-size:24px;
+    display: flex;
+    justify-content: space-evenly;
+    align-items: center;
+}
+
+#act-info {
+    height:40px;
+    width: 100%;
+    font-family: 'VT323', monospace;
+    font-weight: bold;
+    font-size:18px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+#logout-act {
+    background-color: #d7af5f;
+    color: #eeeeee;
     height:40px;
     width: 100%;
     font-family: 'VT323', monospace;
@@ -18,6 +42,10 @@
 
 .btn-list > button:hover {
     background-color: #5f8700;
+}
+
+#logout-act:hover {
+    background-color: #d70000;
 }
 
 .g-highlight {
