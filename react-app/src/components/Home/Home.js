@@ -216,9 +216,14 @@ const Home = ({tool}) => {
                     y:mouse.y - (mouse.y % CELL_SIZE) + CELL_SIZE/2});
         } else {
           console.log('lower right');
+          setStart({x:mouse.x - (mouse.x % CELL_SIZE) + CELL_SIZE,
+                    y:mouse.y - (mouse.y % CELL_SIZE) + CELL_SIZE});
         }
 
+        // Change to wiring state, important because on exit we will push
+        // connection class instantiations.
         setIsWiring(true);
+
       } else {
         if (!(start.y % CELL_SIZE < (CELL_SIZE / 2)) ||
             !(start.x % CELL_SIZE < (CELL_SIZE / 2)))
