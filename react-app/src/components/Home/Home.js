@@ -193,23 +193,31 @@ const Home = ({tool}) => {
     }
     if (tool === 'wire') {
       if (!isWiring) {
-        // TODO: Found this condition through experimentation, please return
-        // and prove that it works, kind of surprising.
+
+        // The following object contains the information necessary to determine
+        // what quadrant a click on a cell lives in. We use this in the if/else
+        // to determine establish with respect to what point of reference we shoud
+        // be finding the center relative to.
+
         const cellQuad = {x: mouse.x % CELL_SIZE - (CELL_SIZE/2),
                            y: mouse.y % CELL_SIZE - (CELL_SIZE/2)}
 
         if (cellQuad.x < 0 && cellQuad.y < 0) {
           console.log('upper left');
+          setStart({x:mouse.x - (mouse.x % CELL_SIZE) + CELL_SIZE/2,
+                    y:mouse.y - (mouse.y % CELL_SIZE) + CELL_SIZE/2});
         } else if (cellQuad.x < 0 && cellQuad.y > 0){
           console.log('lower left');
+          setStart({x:mouse.x - (mouse.x % CELL_SIZE) + CELL_SIZE/2,
+                    y:mouse.y - (mouse.y % CELL_SIZE) + CELL_SIZE});
         } else if (cellQuad.x > 0 && cellQuad.y < 0) {
           console.log('upper right');
+          setStart({x:mouse.x - (mouse.x % CELL_SIZE) + CELL_SIZE,
+                    y:mouse.y - (mouse.y % CELL_SIZE) + CELL_SIZE/2});
         } else {
           console.log('lower right');
         }
 
-        setStart({x:mouse.x - (mouse.x % CELL_SIZE) + CELL_SIZE/2,
-                  y:mouse.y - (mouse.y % CELL_SIZE) + CELL_SIZE/2});
         setIsWiring(true);
       } else {
         if (!(start.y % CELL_SIZE < (CELL_SIZE / 2)) ||
