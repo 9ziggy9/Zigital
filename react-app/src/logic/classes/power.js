@@ -1,3 +1,5 @@
+import SWITCHOFF from '../../img/logic_gates/SWITCHOFF.svg'
+
 export class Power {
   constructor(x, y, cellSize, ctx) {
     this.x = x;
@@ -9,7 +11,7 @@ export class Power {
 
   draw(){
     let img = new Image();
-    img.src = 'logic_gates/SWITCHOFF.svg';
+    img.src = SWITCHOFF;
     this.ctx.drawImage(img, this.x, this.y - 9.5, this.width, this.height);
   }
 }

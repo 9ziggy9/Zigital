@@ -1,3 +1,5 @@
+import BULBOFF from '../../img/logic_gates/BULBOFF.svg'
+
 export class Bulb {
   constructor(x, y, cellSize, ctx) {
     this.x = x;
@@ -9,7 +11,7 @@ export class Bulb {
 
   draw(){
     let img = new Image();
-    img.src = 'logic_gates/BULBOFF.svg';
+    img.src = BULBOFF;
     this.ctx.drawImage(img, this.x, this.y - 9.5, this.width, this.height);
   }
 }
