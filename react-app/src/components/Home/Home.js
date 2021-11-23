@@ -110,27 +110,23 @@ const Home = ({tool}) => {
 
         ctx.beginPath();
         ctx.strokeStyle = 'black';
+        ctx.setLineDash([0,0]);
         ctx.moveTo(start.x, start.y);
         ctx.lineTo(endX, endY);
         ctx.stroke();
-      } else {
-        handleWireHighlight(WIRE_BOARD, mouse);
       }
+      handleWireHighlight(WIRE_BOARD, mouse);
     }
 
     handleGates(GATES, tool);
     WIRE_SEGMENTS.forEach(w => {
       ctx.beginPath();
       ctx.strokeStyle = 'black';
+      ctx.setLineDash([0,0]);
       ctx.moveTo(w.start.x, w.start.y);
       ctx.lineTo(w.end.x, w.end.y);
       ctx.stroke();
     })
-
-    // CIRCUIT_BOARD.forEach(e => {
-    //   ctx.strokeStyle = 'red';
-    //   ctx.strokeRect(e.x, e.y, e.width, e.height);
-    // })
 
     // Using this as a performance indication
     ctx.beginPath()
