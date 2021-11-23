@@ -103,21 +103,11 @@ const Home = ({tool}) => {
       handleGateHighlight(CIRCUIT_BOARD, mouse);
     }
     if (tool === "wire") {
-      let endX, endY;
       if (isWiring) {
-        if (!(start.y % CELL_SIZE < (CELL_SIZE / 2)) ||
-            !(start.x % CELL_SIZE < (CELL_SIZE / 2)))
-        {
-          endX = mouse.x - mouse.x % CELL_SIZE
-                + CELL_SIZE/2;
-          endY = mouse.y - mouse.y % CELL_SIZE
-                + CELL_SIZE/2;
-        } else {
-          endX = mouseRef.current.x - mouseRef.current.x % CELL_SIZE
-                + CELL_SIZE;
-          endY = mouseRef.current.y - mouseRef.current.y % CELL_SIZE
-                + CELL_SIZE;
-        }
+        const cellQuad = {x: mouse.x % CELL_SIZE - (CELL_SIZE/2),
+                          y: mouse.y % CELL_SIZE - (CELL_SIZE/2)};
+        const {x:endX, y:endY} = quadrantSnapper(cellQuad, mouse, CELL_SIZE);
+
         ctx.beginPath();
         ctx.strokeStyle = 'black';
         ctx.moveTo(start.x, start.y);
@@ -225,10 +215,8 @@ const Home = ({tool}) => {
         // be finding the center relative to.
 
         const cellQuad = {x: mouse.x % CELL_SIZE - (CELL_SIZE/2),
-                           y: mouse.y % CELL_SIZE - (CELL_SIZE/2)}
-
+                          y: mouse.y % CELL_SIZE - (CELL_SIZE/2)};
         const snapped = quadrantSnapper(cellQuad, mouse, CELL_SIZE);
-
         setStart(snapped);
 
         // Change to wiring state, important because on exit we will push
@@ -236,6 +224,11 @@ const Home = ({tool}) => {
         setIsWiring(true);
 
       } else {
+
+        const cellQuad = {x: mouse.x % CELL_SIZE - (CELL_SIZE/2),
+                          y: mouse.y % CELL_SIZE - (CELL_SIZE/2)};
+        const snapped = quadrantSnapper(cellQuad, mouse, CELL_SIZE);
+        setEnd(snapped);
 
         // Connection logic will be instantiated at this point, we will check
         // for input/outputs of gates here.
