@@ -72,7 +72,7 @@ img {
     display: flex;
     align-items: center;
     justify-content: center;
-    grid-area: 1 / 2 / 2 / 4;
+    grid-area: 1 / 2 / 2 / 3;
 }
 
 #profile-btn:hover, #components-btn:hover, #project-btn:hover{
@@ -140,6 +140,17 @@ img {
 }
 
 #components-tree {
+    /* RESTORE POINTER EVENTS */
+    pointer-events: auto;
+    background-color:#eeeeee;
+    opacity: 0.9;
+    border: 2px solid #444444;
+    border-left: none;
+    z-index:2;
+    width:100%;
+}
+
+#project-tree {
     /* RESTORE POINTER EVENTS */
     pointer-events: auto;
     background-color:#eeeeee;
