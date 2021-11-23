@@ -34,6 +34,11 @@ const ToolBar = ({setTool}) => {
           settings
         </span>
       </button>
+      <button id="project-btn">
+        <span className="material-icons">
+          save
+        </span>
+      </button>
     </div>
     <div className="canvas-overlay">
         <div className="components-area">

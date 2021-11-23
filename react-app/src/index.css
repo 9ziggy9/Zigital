@@ -68,7 +68,14 @@ img {
     grid-area: 1 / 13 / 2 / 14;
 }
 
-#profile-btn:hover, #components-btn:hover{
+#project-btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    grid-area: 1 / 2 / 2 / 4;
+}
+
+#profile-btn:hover, #components-btn:hover, #project-btn:hover{
     background-color: #444444;
     color: #eeeeee;
 }
@@ -85,7 +92,7 @@ img {
 
 /* USE AS NEEDED */
 /* DIV1 --> .components-btn */
-/* .div2 { grid-area: 1 / 2 / 2 / 3; } */
+/* DIV2 ---> #project-btn */
 /* .div3 { grid-area: 1 / 3 / 2 / 4; } */
 /* .div4 { grid-area: 1 / 4 / 2 / 5; } */
 /* .div5 { grid-area: 1 / 5 / 2 / 6; } */
