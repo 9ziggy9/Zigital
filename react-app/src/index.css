@@ -41,6 +41,7 @@ img {
     grid-row-gap: 0px;
     background-color: #eeeeee;
     grid-area: 1 / 1 / 2 / 2;
+    z-index:3;
 }
 
 .logo {
@@ -148,6 +149,17 @@ img {
     border-left: none;
     z-index:2;
     width:100%;
+    animation-name: slide-in;
+    animation-duration: 0.5s;
+}
+
+@keyframes slide-in {
+    from {
+        margin-top: -100%;
+    }
+    to {
+        margin-top:0%;
+    }
 }
 
 #project-tree {
@@ -159,6 +171,8 @@ img {
     border-left: none;
     z-index:2;
     width:100%;
+    animation-name: slide-in;
+    animation-duration: 0.5s;
 }
 
 #settings-tree {
@@ -170,6 +184,8 @@ img {
     border-left: none;
     z-index:2;
     width:100%;
+    animation-name: slide-in;
+    animation-duration: 0.5s;
 }
 
 #components-tree > ul {
