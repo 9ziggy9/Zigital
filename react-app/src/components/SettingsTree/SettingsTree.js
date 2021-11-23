@@ -1,7 +1,11 @@
+import { useSelector } from 'react-redux';
 import React from 'react';
 import "./SettingsTree.css";
 
 const SettingsTree = () => {
+  const user = useSelector(state => state.session.user);
+  console.log(user);
+
   return (
     <>
       <div className='btn-list'>
@@ -9,7 +13,9 @@ const SettingsTree = () => {
             <span class="material-icons">
                 account_circle
             </span>
-          hello
+            <div className='lil-pad'>
+                {user.email}
+            </div>
         </div>
         <button id="about">
           about
