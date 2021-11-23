@@ -1,6 +1,7 @@
 import React from 'react';
 import ComponentsTree from '../ComponentsTree/ComponentsTree';
 import ProjectTree from '../ProjectTree/ProjectTree';
+import SettingsTree from '../SettingsTree/SettingsTree';
 import "../../index.css"
 
 const ToolBar = ({setTool}) => {
@@ -30,7 +31,8 @@ const ToolBar = ({setTool}) => {
       <div className="logo">
         zigital
       </div>
-      <button id="profile-btn">
+      <button id="profile-btn"
+              onClick={() => toggleMenu('profile-btn','settings-tree')}>
         <span className="material-icons">
           settings
         </span>
@@ -54,6 +56,13 @@ const ToolBar = ({setTool}) => {
             <div id="project-tree" className="hidden">
               <ProjectTree setTool={setTool}/>
             </div>
+        </div>
+    </div>
+    <div className="canvas-overlay">
+        <div className="settings-area">
+          <div id="settings-tree" className="hidden">
+            <SettingsTree />
+          </div>
         </div>
     </div>
     </>

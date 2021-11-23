@@ -161,8 +161,25 @@ img {
     width:100%;
 }
 
+#settings-tree {
+    /* RESTORE POINTER EVENTS */
+    pointer-events: auto;
+    background-color:#eeeeee;
+    opacity: 0.9;
+    border: 2px solid #444444;
+    border-left: none;
+    z-index:2;
+    width:100%;
+}
+
 #components-tree > ul {
     list-style: none;
+}
+
+.settings-area {
+    pointer-events: none;
+    position:relative;
+    grid-area: 1/11/2/14;
 }
 
 /* USE AS NEEDED */
@@ -170,7 +187,7 @@ img {
 /* ----> .components-area */
 
 /* .div2 { grid-area: 1 / 4 / 2 / 11; } */
-/* .div3 { grid-area: 1 / 11 / 2 / 14; } */
+/* .div3 ---> settings-area { grid-area: 1 / 11 / 2 / 14; } */
 /* END CANVAS */
 
 .hidden {
