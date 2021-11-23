@@ -60,6 +60,7 @@ const Home = ({tool}) => {
     canvas.height = window.innerHeight * 2; //target higher resolution screens
     canvas.style.width = `${window.innerWidth}px`;
     canvas.style.height = `${window.innerHeight}px`;
+    console.log(canvas.width, canvas.height);
 
     const context = canvas.getContext('2d');
     context.scale(2,2); //target higher resolution screens
