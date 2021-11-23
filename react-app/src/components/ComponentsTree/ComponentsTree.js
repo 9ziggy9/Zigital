@@ -43,7 +43,7 @@ const ComponentsTree = ({setTool}) => {
         setTool('wire');
         break;
       case 'delete':
-        console.log('OTHER: delete selected')
+        console.log('OTHER: delete selected');
         setTool('delete');
         break;
       default: break;
@@ -97,7 +97,7 @@ const ComponentsTree = ({setTool}) => {
           <img src="logic_gates/WIRE.svg" alt=""/>
           <p>WIRE</p>
         </button>
-        <button id="wire" onClick={() => selectTool('delete')}>
+        <button id="delete" onClick={() => selectTool('delete')}>
           <img src="logic_gates/DELETE.svg" alt=""/>
           <p>DELETE</p>
         </button>
