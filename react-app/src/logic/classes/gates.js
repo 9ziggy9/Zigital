@@ -1,3 +1,15 @@
+// I actually have to put in the svgs here for god damn
+// Heroku to work. Jesus Christ.
+
+import NOT from '../../img/logic_gates/NOT.svg'
+import OR from '../../img/logic_gates/OR.svg'
+import AND from '../../img/logic_gates/AND.svg'
+import XOR from '../../img/logic_gates/XOR.svg'
+import NOR from '../../img/logic_gates/NOR.svg'
+import NAND from '../../img/logic_gates/NAND.svg'
+import XNOR from '../../img/logic_gates/XNOR.svg'
+
+
 export class Gate {
   constructor(x, y, cellSize, ctx, gate) {
     this.x = x;
@@ -12,25 +24,25 @@ export class Gate {
     let img = new Image();
     switch (this.gate) {
       case 'not':
-        img.src = './logic_gates/NOT.svg';
+        img.src = NOT;
         break;
       case 'or':
-        img.src = './logic_gates/OR.svg';
+        img.src = OR;
         break;
       case 'and':
-        img.src = './logic_gates/AND.svg';
+        img.src = AND;
         break;
       case 'xor':
-        img.src = './logic_gates/XOR.svg';
+        img.src = XOR;
         break;
       case 'nor':
-        img.src = './logic_gates/NOR.svg';
+        img.src = NOR;
         break;
       case 'nand':
-        img.src = './logic_gates/NAND.svg';
+        img.src = NAND;
         break;
       case 'xnor':
-        img.src = './logic_gates/XNOR.svg';
+        img.src = XNOR;
         break;
       default: break;
     }
