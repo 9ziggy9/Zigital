@@ -1,6 +1,4 @@
 from app.models import db, Project
-import json
-
 
 # Adds a demo user, you can add other users here if you want
 def seed_projects():
@@ -19,7 +17,8 @@ def seed_projects():
 
     project1 = Project(user_id=1,
                        title='project1',
-                       description='hello world 1')
+                       description='hello world 1',
+                       state='{"hello":"world", "world":{"hello": "world"}}')
     db.session.add(project1);
     db.session.commit();
 
