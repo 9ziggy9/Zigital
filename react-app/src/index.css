@@ -156,9 +156,11 @@ img {
 @keyframes slide-in {
     from {
         margin-top: -100%;
+        opacity: 0;
     }
     to {
         margin-top:0%;
+        opacity: 0.9;
     }
 }
 

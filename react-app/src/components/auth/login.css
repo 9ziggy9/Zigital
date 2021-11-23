@@ -13,6 +13,8 @@
     background-color:#444444;
     opacity:0.8;
     grid-area: 1 / 1 / 2 / 2;
+    animation-name: slide-in-r;
+    animation-duration: 1s;
 }
 
 .login-center {
@@ -39,6 +41,28 @@
 
 .login-form-field button {
     width:100%;
+}
+
+@keyframes slide-in-l {
+    from {
+        margin-left: 100%;
+        opacity: 0;
+    }
+    to {
+        margin-left:0%;
+        opacity: 0.8;
+    }
+}
+
+@keyframes slide-in-r {
+    from {
+        margin-right: 100%;
+        opacity: 0;
+    }
+    to {
+        margin-right:0%;
+        opacity: 0.8;
+    }
 }
 
 .login-text {
@@ -69,4 +93,6 @@
     opacity:0.8;
     background-color:#444444;
     grid-area: 1 / 3 / 2 / 4;
+    animation-name: slide-in-r;
+    animation-duration: 1s;
 }
