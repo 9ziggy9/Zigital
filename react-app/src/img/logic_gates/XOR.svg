@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg
+   width="100"
+   height="50"
+   version="1.1"
+   id="svg80"
+   sodipodi:docname="XOR.svg"
+   inkscape:version="1.1.1 (3bf5ae0d25, 2021-09-20, custom)"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:svg="http://www.w3.org/2000/svg">
+  <defs
+     id="defs84" />
+  <sodipodi:namedview
+     id="namedview82"
+     pagecolor="#ffffff"
+     bordercolor="#666666"
+     borderopacity="1.0"
+     inkscape:pageshadow="2"
+     inkscape:pageopacity="0.0"
+     inkscape:pagecheckerboard="0"
+     showgrid="false"
+     inkscape:zoom="12.45"
+     inkscape:cx="71.927711"
+     inkscape:cy="25.02008"
+     inkscape:window-width="928"
+     inkscape:window-height="1010"
+     inkscape:window-x="2889"
+     inkscape:window-y="47"
+     inkscape:window-maximized="1"
+     inkscape:current-layer="svg80" />
+  <path
+     fill="none"
+     stroke="#000000"
+     stroke-width="2"
+     d="m 70,25 22.091119,-0.04596 M 30.38572,15 7.400422,15.098995 M 31.3621,35 8.1595719,34.957442"
+     id="path72"
+     sodipodi:nodetypes="cccccc" />
+  <g
+     fill-rule="evenodd"
+     id="g78">
+    <path
+       d="M24.25 42C22.65263 44.6444 22 45 22 45h-3.65625l2-2.4375S26 35.56245 26 25 20.34375 7.4375 20.34375 7.4375l-2-2.4375H22c.78125.9375 1.42188 1.65625 2.21875 3C26.09147 11.09981 29 17.02665 29 25c0 7.95065-2.8967 13.87942-4.75 17z"
+       id="path74" />
+    <path
+       d="M24.09375 5l2 2.4375S31.75 14.43755 31.75 25s-5.65625 17.5625-5.65625 17.5625l-2 2.4375H41.25c2.40808 0 7.6897.02451 13.625-2.40625s12.53654-7.34327 17.6875-16.875L71.25 25l1.3125-.71875C62.25939 5.21559 46.00657 5 41.25 5H24.09375zm5.875 3H41.25c4.68417 0 18.28685-.1302 27.96875 17C64.45196 33.42907 58.69747 37.68391 53.5 39.8125 48.13934 42.00792 43.65808 42 41.25 42H30c1.87359-3.10843 4.75-9.04935 4.75-17 0-7.97335-2.90853-13.90019-4.78125-17z"
+       id="path76" />
+  </g>
+  <ellipse
+     style="fill:#000000;fill-opacity:1;fill-rule:evenodd"
+     id="path177"
+     cx="11.205349"
+     cy="35.035759"
+     rx="3.9862022"
+     ry="4.0070605" />
+  <ellipse
+     style="fill:#000000;fill-opacity:1;fill-rule:evenodd"
+     id="path177-3"
+     cx="11.005075"
+     cy="14.940382"
+     rx="3.9862022"
+     ry="4.0763268" />
+  <ellipse
+     style="fill:#000000;fill-opacity:1;fill-rule:evenodd"
+     id="path177-6"
+     cx="92.784256"
+     cy="24.763906"
+     rx="3.9862022"
+     ry="4.0763268" />
+</svg>

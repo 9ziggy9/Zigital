@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg
+   width="100"
+   height="50"
+   version="1.1"
+   id="svg2458"
+   sodipodi:docname="NOT.svg"
+   inkscape:version="1.1.1 (3bf5ae0d25, 2021-09-20, custom)"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:svg="http://www.w3.org/2000/svg">
+  <defs
+     id="defs2462" />
+  <sodipodi:namedview
+     id="namedview2460"
+     pagecolor="#ffffff"
+     bordercolor="#666666"
+     borderopacity="1.0"
+     inkscape:pageshadow="2"
+     inkscape:pageopacity="0.0"
+     inkscape:pagecheckerboard="0"
+     showgrid="false"
+     inkscape:zoom="12.45"
+     inkscape:cx="83.73494"
+     inkscape:cy="25.02008"
+     inkscape:window-width="928"
+     inkscape:window-height="1010"
+     inkscape:window-x="2889"
+     inkscape:window-y="47"
+     inkscape:window-maximized="1"
+     inkscape:current-layer="svg2458" />
+  <path
+     fill="none"
+     stroke="#000000"
+     stroke-width="1.92627"
+     d="m 78.470664,24.454655 16.753385,0.04537 m -65.019489,-0.04537 -19.370937,0.08032"
+     id="path2452"
+     sodipodi:nodetypes="cccc" />
+  <path
+     d="M 30.132587,4.8193075 V 44.090003 L 32.209351,43.158899 71.728069,25.632228 V 23.277082 L 32.209351,5.7504119 Z M 33.021998,9.0366626 67.815325,24.454655 33.021998,39.872648 Z"
+     style="stroke-width:0.91871;marker:none"
+     id="path2454" />
+  <path
+     fill="none"
+     stroke="#000000"
+     stroke-width="2.88941"
+     d="m 78.319539,24.454655 a 3.8525485,3.5053343 0 1 1 -7.705097,0 3.8525485,3.5053343 0 1 1 7.705097,0 z"
+     style="marker:none"
+     id="path2456" />
+  <ellipse
+     style="fill:#000000;fill-opacity:1;fill-rule:evenodd"
+     id="path177-3-6"
+     cx="13.237323"
+     cy="24.539982"
+     rx="3.9862022"
+     ry="4.0763268" />
+  <ellipse
+     style="fill:#000000;fill-opacity:1;fill-rule:evenodd;stroke-width:1.03076"
+     id="path177-3-6-6"
+     cx="93.089798"
+     cy="24.51512"
+     rx="4.2352061"
+     ry="4.0763268" />
+</svg>
