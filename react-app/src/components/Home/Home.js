@@ -9,7 +9,10 @@ import {
   handleGateHighlight,
   handleWireHighlight,
   handleGates,
+  handleBulbs,
+  handlePower,
   quadrantSnapper,
+  generateComponent,
 } from '../../logic/grid';
 import {Gate} from '../../logic/classes/gates';
 import {toolLabels, gateLabels} from '../ComponentsTree/ComponentsTree';
@@ -19,9 +22,11 @@ import "../../index.css";
 const CELL_SIZE = 40;
 const GRID = []; // general grid, used in bg rendering process
 const CIRCUIT_BOARD = []; // contains drawable gate elements
-const WIRE_SEGMENTS = []; // contains drawable wire segments
 const WIRE_BOARD = []; // contains cells in which wires are instantiated
+let WIRE_SEGMENTS = []; // contains drawable wire segments
 let GATES = []; // set of instantiated gates
+let BULBS = [];
+let POWER = [];
 let OCCUPIED; // occupation array for collisions
 
 const Home = ({tool}) => {
@@ -110,27 +115,26 @@ const Home = ({tool}) => {
 
         ctx.beginPath();
         ctx.strokeStyle = 'black';
+        ctx.setLineDash([0,0]);
         ctx.moveTo(start.x, start.y);
         ctx.lineTo(endX, endY);
         ctx.stroke();
-      } else {
-        handleWireHighlight(WIRE_BOARD, mouse);
       }
+      handleWireHighlight(WIRE_BOARD, mouse, OCCUPIED, CELL_SIZE);
     }
 
-    handleGates(GATES, tool);
+    handleGates(GATES);
+    handleBulbs(BULBS);
+    handlePower(POWER);
+
     WIRE_SEGMENTS.forEach(w => {
       ctx.beginPath();
       ctx.strokeStyle = 'black';
+      ctx.setLineDash([0,0]);
       ctx.moveTo(w.start.x, w.start.y);
       ctx.lineTo(w.end.x, w.end.y);
       ctx.stroke();
     })
-
-    // CIRCUIT_BOARD.forEach(e => {
-    //   ctx.strokeStyle = 'red';
-    //   ctx.strokeRect(e.x, e.y, e.width, e.height);
-    // })
 
     // Using this as a performance indication
     ctx.beginPath()
@@ -177,6 +181,7 @@ const Home = ({tool}) => {
     const mouse = mouseRef.current;
     const context = contextRef.current;
     let gridPositionX, gridPositionY;
+    console.log(WIRE_SEGMENTS);
 
     // // // // // // // // // // //
     // GATE STATE LOGIC HANDLING //
@@ -184,21 +189,15 @@ const Home = ({tool}) => {
     // // // // // // // // // //
 
     if (gateLabels.has(tool)) {
-      gridPositionX = mouse.x - (mouse.x % (CELL_SIZE * 2));
-      gridPositionY = mouse.y - (mouse.y % (CELL_SIZE * 2));
-      GATES.push(new Gate(gridPositionX, gridPositionY, CELL_SIZE, context, tool));
-      // INPUT JUNCTIONS
-      OCCUPIED[gridPositionY/CELL_SIZE][gridPositionX/CELL_SIZE] = 'i';
-      OCCUPIED[(gridPositionY/CELL_SIZE) + 1][gridPositionX/CELL_SIZE] = 'i';
-      // GATE ITSELF (expanded to deter path finding along edges)
-      // Primary cells
-      OCCUPIED[gridPositionY/CELL_SIZE][(gridPositionX/CELL_SIZE) + 1] = 1;
-      OCCUPIED[gridPositionY/CELL_SIZE][(gridPositionX/CELL_SIZE) + 2] = 1;
-      OCCUPIED[(gridPositionY/CELL_SIZE)+1][(gridPositionX/CELL_SIZE) + 1] = 1;
-      OCCUPIED[(gridPositionY/CELL_SIZE)+1][(gridPositionX/CELL_SIZE) + 2] = 1;
-      // OUTPUT JUNCTIONS
-      OCCUPIED[gridPositionY/CELL_SIZE][(gridPositionX/CELL_SIZE)+3] = 'o';
-      OCCUPIED[(gridPositionY/CELL_SIZE) + 1][(gridPositionX/CELL_SIZE)+3] = 'o';
+      generateComponent(GATES, OCCUPIED, mouse, CELL_SIZE, context, tool)
+    }
+
+    if (tool === 'power') {
+      generateComponent(POWER, OCCUPIED, mouse, CELL_SIZE, context, tool)
+    }
+
+    if (tool === 'bulb') {
+      generateComponent(BULBS, OCCUPIED, mouse, CELL_SIZE, context, tool)
     }
 
     // // // // // // // // // // //
@@ -237,6 +236,15 @@ const Home = ({tool}) => {
     }
     if (tool === 'delete') {
       GATES = GATES.filter(G =>
+        !(mouse.x - G.x <= G.width && mouse.x - G.x > 0 &&
+          mouse.y - G.y <= G.height && mouse.y - G.y > 0 ));
+      WIRE_SEGMENTS = WIRE_SEGMENTS.filter(W =>
+        !(mouse.x < Math.abs(W.end.x - W.start.x) &&
+          mouse.y < Math.abs(W.end.y - W.start.x)));
+      BULBS = BULBS.filter(G =>
+        !(mouse.x - G.x <= G.width && mouse.x - G.x > 0 &&
+          mouse.y - G.y <= G.height && mouse.y - G.y > 0 ));
+      POWER = POWER.filter(G =>
         !(mouse.x - G.x <= G.width && mouse.x - G.x > 0 &&
           mouse.y - G.y <= G.height && mouse.y - G.y > 0 ));
     }
