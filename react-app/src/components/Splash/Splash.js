@@ -9,7 +9,7 @@ const Splash = () => {
       <div className='navbar'>
         <button id='home-btn' className='home'>
             <NavLink to='/home' exact={true} activeClassName='active'>
-              Zigital
+              zigital
             </NavLink>
         </button>
         <button id='login-btn'>

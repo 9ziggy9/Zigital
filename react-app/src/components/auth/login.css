@@ -24,6 +24,21 @@
 }
 
 .login-form-field {
+    display:flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.login-form-field input {
+    background-color: #444444;
+    opacity:0.7;
+    color: #eeeeee;
+    width: 97%;
+}
+
+.login-form-field button {
+    width:100%;
 }
 
 .login-text {
@@ -43,6 +58,10 @@
     color:#444444;
     font-family: 'VT323', monospace;
     font-size: 90px;
+}
+
+.subtext {
+    font-size: 13px;
 }
 
 .column3 {

@@ -40,40 +40,45 @@ const LoginForm = () => {
             zigital
           </h2>
           <p>
-            Welcome to the zigital, a primitive digital logic simulator.
+            A primitive digital logic simulator
           </p>
           <p>
             Please login or select demo to proceed.
           </p>
         </div>
-        <form onSubmit={onLogin} className="login-form-field">
-          <div>
-            {errors.map((error, ind) => (
-              <div key={ind}>{error}</div>
-            ))}
-          </div>
-          <div>
-            <label htmlFor='email'>Email</label>
-            <input
-              name='email'
-              type='text'
-              placeholder='Email'
-              value={email}
-              onChange={updateEmail}
-            />
-          </div>
-          <div>
-            <label htmlFor='password'>Password</label>
-            <input
-              name='password'
-              type='password'
-              placeholder='Password'
-              value={password}
-              onChange={updatePassword}
-            />
-            <button type='submit'>Login</button>
-          </div>
-        </form>
+        <div className="login-form-field">
+          <form onSubmit={onLogin}>
+              <div>
+                {errors.map((error, ind) => (
+                  <div key={ind}>{error}</div>
+                ))}
+              </div>
+              <div>
+                <input
+                  name='email'
+                  type='text'
+                  placeholder='Email'
+                  value={email}
+                  onChange={updateEmail}
+                />
+              </div>
+              <div>
+                <input
+                  name='password'
+                  type='password'
+                  placeholder='Password'
+                  value={password}
+                  onChange={updatePassword}
+                />
+              </div>
+                <button type='submit'>login</button>
+              <div className='login-text subtext'>
+                <p>
+                  See navbar to sign up for a free account.
+                </p>
+              </div>
+          </form>
+        </div>
       </div>
       <div className="column3"></div>
     </div>
