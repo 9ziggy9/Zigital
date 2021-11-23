@@ -93,11 +93,21 @@ const Home = ({tool}) => {
       handleGateHighlight(CIRCUIT_BOARD, mouse);
     }
     if (tool === "wire") {
+      let endX, endY;
       if (isWiring) {
-        const endX = mouseRef.current.x - mouseRef.current.x % CELL_SIZE
-              + CELL_SIZE/2;
-        const endY = mouseRef.current.y - mouseRef.current.y % CELL_SIZE
-              + CELL_SIZE/2;
+        if (!(mouse.y % CELL_SIZE < (CELL_SIZE / 2)) ||
+            !(mouse.x % CELL_SIZE < (CELL_SIZE / 2)))
+        {
+          endX = mouse.x - mouse.x % CELL_SIZE
+                + CELL_SIZE;
+          endY = mouse.y - mouse.y % CELL_SIZE
+                + CELL_SIZE;
+        } else {
+          endX = mouseRef.current.x - mouseRef.current.x % CELL_SIZE
+                + CELL_SIZE/2;
+          endY = mouseRef.current.y - mouseRef.current.y % CELL_SIZE
+                + CELL_SIZE/2;
+        }
         ctx.beginPath();
         ctx.strokeStyle = 'black';
         ctx.moveTo(start.x, start.y);
@@ -183,12 +193,28 @@ const Home = ({tool}) => {
     }
     if (tool === 'wire') {
       if (!isWiring) {
-        setStart({x:mouse.x - (mouse.x % CELL_SIZE) + CELL_SIZE/2,
-                  y:mouse.y - (mouse.y % CELL_SIZE) + CELL_SIZE/2});
+        // TODO: Found this condition through experimentation, please return
+        // and prove that it works, kind of surprising.
+        if (!(mouse.y % CELL_SIZE < (CELL_SIZE / 2)) ||
+            !(mouse.x % CELL_SIZE < (CELL_SIZE / 2)))
+        {
+          setStart({x:mouse.x - (mouse.x % CELL_SIZE) + CELL_SIZE,
+                    y:mouse.y - (mouse.y % CELL_SIZE) + CELL_SIZE});
+        } else {
+          setStart({x:mouse.x - (mouse.x % CELL_SIZE) + CELL_SIZE/2,
+                    y:mouse.y - (mouse.y % CELL_SIZE) + CELL_SIZE/2});
+        }
         setIsWiring(true);
       } else {
-        setEnd({x:mouse.x - (mouse.x % CELL_SIZE) + CELL_SIZE/2,
-                y:mouse.y - (mouse.y % CELL_SIZE) + CELL_SIZE/2});
+        if (!(mouse.y % CELL_SIZE < (CELL_SIZE / 2)) ||
+            !(mouse.x % CELL_SIZE < (CELL_SIZE / 2)))
+        {
+          setEnd({x:mouse.x - (mouse.x % CELL_SIZE) + CELL_SIZE,
+                    y:mouse.y - (mouse.y % CELL_SIZE) + CELL_SIZE});
+        } else {
+          setEnd({x:mouse.x - (mouse.x % CELL_SIZE) + CELL_SIZE/2,
+                    y:mouse.y - (mouse.y % CELL_SIZE) + CELL_SIZE/2});
+        }
         setIsWiring(false);
       }
     }
