@@ -1,0 +1,76 @@
+.navbar > button {
+    border: none;
+}
+
+.navbar {
+    display: grid;
+    grid-template-columns: repeat(13, 1fr);
+    grid-template-rows: 40px;
+    grid-column-gap: 0px;
+    grid-row-gap: 0px;
+    background-color: #eeeeee;
+    grid-area: 1 / 1 / 2 / 2;
+}
+
+.home {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #444444;
+    font-family: 'VT323', monospace;
+    font-size: 28px;
+    grid-area: 1 / 7 / 2 / 8;
+}
+
+#home-btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    grid-area: 1 / 1 / 2 / 2;
+}
+
+
+#signup-btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    grid-area: 1 / 13 / 2 / 14;
+}
+
+#login-btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    grid-area: 1 / 12 / 2 / 13;
+}
+
+#signup-btn:hover, #home-btn:hover, #login-btn:hover{
+    background-color: #444444;
+    color: #eeeeee;
+}
+
+.unhighlight {
+    color: #444444;
+    background-color: #eeeeee;
+}
+
+.highlight {
+    background-color: #444444;
+    color: #eeeeee;
+}
+
+/* USE AS NEEDED */
+/* DIV1 --> #home-btn */
+/* .div2 { grid-area: 1 / 2 / 2 / 3; } */
+/* .div3 { grid-area: 1 / 3 / 2 / 4; } */
+/* .div4 { grid-area: 1 / 4 / 2 / 5; } */
+/* .div5 { grid-area: 1 / 5 / 2 / 6; } */
+/* .div6 { grid-area: 1 / 6 / 2 / 7; } */
+/* DIV7 --> .logo */
+/* .div8 { grid-area: 1 / 8 / 2 / 9; } */
+/* .div9 { grid-area: 1 / 9 / 2 / 10; } */
+/* .div10 { grid-area: 1 / 10 / 2 / 11; } */
+/* .div11 { grid-area: 1 / 11 / 2 / 12; } */
+/* DIV12 --> #login-btn */
+/* DIV13 --> #signup-btn */
+/* END TOOLBAR */
