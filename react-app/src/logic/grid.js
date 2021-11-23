@@ -82,8 +82,8 @@ export function generateComponent(layer, occupied, mouse,
   if (gateLabels.has(tool)) {
     layer.push(new Gate(gridPositionX, gridPositionY, size, ctx, tool));
     // INPUT JUNCTIONS
-    occupied[gridPositionY/size][gridPositionX/size] = 'i';
-    occupied[(gridPositionY/size) + 1][gridPositionX/size] = 'i';
+    occupied[gridPositionY/size][gridPositionX/size] = 2;
+    occupied[(gridPositionY/size) + 1][gridPositionX/size] = 2;
     // GATE ITSELF (expanded to deter path finding along edges)
     // Primary cells
     occupied[gridPositionY/size][(gridPositionX/size) + 1] = 1;
@@ -91,22 +91,22 @@ export function generateComponent(layer, occupied, mouse,
     occupied[(gridPositionY/size)+1][(gridPositionX/size) + 1] = 1;
     occupied[(gridPositionY/size)+1][(gridPositionX/size) + 2] = 1;
     // OUTPUT JUNCTIONS
-    occupied[gridPositionY/size][(gridPositionX/size)+3] = 'o';
-    occupied[(gridPositionY/size) + 1][(gridPositionX/size)+3] = 'o';
+    occupied[gridPositionY/size][(gridPositionX/size)+3] = 3;
+    occupied[(gridPositionY/size) + 1][(gridPositionX/size)+3] = 3;
   } else if (tool === 'bulb') {
     layer.push(new Bulb(gridPositionX, gridPositionY, size, ctx));
-    occupied[gridPositionY/size][gridPositionX/size] = 'i';
+    occupied[gridPositionY/size][gridPositionX/size] = 2;
     occupied[gridPositionY/size][(gridPositionX/size) + 1] = 1;
     occupied[gridPositionY/size][(gridPositionX/size) + 2] = 1;
     occupied[(gridPositionY/size)+1][(gridPositionX/size) + 1] = 1;
     occupied[(gridPositionY/size)+1][(gridPositionX/size) + 2] = 1;
-    occupied[gridPositionY/size][(gridPositionX/size)+3] = 'o';
+    occupied[gridPositionY/size][(gridPositionX/size)+3] = 3;
   } else if (tool === 'power') {
     layer.push(new Power(gridPositionX, gridPositionY, size, ctx));
     occupied[gridPositionY/size][(gridPositionX/size) + 1] = 1;
     occupied[gridPositionY/size][(gridPositionX/size) + 2] = 1;
     occupied[(gridPositionY/size)+1][(gridPositionX/size) + 1] = 1;
     occupied[(gridPositionY/size)+1][(gridPositionX/size) + 2] = 1;
-    occupied[gridPositionY/size][(gridPositionX/size)+3] = 'o';
+    occupied[gridPositionY/size][(gridPositionX/size)+3] = 3;
   }
 }

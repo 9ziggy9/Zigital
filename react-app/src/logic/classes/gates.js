@@ -12,25 +12,25 @@ export class Gate {
     let img = new Image();
     switch (this.gate) {
       case 'not':
-        img.src = 'logic_gates/NOT.svg';
+        img.src = './logic_gates/NOT.svg';
         break;
       case 'or':
-        img.src = 'logic_gates/OR.svg';
+        img.src = './logic_gates/OR.svg';
         break;
       case 'and':
-        img.src = 'logic_gates/AND.svg';
+        img.src = './logic_gates/AND.svg';
         break;
       case 'xor':
-        img.src = 'logic_gates/XOR.svg';
+        img.src = './logic_gates/XOR.svg';
         break;
       case 'nor':
-        img.src = 'logic_gates/NOR.svg';
+        img.src = './logic_gates/NOR.svg';
         break;
       case 'nand':
-        img.src = 'logic_gates/NAND.svg';
+        img.src = './logic_gates/NAND.svg';
         break;
       case 'xnor':
-        img.src = 'logic_gates/XNOR.svg';
+        img.src = './logic_gates/XNOR.svg';
         break;
       default: break;
     }

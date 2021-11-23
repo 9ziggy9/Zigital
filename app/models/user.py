@@ -28,3 +28,5 @@ class User(db.Model, UserMixin):
             'username': self.username,
             'email': self.email
         }
+
+    project = db.relationship("Project", back_populates="user");

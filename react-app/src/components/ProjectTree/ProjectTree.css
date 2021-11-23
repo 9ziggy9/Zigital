@@ -1,0 +1,29 @@
+.btn-list {
+    padding: 4px;
+    display: flex-column;
+    align-items: center;
+    justify-content: center;
+}
+
+#save, #load, #delete {
+    height:40px;
+    width: 100%;
+    font-family: 'VT323', monospace;
+    font-weight: bold;
+    font-size:24px;
+    display: flex;
+    justify-content: space-evenly;
+    align-items: center;
+}
+
+.btn-list > button:hover {
+    background-color: #5f8700;
+}
+
+.g-highlight {
+    background-color: #5f8700;
+}
+
+img {
+    height: 100px;
+}
