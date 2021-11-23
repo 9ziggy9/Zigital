@@ -51,7 +51,16 @@ function App() {
           </div>
         </Route>
         <Route path='/sign-up' exact={true}>
-          <SignUpForm />
+          <div className="app-container">
+            <Splash />
+              <div className='splash-area'>
+                <div className='splash-overlay'>
+                  <div className='pop-up'>
+                    <SignUpForm />
+                  </div>
+                </div>
+              </div>
+          </div>
         </Route>
         <ProtectedRoute path='/users' exact={true} >
           <UsersList />
