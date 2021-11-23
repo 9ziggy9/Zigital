@@ -8,7 +8,7 @@ import {
   handleGrid,
   handleGateHighlight,
   handleWireHighlight,
-  handleGates
+  handleGates,
 } from '../../logic/grid';
 import {Gate} from '../../logic/classes/gates';
 import {toolLabels, gateLabels} from '../ComponentsTree/ComponentsTree';
@@ -20,6 +20,7 @@ const GRID = [];
 const CIRCUIT_BOARD = [];
 const WIRE_BOARD = [];
 const GATES = [];
+const WIRE_SEGMENTS = [];
 let OCCUPIED;
 
 const Home = ({tool}) => {
@@ -34,6 +35,8 @@ const Home = ({tool}) => {
     height: 0.1,
   });
   const [isWiring, setIsWiring] = useState(false);
+  const [start, setStart] = useState({x:null, y:null});
+  const [end, setEnd] = useState({x:null, y:null});
 
   const drawBackground = (ctx) => {
     ctx.fillStyle = '#5fafd7';
@@ -74,7 +77,7 @@ const Home = ({tool}) => {
 
     // Initialize circuit board
     createGrid(contextRef.current, CELL_SIZE*2, CIRCUIT_BOARD, 4);
-    createGrid(contextRef.current, CELL_SIZE, WIRE_BOARD, 4);
+    createGrid(contextRef.current, CELL_SIZE/2, WIRE_BOARD, 4);
     OCCUPIED = [...Array(Math.floor(canvasRef.current.width / (CELL_SIZE * 2)))]
           .map(e => Array(Math.floor(canvasRef.current.height / (CELL_SIZE * 2)))
           .fill(0));
@@ -90,20 +93,40 @@ const Home = ({tool}) => {
       handleGateHighlight(CIRCUIT_BOARD, mouse);
     }
     if (tool === "wire") {
-      handleWireHighlight(WIRE_BOARD, mouse);
+      let endX, endY;
+      if (isWiring) {
+        if (!(mouse.y % CELL_SIZE < (CELL_SIZE / 2)) ||
+            !(mouse.x % CELL_SIZE < (CELL_SIZE / 2)))
+        {
+          endX = mouse.x - mouse.x % CELL_SIZE
+                + CELL_SIZE;
+          endY = mouse.y - mouse.y % CELL_SIZE
+                + CELL_SIZE;
+        } else {
+          endX = mouseRef.current.x - mouseRef.current.x % CELL_SIZE
+                + CELL_SIZE/2;
+          endY = mouseRef.current.y - mouseRef.current.y % CELL_SIZE
+                + CELL_SIZE/2;
+        }
+        ctx.beginPath();
+        ctx.strokeStyle = 'black';
+        ctx.moveTo(start.x, start.y);
+        ctx.lineTo(endX, endY);
+        ctx.stroke();
+      } else {
+        handleWireHighlight(WIRE_BOARD, mouse);
+      }
     }
 
     handleGates(GATES, tool);
+    WIRE_SEGMENTS.forEach(w => {
+      ctx.beginPath();
+      ctx.strokeStyle = 'black';
+      ctx.moveTo(w.start.x, w.start.y);
+      ctx.lineTo(w.end.x, w.end.y);
+      ctx.stroke();
+    })
 
-    for (let y = 0; y < OCCUPIED[0].length; y++) {
-      for (let x= 0; x < OCCUPIED.length; x++) {
-        ctx.lineWidth=4;
-        ctx.strokeStyle="green";
-        ctx.strokeRect(x*CELL_SIZE,y*CELL_SIZE,CELL_SIZE,CELL_SIZE);
-        if (OCCUPIED[y][x]===1)
-          ctx.fillRect(x*CELL_SIZE,y*CELL_SIZE,CELL_SIZE,CELL_SIZE);
-      }
-    }
     // CIRCUIT_BOARD.forEach(e => {
     //   ctx.strokeStyle = 'red';
     //   ctx.strokeRect(e.x, e.y, e.width, e.height);
@@ -142,6 +165,10 @@ const Home = ({tool}) => {
     }
   }, [draw])
 
+  useEffect(() => {
+    WIRE_SEGMENTS.push({start,end});
+  },[end]);
+
   const handleClick = ({nativeEvent}) => {
     const mouse = mouseRef.current;
     const context = contextRef.current;
@@ -161,13 +188,35 @@ const Home = ({tool}) => {
       OCCUPIED[(gridPositionY/CELL_SIZE)+1][(gridPositionX/CELL_SIZE) + 1] = 1;
       OCCUPIED[(gridPositionY/CELL_SIZE)+1][(gridPositionX/CELL_SIZE) + 2] = 1;
       // OUTPUT JUNCTIONS
-      OCCUPIED[gridPositionY/CELL_SIZE][(gridPositionX/CELL_SIZE)+3] = 'i';
-      OCCUPIED[(gridPositionY/CELL_SIZE) + 1][(gridPositionX/CELL_SIZE)+3] = 'i';
+      OCCUPIED[gridPositionY/CELL_SIZE][(gridPositionX/CELL_SIZE)+3] = 'o';
+      OCCUPIED[(gridPositionY/CELL_SIZE) + 1][(gridPositionX/CELL_SIZE)+3] = 'o';
     }
     if (tool === 'wire') {
-      gridPositionX = mouse.x - (mouse.x % CELL_SIZE);
-      gridPositionY = mouse.y - (mouse.y % CELL_SIZE);
-      OCCUPIED[gridPositionY/CELL_SIZE][gridPositionX/CELL_SIZE] = 1;
+      if (!isWiring) {
+        // TODO: Found this condition through experimentation, please return
+        // and prove that it works, kind of surprising.
+        if (!(mouse.y % CELL_SIZE < (CELL_SIZE / 2)) ||
+            !(mouse.x % CELL_SIZE < (CELL_SIZE / 2)))
+        {
+          setStart({x:mouse.x - (mouse.x % CELL_SIZE) + CELL_SIZE,
+                    y:mouse.y - (mouse.y % CELL_SIZE) + CELL_SIZE});
+        } else {
+          setStart({x:mouse.x - (mouse.x % CELL_SIZE) + CELL_SIZE/2,
+                    y:mouse.y - (mouse.y % CELL_SIZE) + CELL_SIZE/2});
+        }
+        setIsWiring(true);
+      } else {
+        if (!(mouse.y % CELL_SIZE < (CELL_SIZE / 2)) ||
+            !(mouse.x % CELL_SIZE < (CELL_SIZE / 2)))
+        {
+          setEnd({x:mouse.x - (mouse.x % CELL_SIZE) + CELL_SIZE,
+                    y:mouse.y - (mouse.y % CELL_SIZE) + CELL_SIZE});
+        } else {
+          setEnd({x:mouse.x - (mouse.x % CELL_SIZE) + CELL_SIZE/2,
+                    y:mouse.y - (mouse.y % CELL_SIZE) + CELL_SIZE/2});
+        }
+        setIsWiring(false);
+      }
     }
   }
 
