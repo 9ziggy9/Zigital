@@ -24,9 +24,13 @@ export class Cell {
     }
   }
 
-  drawWireCell(mouse, color='white'){
+  drawWireCell(mouse, occupied, size){
     if (collision(this, mouse)) {
-      this.ctx.strokeStyle = color;
+      if (occupied[Math.floor(this.y/size)]
+          [Math.floor(this.x/size)] === 'i')
+        this.ctx.strokeStyle = '#d7af5f';
+      else
+        this.ctx.strokeStyle = 'white';
       this.ctx.setLineDash([10,10]);
       this.ctx.lineWidth = this.lw;
       this.ctx.strokeRect(this.x, this.y, this.width*2, this.height*2);

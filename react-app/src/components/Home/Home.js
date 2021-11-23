@@ -115,7 +115,7 @@ const Home = ({tool}) => {
         ctx.lineTo(endX, endY);
         ctx.stroke();
       }
-      handleWireHighlight(WIRE_BOARD, mouse);
+      handleWireHighlight(WIRE_BOARD, mouse, OCCUPIED, CELL_SIZE);
     }
 
     handleGates(GATES, tool);

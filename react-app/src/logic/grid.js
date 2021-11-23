@@ -30,9 +30,9 @@ export function handleGateHighlight(grid, mouse, color='white') {
   }
 }
 
-export function handleWireHighlight(grid, mouse, color='white') {
+export function handleWireHighlight(grid, mouse, occupied, size) {
   for (let i = 0; i < grid.length; i++) {
-    grid[i].drawWireCell(mouse, color);
+    grid[i].drawWireCell(mouse, occupied, size);
   }
 }
 
