@@ -180,8 +180,6 @@ const Home = ({tool}) => {
   const handleClick = ({nativeEvent}) => {
     const mouse = mouseRef.current;
     const context = contextRef.current;
-    let gridPositionX, gridPositionY;
-    console.log(WIRE_SEGMENTS);
 
     // // // // // // // // // // //
     // GATE STATE LOGIC HANDLING //
@@ -238,9 +236,10 @@ const Home = ({tool}) => {
       GATES = GATES.filter(G =>
         !(mouse.x - G.x <= G.width && mouse.x - G.x > 0 &&
           mouse.y - G.y <= G.height && mouse.y - G.y > 0 ));
-      WIRE_SEGMENTS = WIRE_SEGMENTS.filter(W =>
-        !(mouse.x < Math.abs(W.end.x - W.start.x) &&
-          mouse.y < Math.abs(W.end.y - W.start.x)));
+      WIRE_SEGMENTS = WIRE_SEGMENTS.filter(W => {
+        //need to implement this, for now, just clear
+        return false;
+      });
       BULBS = BULBS.filter(G =>
         !(mouse.x - G.x <= G.width && mouse.x - G.x > 0 &&
           mouse.y - G.y <= G.height && mouse.y - G.y > 0 ));
