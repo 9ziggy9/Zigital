@@ -19,9 +19,9 @@ const CELL_SIZE = 40;
 const GRID = [];
 const CIRCUIT_BOARD = [];
 const WIRE_BOARD = [];
-const GATES = [];
 const WIRE_SEGMENTS = [];
 let OCCUPIED;
+let GATES = [];
 
 const Home = ({tool}) => {
   const backgroundRef = useRef(null);
@@ -217,6 +217,12 @@ const Home = ({tool}) => {
         }
         setIsWiring(false);
       }
+    }
+    if (tool === 'delete') {
+      GATES = GATES.filter(G =>
+        !(mouse.x - G.x <= G.width && mouse.x - G.x > 0 &&
+          mouse.y - G.y <= G.height && mouse.y - G.y > 0 ));
+      console.log(GATES);
     }
   }
 
