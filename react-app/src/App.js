@@ -1,4 +1,5 @@
 import "./index.css";
+import "./components/Splash/Splash.css";
 import React, { useState, useEffect } from 'react';
 import { BrowserRouter, Route, Switch } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
@@ -38,13 +39,22 @@ function App() {
     <BrowserRouter>
       <Switch>
         <Route path='/login' exact={true}>
-          <LoginForm />
+          <div className="app-container">
+            <Splash />
+              <div className='splash-area'>
+                <div className='splash-overlay'>
+                  <div className='pop-up'>
+                    <LoginForm />
+                  </div>
+                </div>
+              </div>
+          </div>
         </Route>
         <Route path='/sign-up' exact={true}>
           <SignUpForm />
         </Route>
         <ProtectedRoute path='/users' exact={true} >
-          <UsersList/>
+          <UsersList />
         </ProtectedRoute>
         <ProtectedRoute path='/users/:userId' exact={true} >
           <User />
@@ -58,13 +68,6 @@ function App() {
           <div className="app-container">
             <ToolBar setTool={setTool}/>
             <Home tool={tool}/>
-          </div>
-        </ProtectedRoute>
-        {/* Development route only */}
-        <ProtectedRoute path='/dev' exact={true} >
-          <div className="app-container">
-            <ToolBar setTool={setTool}/>
-            <Dev tool={tool}/>
           </div>
         </ProtectedRoute>
       </Switch>
