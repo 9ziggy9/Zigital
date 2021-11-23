@@ -14,6 +14,7 @@ import {
   quadrantSnapper,
   generateComponent,
 } from '../../logic/grid';
+import {Project} from '../../logic/classes/project';
 import {Gate} from '../../logic/classes/gates';
 import {toolLabels, gateLabels} from '../ComponentsTree/ComponentsTree';
 import "../../index.css";
@@ -25,8 +26,8 @@ const CIRCUIT_BOARD = []; // contains drawable gate elements
 const WIRE_BOARD = []; // contains cells in which wires are instantiated
 let WIRE_SEGMENTS = []; // contains drawable wire segments
 let GATES = []; // set of instantiated gates
-let BULBS = [];
-let POWER = [];
+let BULBS = []; // set of instantiated bulbs/endpoints
+let POWER = []; // set of power sources
 let OCCUPIED; // occupation array for collisions
 
 const Home = ({tool}) => {
@@ -127,6 +128,8 @@ const Home = ({tool}) => {
     handleBulbs(BULBS);
     handlePower(POWER);
 
+    // handle wire segments
+    // TODO: refactor this and place in grid.js
     WIRE_SEGMENTS.forEach(w => {
       ctx.beginPath();
       ctx.strokeStyle = 'black';
@@ -140,7 +143,6 @@ const Home = ({tool}) => {
     ctx.beginPath()
     ctx.arc(1100, 720, 80*Math.sin(frameCount*0.05)**2, 0, 2*Math.PI)
     ctx.fill()
-    // Using this as a speed indication
   }
 
   useEffect(() => {
@@ -232,6 +234,7 @@ const Home = ({tool}) => {
         setIsWiring(false);
       }
     }
+
     if (tool === 'delete') {
       GATES = GATES.filter(G =>
         !(mouse.x - G.x <= G.width && mouse.x - G.x > 0 &&
@@ -247,6 +250,8 @@ const Home = ({tool}) => {
         !(mouse.x - G.x <= G.width && mouse.x - G.x > 0 &&
           mouse.y - G.y <= G.height && mouse.y - G.y > 0 ));
     }
+    const project = new Project(GATES, BULBS, POWER, WIRE_SEGMENTS, OCCUPIED);
+    console.log(project.pack());
   }
 
   // const handleMouseDown = ({nativeEvent}) => {
