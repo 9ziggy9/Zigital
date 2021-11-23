@@ -1,13 +1,19 @@
 import React from 'react';
+import "./SettingsTree.css";
 
 const SettingsTree = () => {
   return (
     <>
       <div className='btn-list'>
-        <p>hello world</p>
-        <p>hello world</p>
-        <p>hello world</p>
-        <p>hello world</p>
+        <div>
+          hello
+        </div>
+        <button id="delete-act">
+          user settings
+        </button>
+        <button id="logout-act">
+          logout
+        </button>
       </div>
     </>
   )
