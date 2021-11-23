@@ -5,7 +5,7 @@ import "./ComponentsTree.css"
 export const gateLabels = new Set(['not', 'or', 'and',
                                   'xor', 'nor', 'nand',
                                   'xnor']);
-export const toolLabels = new Set(['wire', 'delete', 'power']);
+export const toolLabels = new Set(['wire', 'delete', 'power', 'bulb']);
 
 const ComponentsTree = ({setTool}) => {
   const selectTool = (id) => {
@@ -49,6 +49,10 @@ const ComponentsTree = ({setTool}) => {
       case 'power':
         console.log('OTHER: power selected');
         setTool('power');
+        break;
+      case 'bulb':
+        console.log('OTHER: bulb selected');
+        setTool('bulb');
         break;
       default: break;
     }
@@ -104,6 +108,10 @@ const ComponentsTree = ({setTool}) => {
         <button id="power" onClick={() => selectTool('power')}>
           <img src="logic_gates/SWITCHOFF.svg" alt=""/>
           <p>POWER</p>
+        </button>
+        <button id="bulb" onClick={() => selectTool('bulb')}>
+          <img src="logic_gates/BULBOFF.svg" alt=""/>
+          <p>BULB</p>
         </button>
         <button id="delete" onClick={() => selectTool('delete')}>
           <img src="logic_gates/DELETE.svg" alt=""/>

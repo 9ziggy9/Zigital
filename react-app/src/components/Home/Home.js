@@ -9,7 +9,10 @@ import {
   handleGateHighlight,
   handleWireHighlight,
   handleGates,
+  handleBulbs,
+  handlePower,
   quadrantSnapper,
+  generateComponent,
 } from '../../logic/grid';
 import {Gate} from '../../logic/classes/gates';
 import {toolLabels, gateLabels} from '../ComponentsTree/ComponentsTree';
@@ -22,6 +25,8 @@ const CIRCUIT_BOARD = []; // contains drawable gate elements
 const WIRE_BOARD = []; // contains cells in which wires are instantiated
 let WIRE_SEGMENTS = []; // contains drawable wire segments
 let GATES = []; // set of instantiated gates
+let BULBS = [];
+let POWER = [];
 let OCCUPIED; // occupation array for collisions
 
 const Home = ({tool}) => {
@@ -118,7 +123,10 @@ const Home = ({tool}) => {
       handleWireHighlight(WIRE_BOARD, mouse, OCCUPIED, CELL_SIZE);
     }
 
-    handleGates(GATES, tool);
+    handleGates(GATES);
+    handleBulbs(BULBS);
+    handlePower(POWER);
+
     WIRE_SEGMENTS.forEach(w => {
       ctx.beginPath();
       ctx.strokeStyle = 'black';
@@ -181,21 +189,15 @@ const Home = ({tool}) => {
     // // // // // // // // // //
 
     if (gateLabels.has(tool)) {
-      gridPositionX = mouse.x - (mouse.x % (CELL_SIZE * 2));
-      gridPositionY = mouse.y - (mouse.y % (CELL_SIZE * 2));
-      GATES.push(new Gate(gridPositionX, gridPositionY, CELL_SIZE, context, tool));
-      // INPUT JUNCTIONS
-      OCCUPIED[gridPositionY/CELL_SIZE][gridPositionX/CELL_SIZE] = 'i';
-      OCCUPIED[(gridPositionY/CELL_SIZE) + 1][gridPositionX/CELL_SIZE] = 'i';
-      // GATE ITSELF (expanded to deter path finding along edges)
-      // Primary cells
-      OCCUPIED[gridPositionY/CELL_SIZE][(gridPositionX/CELL_SIZE) + 1] = 1;
-      OCCUPIED[gridPositionY/CELL_SIZE][(gridPositionX/CELL_SIZE) + 2] = 1;
-      OCCUPIED[(gridPositionY/CELL_SIZE)+1][(gridPositionX/CELL_SIZE) + 1] = 1;
-      OCCUPIED[(gridPositionY/CELL_SIZE)+1][(gridPositionX/CELL_SIZE) + 2] = 1;
-      // OUTPUT JUNCTIONS
-      OCCUPIED[gridPositionY/CELL_SIZE][(gridPositionX/CELL_SIZE)+3] = 'o';
-      OCCUPIED[(gridPositionY/CELL_SIZE) + 1][(gridPositionX/CELL_SIZE)+3] = 'o';
+      generateComponent(GATES, OCCUPIED, mouse, CELL_SIZE, context, tool)
+    }
+
+    if (tool === 'power') {
+      generateComponent(POWER, OCCUPIED, mouse, CELL_SIZE, context, tool)
+    }
+
+    if (tool === 'bulb') {
+      generateComponent(BULBS, OCCUPIED, mouse, CELL_SIZE, context, tool)
     }
 
     // // // // // // // // // // //
