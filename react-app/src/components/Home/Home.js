@@ -9,6 +9,7 @@ import {
   handleGateHighlight,
   handleWireHighlight,
   handleGates,
+  quadrantSnapper,
 } from '../../logic/grid';
 import {Gate} from '../../logic/classes/gates';
 import {toolLabels, gateLabels} from '../ComponentsTree/ComponentsTree';
@@ -16,12 +17,12 @@ import "../../index.css";
 
 // Global canvas variables
 const CELL_SIZE = 40;
-const GRID = [];
-const CIRCUIT_BOARD = [];
-const WIRE_BOARD = [];
-const GATES = [];
-const WIRE_SEGMENTS = [];
-let OCCUPIED;
+const GRID = []; // general grid, used in bg rendering process
+const CIRCUIT_BOARD = []; // contains drawable gate elements
+const WIRE_SEGMENTS = []; // contains drawable wire segments
+const WIRE_BOARD = []; // contains cells in which wires are instantiated
+let GATES = []; // set of instantiated gates
+let OCCUPIED; // occupation array for collisions
 
 const Home = ({tool}) => {
   const backgroundRef = useRef(null);
@@ -42,6 +43,10 @@ const Home = ({tool}) => {
     ctx.fillStyle = '#5fafd7';
     ctx.fillRect(0, 0, ctx.canvas.width, ctx.canvas.height);
   }
+
+  // // // // // ////
+  // sponge: init //
+  // // // // // //
 
   useEffect(() => {
     const canvas = backgroundRef.current;
@@ -83,7 +88,12 @@ const Home = ({tool}) => {
           .fill(0));
   }, []);
 
-  // THIS IS FRAME RENDERING CALLED BY ANIMATION LOOP
+  // // // // // // // // // // //
+  // DRAW frames called by     //
+  // render                   //
+  // sponge: draw            //
+  // // // // // // // // ////
+
   const draw = (ctx, frameCount) => {
     ctx.clearRect(0, 0, ctx.canvas.width, ctx.canvas.height)
     let mouse = mouseRef.current;
@@ -93,21 +103,11 @@ const Home = ({tool}) => {
       handleGateHighlight(CIRCUIT_BOARD, mouse);
     }
     if (tool === "wire") {
-      let endX, endY;
       if (isWiring) {
-        if (!(mouse.y % CELL_SIZE < (CELL_SIZE / 2)) ||
-            !(mouse.x % CELL_SIZE < (CELL_SIZE / 2)))
-        {
-          endX = mouse.x - mouse.x % CELL_SIZE
-                + CELL_SIZE;
-          endY = mouse.y - mouse.y % CELL_SIZE
-                + CELL_SIZE;
-        } else {
-          endX = mouseRef.current.x - mouseRef.current.x % CELL_SIZE
-                + CELL_SIZE/2;
-          endY = mouseRef.current.y - mouseRef.current.y % CELL_SIZE
-                + CELL_SIZE/2;
-        }
+        const cellQuad = {x: mouse.x % CELL_SIZE - (CELL_SIZE/2),
+                          y: mouse.y % CELL_SIZE - (CELL_SIZE/2)};
+        const {x:endX, y:endY} = quadrantSnapper(cellQuad, mouse, CELL_SIZE);
+
         ctx.beginPath();
         ctx.strokeStyle = 'black';
         ctx.moveTo(start.x, start.y);
@@ -146,6 +146,10 @@ const Home = ({tool}) => {
     context.strokeStyle = tool;
   }, [tool])
 
+  // // // // // // // // // // //
+  // RENDER LOOP => calls draw //
+  // sponge: render           //
+  // // // // // // // // // //
 
   useEffect(() => {
     const context = contextRef.current;
@@ -174,6 +178,11 @@ const Home = ({tool}) => {
     const context = contextRef.current;
     let gridPositionX, gridPositionY;
 
+    // // // // // // // // // // //
+    // GATE STATE LOGIC HANDLING //
+    // sponge: gates            //
+    // // // // // // // // // //
+
     if (gateLabels.has(tool)) {
       gridPositionX = mouse.x - (mouse.x % (CELL_SIZE * 2));
       gridPositionY = mouse.y - (mouse.y % (CELL_SIZE * 2));
@@ -191,32 +200,45 @@ const Home = ({tool}) => {
       OCCUPIED[gridPositionY/CELL_SIZE][(gridPositionX/CELL_SIZE)+3] = 'o';
       OCCUPIED[(gridPositionY/CELL_SIZE) + 1][(gridPositionX/CELL_SIZE)+3] = 'o';
     }
+
+    // // // // // // // // // // //
+    // TOOL STATE LOGIC HANDLING //
+    // sponge: wires            //
+    // // // // // // // // // //
+
     if (tool === 'wire') {
       if (!isWiring) {
-        // TODO: Found this condition through experimentation, please return
-        // and prove that it works, kind of surprising.
-        if (!(mouse.y % CELL_SIZE < (CELL_SIZE / 2)) ||
-            !(mouse.x % CELL_SIZE < (CELL_SIZE / 2)))
-        {
-          setStart({x:mouse.x - (mouse.x % CELL_SIZE) + CELL_SIZE,
-                    y:mouse.y - (mouse.y % CELL_SIZE) + CELL_SIZE});
-        } else {
-          setStart({x:mouse.x - (mouse.x % CELL_SIZE) + CELL_SIZE/2,
-                    y:mouse.y - (mouse.y % CELL_SIZE) + CELL_SIZE/2});
-        }
+
+        // The following object contains the information necessary to determine
+        // what quadrant a click on a cell lives in. We use this in the if/else
+        // to determine establish with respect to what point of reference we shoud
+        // be finding the center relative to.
+
+        const cellQuad = {x: mouse.x % CELL_SIZE - (CELL_SIZE/2),
+                          y: mouse.y % CELL_SIZE - (CELL_SIZE/2)};
+        const snapped = quadrantSnapper(cellQuad, mouse, CELL_SIZE);
+        setStart(snapped);
+
+        // Change to wiring state, important because on exit we will push
+        // connection class instantiations.
         setIsWiring(true);
+
       } else {
-        if (!(mouse.y % CELL_SIZE < (CELL_SIZE / 2)) ||
-            !(mouse.x % CELL_SIZE < (CELL_SIZE / 2)))
-        {
-          setEnd({x:mouse.x - (mouse.x % CELL_SIZE) + CELL_SIZE,
-                    y:mouse.y - (mouse.y % CELL_SIZE) + CELL_SIZE});
-        } else {
-          setEnd({x:mouse.x - (mouse.x % CELL_SIZE) + CELL_SIZE/2,
-                    y:mouse.y - (mouse.y % CELL_SIZE) + CELL_SIZE/2});
-        }
+
+        const cellQuad = {x: mouse.x % CELL_SIZE - (CELL_SIZE/2),
+                          y: mouse.y % CELL_SIZE - (CELL_SIZE/2)};
+        const snapped = quadrantSnapper(cellQuad, mouse, CELL_SIZE);
+        setEnd(snapped);
+
+        // Connection logic will be instantiated at this point, we will check
+        // for input/outputs of gates here.
         setIsWiring(false);
       }
+    }
+    if (tool === 'delete') {
+      GATES = GATES.filter(G =>
+        !(mouse.x - G.x <= G.width && mouse.x - G.x > 0 &&
+          mouse.y - G.y <= G.height && mouse.y - G.y > 0 ));
     }
   }
 
@@ -240,6 +262,12 @@ const Home = ({tool}) => {
     mouseRef.current.height = 0.1;
   }
 
+  const handleLeftClick = (e) => {
+    e.preventDefault();
+    if(isWiring) {
+      setIsWiring(false);
+    }
+  }
 
   return (
     <>
@@ -253,6 +281,7 @@ const Home = ({tool}) => {
           onClick={handleClick}
           /* onMouseDown={handleMouseDown} */
           /* onMouseUp={handleMouseUp} */
+          onContextMenu={handleLeftClick}
           onMouseMove={mouseMove}
           ref={canvasRef}
         />

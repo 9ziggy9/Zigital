@@ -41,3 +41,20 @@ export function handleGates(gates) {
     gates[i].draw();
   }
 }
+
+export function quadrantSnapper(cell, mouse, size) {
+  if (cell.x < 0 && cell.y < 0) {
+    return {x:mouse.x - (mouse.x % size) + size/2,
+            y:mouse.y - (mouse.y % size) + size/2};
+  } else if (cell.x < 0 && cell.y > 0){
+    return {x:mouse.x - (mouse.x % size) + size/2,
+            y:mouse.y - (mouse.y % size) + size};
+  } else if (cell.x > 0 && cell.y < 0) {
+    return {x:mouse.x - (mouse.x % size) + size,
+            y:mouse.y - (mouse.y % size) + size/2};
+  } else {
+    return {x:mouse.x - (mouse.x % size) + size,
+            y:mouse.y - (mouse.y % size) + size};
+  }
+
+}
