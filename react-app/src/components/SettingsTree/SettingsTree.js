@@ -1,4 +1,6 @@
 import { useSelector } from 'react-redux';
+import { NavLink } from 'react-router-dom';
+import LogoutButton from '../auth/LogoutButton';
 import React from 'react';
 import "./SettingsTree.css";
 
@@ -22,9 +24,9 @@ const SettingsTree = () => {
         <button id="delete-act">
           user settings
         </button>
-        <button id="logout-act">
-          logout
-        </button>
+          <NavLink to='/sign-up' exact={true} activeClassName='active'>
+            <LogoutButton />
+          </NavLink>
       </div>
     </>
   )

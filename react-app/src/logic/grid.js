@@ -110,3 +110,14 @@ export function generateComponent(layer, occupied, mouse,
     occupied[gridPositionY/size][(gridPositionX/size)+3] = 3;
   }
 }
+
+export function routeWires(occupied, ctx, size) {
+  for (let y = 0; y < occupied.length; y++) {
+    for (let x = 0; x < occupied[0].length; x++) {
+      if (occupied[y][x] === 1) {
+        ctx.fillStyle = 'black';
+        ctx.fillRect(x*size, y*size, size, size);
+      }
+    }
+  }
+}
