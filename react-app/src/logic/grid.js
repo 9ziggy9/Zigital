@@ -130,5 +130,8 @@ export function openWireRoute(occupied, ctx, size, io) {
   }
 }
 
+export const occupiedSpace = (x,y,size) => ({x: Math.floor(x / size),
+                                             y: Math.floor(y / size)});
+
 export function routeInput() {}
 export function routeOutput() {}

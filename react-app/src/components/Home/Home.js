@@ -14,6 +14,7 @@ import {
   quadrantSnapper,
   generateComponent,
   openWireRoute,
+  occupiedSpace,
 } from '../../logic/grid';
 import {Project} from '../../logic/classes/project';
 import {Gate} from '../../logic/classes/gates';
@@ -115,6 +116,9 @@ const Home = ({tool}) => {
         const cellQuad = {x: mouse.x % CELL_SIZE - (CELL_SIZE/2),
                           y: mouse.y % CELL_SIZE - (CELL_SIZE/2)};
         const {x:endX, y:endY} = quadrantSnapper(cellQuad, mouse, CELL_SIZE);
+        const {x:occX, y:occY} = occupiedSpace(endX,endY,CELL_SIZE);
+        console.log(occX, occY);
+        console.log(OCCUPIED[occY][occX]);
 
         ctx.beginPath();
         ctx.strokeStyle = 'black';
