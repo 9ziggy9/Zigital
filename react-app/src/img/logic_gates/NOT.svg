@@ -24,9 +24,9 @@
      inkscape:zoom="12.45"
      inkscape:cx="83.73494"
      inkscape:cy="25.02008"
-     inkscape:window-width="928"
+     inkscape:window-width="1878"
      inkscape:window-height="1010"
-     inkscape:window-x="2889"
+     inkscape:window-x="1939"
      inkscape:window-y="47"
      inkscape:window-maximized="1"
      inkscape:current-layer="svg2458" />
@@ -34,7 +34,7 @@
      fill="none"
      stroke="#000000"
      stroke-width="1.92627"
-     d="m 78.470664,24.454655 16.753385,0.04537 m -65.019489,-0.04537 -19.370937,0.08032"
+     d="m 78.470664,24.454655 7.170169,-0.03476 m -55.436273,0.03476 -19.370937,0.08032"
      id="path2452"
      sodipodi:nodetypes="cccc" />
   <path
@@ -58,8 +58,8 @@
   <ellipse
      style="fill:#000000;fill-opacity:1;fill-rule:evenodd;stroke-width:1.03076"
      id="path177-3-6-6"
-     cx="93.089798"
-     cy="24.51512"
-     rx="4.2352061"
+     cx="83.275986"
+     cy="24.450161"
+     rx="4.2350001"
      ry="4.0763268" />
 </svg>

@@ -111,13 +111,24 @@ export function generateComponent(layer, occupied, mouse,
   }
 }
 
-export function routeWires(occupied, ctx, size) {
+export function openWireRoute(occupied, ctx, size, io) {
   for (let y = 0; y < occupied.length; y++) {
     for (let x = 0; x < occupied[0].length; x++) {
       if (occupied[y][x] === 1) {
-        ctx.fillStyle = 'black';
+        ctx.fillStyle = '#af0000';
+        ctx.fillRect(x*size, y*size, size, size);
+      }
+      if (occupied[y][x] === 2) {
+        ctx.fillStyle = '#008700';
+        ctx.fillRect(x*size, y*size, size, size);
+      }
+      if (occupied[y][x] === 3) {
+        ctx.fillStyle = '#008700';
         ctx.fillRect(x*size, y*size, size, size);
       }
     }
   }
 }
+
+export function routeInput() {}
+export function routeOutput() {}

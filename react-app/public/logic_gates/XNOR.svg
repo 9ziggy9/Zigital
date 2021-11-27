@@ -34,9 +34,9 @@
      fill="none"
      stroke="#000000"
      stroke-width="2"
-     d="m 78.333332,25 13.415439,0.0079 M 30.385717,15 8.2457761,15.069668 M 31.362091,35 8.6156932,35.104902"
+     d="m 78.333332,25 8.604947,0.0051 v 0 M 30.385717,15 8.2457761,15.069668 M 31.362091,35 8.6156932,35.104902"
      id="path1628"
-     sodipodi:nodetypes="cccccc" />
+     sodipodi:nodetypes="ccccccc" />
   <g
      fill-rule="evenodd"
      id="g1634">
@@ -70,8 +70,8 @@
   <ellipse
      style="fill:#000000;fill-opacity:1;fill-rule:evenodd"
      id="path177-3-5"
-     cx="93.114937"
-     cy="25.08522"
+     cx="84.866516"
+     cy="24.828867"
      rx="3.9862022"
      ry="4.0763268" />
 </svg>

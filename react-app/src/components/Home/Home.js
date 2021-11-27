@@ -13,6 +13,7 @@ import {
   handlePower,
   quadrantSnapper,
   generateComponent,
+  openWireRoute,
 } from '../../logic/grid';
 import {Project} from '../../logic/classes/project';
 import {Gate} from '../../logic/classes/gates';
@@ -109,15 +110,8 @@ const Home = ({tool}) => {
       handleGateHighlight(CIRCUIT_BOARD, mouse);
     }
     if (tool === "wire") {
+      openWireRoute(OCCUPIED, ctx, CELL_SIZE);
       if (isWiring) {
-        for (let y = 0; y < OCCUPIED.length; y++) {
-          for (let x = 0; x < OCCUPIED[0].length; x++) {
-            if (OCCUPIED[y][x] === 1) {
-              ctx.fillStyle = 'black';
-              ctx.fillRect(CELL_SIZE*x, CELL_SIZE*y, CELL_SIZE, CELL_SIZE);
-            }
-          }
-        }
         const cellQuad = {x: mouse.x % CELL_SIZE - (CELL_SIZE/2),
                           y: mouse.y % CELL_SIZE - (CELL_SIZE/2)};
         const {x:endX, y:endY} = quadrantSnapper(cellQuad, mouse, CELL_SIZE);
