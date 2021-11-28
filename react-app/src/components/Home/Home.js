@@ -268,14 +268,16 @@ const Home = ({tool, save, setSave, project}) => {
         const {x:occX, y:occY} = occupiedSpace(snapped.x,snapped.y,CELL_SIZE);
         const junction = OCCUPIED[occY][occX];
 
-        if(junction < -1) {
+        if (junction < -1) {
           setIo('input');
         }
-        if(junction > 1) {
+        if (junction > 1) {
           setIo('output');
         }
+        if (junction === 0 || junction === 1) {
+          return;
+        }
 
-        setStart(snapped);
         setOccStart({x:occX,y:occY});
 
         // Change to wiring state, important because on exit we will push
@@ -283,11 +285,19 @@ const Home = ({tool, save, setSave, project}) => {
         setIsWiring(true);
 
       } else {
-
+        // Prevent malfeasance
         const cellQuad = {x: mouse.x % CELL_SIZE - (CELL_SIZE),
                           y: mouse.y % CELL_SIZE - (CELL_SIZE)};
         const snapped = quadrantSnapper(cellQuad, mouse, CELL_SIZE);
         const {x:occX, y:occY} = occupiedSpace(snapped.x,snapped.y,CELL_SIZE);
+        const junction = OCCUPIED[occY][occX];
+
+        if (junction === 0 || junction === 1) {
+          setIo('start');
+          setIsWiring(false);
+          return;
+        }
+
         setIo('start');
         setEnd(snapped);
         setOccEnd({x:occX,y:occY})
