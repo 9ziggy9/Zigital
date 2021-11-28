@@ -27,13 +27,16 @@ const CELL_SIZE = 20;
 const GRID = []; // general grid, used in bg rendering process
 const CIRCUIT_BOARD = []; // contains drawable gate elements
 const WIRE_BOARD = []; // contains cells in which wires are instantiated
+const SNAP_BOARD = [];
 let WIRE_SEGMENTS = []; // contains drawable wire segments
 let GATES = []; // set of instantiated gates
 let BULBS = []; // set of instantiated bulbs/endpoints
 let POWER = []; // set of power sources
 let OCCUPIED; // occupation array for collisions
+let WIRE_COLORS = ['black', 'black', '#ffaf00', "#d75f00", '#d70000', '#5f8700',
+                  '#ff5faf', '#8700af', '#d7875f', '#d0d0d0', '#af005f']
 
-const Home = ({tool}) => {
+const Home = ({tool, save, setSave, project}) => {
   const backgroundRef = useRef(null);
   const backgroundCtxRef = useRef(null);
   const canvasRef = useRef(null);
@@ -51,15 +54,33 @@ const Home = ({tool}) => {
   const [occEnd, setOccEnd] = useState({x:null, y:null});
   const [wireRoute, setWireRoute] = useState([]);
   const [io, setIo] = useState('start');
+  const [wireColor, setWireColor] = useState(0);
 
   const drawBackground = (ctx) => {
-    ctx.fillStyle = '#5fafd7';
+    ctx.fillStyle = '#696969';
     ctx.fillRect(0, 0, ctx.canvas.width, ctx.canvas.height);
   }
 
   // // // // // ////
   // sponge: init //
   // // // // // //
+
+  useEffect(() => {
+    if(project) {
+      console.log(project.bulbs);
+      BULBS = project.bulbs;
+      console.log(project.gates);
+      GATES = project.gates.map(g => new Gate(g.x,g.y,CELL_SIZE,contextRef.current,g.gate));
+      console.log(project.occupied);
+      OCCUPIED = project.occupied;
+      console.log(project.power);
+      POWER = project.power;
+      console.log(project.wires);
+      WIRE_SEGMENTS = project.wires;
+    } else {
+      console.log('no project');
+    }
+  }, [project])
 
   useEffect(() => {
     const canvas = backgroundRef.current;
@@ -95,6 +116,7 @@ const Home = ({tool}) => {
 
     // Initialize circuit board
     createGrid(contextRef.current, CELL_SIZE*2, CIRCUIT_BOARD, 4);
+    createGrid(contextRef.current, CELL_SIZE, SNAP_BOARD, 4);
     createGrid(contextRef.current, CELL_SIZE/2, WIRE_BOARD, 4);
     OCCUPIED = [...Array(Math.floor(canvasRef.current.height / (CELL_SIZE * 2)))]
           .map(e => Array(Math.floor(canvasRef.current.width / (CELL_SIZE * 2)))
@@ -118,11 +140,11 @@ const Home = ({tool}) => {
     if (tool === "wire") {
       openWireRoute(OCCUPIED, ctx, CELL_SIZE, io);
       if (isWiring) {
-        const cellQuad = {x: mouse.x % CELL_SIZE - (CELL_SIZE/2),
-                          y: mouse.y % CELL_SIZE - (CELL_SIZE/2)};
-        const {x:endX, y:endY} = quadrantSnapper(cellQuad, mouse, CELL_SIZE);
 
         // MANUAL WIRING, we will eschew this for A*
+        // const cellQuad = {x: mouse.x % CELL_SIZE - (CELL_SIZE),
+        //                   y: mouse.y % CELL_SIZE - (CELL_SIZE)};
+        // const {x:endX, y:endY} = quadrantSnapper(cellQuad, mouse, CELL_SIZE);
         // ctx.beginPath();
         // ctx.strokeStyle = 'black';
         // ctx.setLineDash([0,0]);
@@ -130,12 +152,8 @@ const Home = ({tool}) => {
         // ctx.lineTo(endX, endY);
         // ctx.stroke();
       }
-      handleWireHighlight(WIRE_BOARD, mouse, OCCUPIED, CELL_SIZE);
+      handleWireHighlight(SNAP_BOARD, mouse, OCCUPIED, CELL_SIZE);
     }
-
-    handleGates(GATES);
-    handleBulbs(BULBS);
-    handlePower(POWER);
 
     // handle wire segments
     // TODO: refactor this and place in grid.js
@@ -148,12 +166,16 @@ const Home = ({tool}) => {
 
     WIRE_SEGMENTS.forEach(w => {
       ctx.beginPath();
-      ctx.strokeStyle = 'black';
-      ctx.setLineDash([0,0]);
       ctx.moveTo(w.start.x, w.start.y);
       ctx.lineTo(w.end.x, w.end.y);
+      ctx.strokeStyle = w.color;
       ctx.stroke();
     })
+
+    handleGates(GATES);
+    handleBulbs(BULBS);
+    handlePower(POWER);
+
 
     // Using this as a performance indication
     ctx.beginPath()
@@ -199,9 +221,11 @@ const Home = ({tool}) => {
       const Y1 = wireRoute[n+1].y;
       WIRE_SEGMENTS.push({
         start: {x: X0 * CELL_SIZE + CELL_SIZE/2, y: Y0 * CELL_SIZE + CELL_SIZE/2},
-        end: {x: X1 * CELL_SIZE + CELL_SIZE/2, y: Y1 * CELL_SIZE + CELL_SIZE/2}
+        end: {x: X1 * CELL_SIZE + CELL_SIZE/2, y: Y1 * CELL_SIZE + CELL_SIZE/2},
+        color: WIRE_COLORS[wireColor % WIRE_COLORS.length]
       })
     }
+    setWireColor(n => n+1);
   }, [end]);
 
   const handleClick = ({nativeEvent}) => {
@@ -238,8 +262,8 @@ const Home = ({tool}) => {
         // to determine establish with respect to what point of reference we shoud
         // be finding the center relative to.
 
-        const cellQuad = {x: mouse.x % CELL_SIZE - (CELL_SIZE/2),
-                          y: mouse.y % CELL_SIZE - (CELL_SIZE/2)};
+        const cellQuad = {x: mouse.x % CELL_SIZE - (CELL_SIZE),
+                          y: mouse.y % CELL_SIZE - (CELL_SIZE)};
         const snapped = quadrantSnapper(cellQuad, mouse, CELL_SIZE);
         const {x:occX, y:occY} = occupiedSpace(snapped.x,snapped.y,CELL_SIZE);
         const junction = OCCUPIED[occY][occX];
@@ -260,8 +284,8 @@ const Home = ({tool}) => {
 
       } else {
 
-        const cellQuad = {x: mouse.x % CELL_SIZE - (CELL_SIZE/2),
-                          y: mouse.y % CELL_SIZE - (CELL_SIZE/2)};
+        const cellQuad = {x: mouse.x % CELL_SIZE - (CELL_SIZE),
+                          y: mouse.y % CELL_SIZE - (CELL_SIZE)};
         const snapped = quadrantSnapper(cellQuad, mouse, CELL_SIZE);
         const {x:occX, y:occY} = occupiedSpace(snapped.x,snapped.y,CELL_SIZE);
         setIo('start');
@@ -276,10 +300,7 @@ const Home = ({tool}) => {
         const wirePath = aStar(OCCUPIED, {point: {x:occStart.x,y:occStart.y},
                                           parent:null},
                                          {point: {x:occX,y:occY},
-                                          parent:null},
-                                          canvasRef.current,
-                                          CELL_SIZE);
-        console.log(wirePath);
+                                          parent:null});
         setWireRoute(wirePath);
         setIsWiring(false);
       }
@@ -300,6 +321,8 @@ const Home = ({tool}) => {
         !(mouse.x - G.x <= G.width && mouse.x - G.x > 0 &&
           mouse.y - G.y <= G.height && mouse.y - G.y > 0 ));
     }
+
+    setSave(new Project(GATES, BULBS, POWER, WIRE_SEGMENTS, OCCUPIED))
   }
 
   // const handleMouseDown = ({nativeEvent}) => {

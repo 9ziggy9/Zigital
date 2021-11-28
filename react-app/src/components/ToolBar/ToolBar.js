@@ -4,7 +4,9 @@ import ProjectTree from '../ProjectTree/ProjectTree';
 import SettingsTree from '../SettingsTree/SettingsTree';
 import "../../index.css"
 
-const ToolBar = ({setTool}) => {
+const ToolBar = ({setTool, save, setProject}) => {
+  const rhsMenus = ['components-tree', 'project-tree'];
+  const rhsIds = ['components-btn', 'project-btn'];
   const toggleMenu = (id, menu) => {
     const menuNode = document.getElementById(menu);
     const buttonNode = document.getElementById(id);
@@ -18,6 +20,17 @@ const ToolBar = ({setTool}) => {
       buttonNode.classList.add('highlight');
       buttonNode.classList.remove('unhighlight');
     }
+    rhsMenus.filter(m => m !== menu)
+            .forEach(m => {
+              const other = document.getElementById(m);
+              other.classList.add("hidden");
+            })
+    rhsIds.filter(i => i !== id)
+            .forEach(i => {
+              const other = document.getElementById(i);
+              other.classList.remove("highlight");
+              other.classList.add("unhighlight");
+            })
   }
   return (
     <>
@@ -54,7 +67,7 @@ const ToolBar = ({setTool}) => {
     <div className="canvas-overlay">
         <div className="components-area">
             <div id="project-tree" className="hidden">
-              <ProjectTree setTool={setTool}/>
+              <ProjectTree setTool={setTool} save={save} setProject={setProject}/>
             </div>
         </div>
     </div>
