@@ -2,8 +2,6 @@
 // REFERENCE: https://en.wikipedia.org/wiki/Taxicab_geometry#Formal_definition
 const taxiD = (a, b) => Math.abs(b.x - a.x) + Math.abs(b.y - a.y);
 
-function reconstructPath() {}
-
 function neighbors(cell, access, target = {x: 0, y: 0}) {
     const {x, y} = cell.point;
     const neighbors = [];
@@ -42,8 +40,22 @@ function neighbors(cell, access, target = {x: 0, y: 0}) {
     return neighbors;
 }
 
+function reconstructPath(history) {
+    const path = [];
+    //grab last of visited paths
+    let next = history[history.length - 1];
+    const end = history[0];
+    while (next !== end) {
+        path.push(next.point);
+        next = history.find(prev => next.parent.x === prev.point.x &&
+            next.parent.y === prev.point.y);
+    }
+    path.push(end.point);
+    return path;
+}
+
 export function aStar(occupied, start, end) {
-  let access = occupied.map(e => e.map(e => true));
+  let access = occupied.map(e => e.map(e => !e ? true : false));
   let queue = [];
   let visited = [];
   queue.push(start);
@@ -51,12 +63,10 @@ export function aStar(occupied, start, end) {
     let current = queue[0];
     visited.push(current);
     if (current.point.x === end.point.x && current.point.y === end.point.y) {
-      //TODO: implement reconstruct Path
-      // const path = reconstructPath(visited);
-      // return path;
-      console.log('\n','target acquired', current.point.x, current.point.y, '\n');
+      const path = reconstructPath(visited);
+      console.log(path);
+      return path;
     }
-    //TODO: implement neighbors
     queue.push(...neighbors(current, access, {x: end.point.x, y: end.point.y}));
     queue.shift();
     queue.sort((cell1, cell2) => cell1.distance - cell2.distance);
