@@ -13,7 +13,10 @@ import {
   handlePower,
   quadrantSnapper,
   generateComponent,
+  openWireRoute,
+  occupiedSpace,
 } from '../../logic/grid';
+import {aStar} from '../../logic/astar.js';
 import {Project} from '../../logic/classes/project';
 import {Gate} from '../../logic/classes/gates';
 import {toolLabels, gateLabels} from '../ComponentsTree/ComponentsTree';
@@ -44,6 +47,10 @@ const Home = ({tool}) => {
   const [isWiring, setIsWiring] = useState(false);
   const [start, setStart] = useState({x:null, y:null});
   const [end, setEnd] = useState({x:null, y:null});
+  const [occStart, setOccStart] = useState({x:null, y:null});
+  const [occEnd, setOccEnd] = useState({x:null, y:null});
+  const [wireRoute, setWireRoute] = useState([]);
+  const [io, setIo] = useState('start');
 
   const drawBackground = (ctx) => {
     ctx.fillStyle = '#5fafd7';
@@ -89,8 +96,8 @@ const Home = ({tool}) => {
     // Initialize circuit board
     createGrid(contextRef.current, CELL_SIZE*2, CIRCUIT_BOARD, 4);
     createGrid(contextRef.current, CELL_SIZE/2, WIRE_BOARD, 4);
-    OCCUPIED = [...Array(Math.floor(canvasRef.current.width / (CELL_SIZE * 2)))]
-          .map(e => Array(Math.floor(canvasRef.current.height / (CELL_SIZE * 2)))
+    OCCUPIED = [...Array(Math.floor(canvasRef.current.height / (CELL_SIZE * 2)))]
+          .map(e => Array(Math.floor(canvasRef.current.width / (CELL_SIZE * 2)))
           .fill(0));
   }, []);
 
@@ -109,25 +116,19 @@ const Home = ({tool}) => {
       handleGateHighlight(CIRCUIT_BOARD, mouse);
     }
     if (tool === "wire") {
+      openWireRoute(OCCUPIED, ctx, CELL_SIZE, io);
       if (isWiring) {
-        for (let y = 0; y < OCCUPIED.length; y++) {
-          for (let x = 0; x < OCCUPIED[0].length; x++) {
-            if (OCCUPIED[y][x] === 1) {
-              ctx.fillStyle = 'black';
-              ctx.fillRect(CELL_SIZE*x, CELL_SIZE*y, CELL_SIZE, CELL_SIZE);
-            }
-          }
-        }
         const cellQuad = {x: mouse.x % CELL_SIZE - (CELL_SIZE/2),
                           y: mouse.y % CELL_SIZE - (CELL_SIZE/2)};
         const {x:endX, y:endY} = quadrantSnapper(cellQuad, mouse, CELL_SIZE);
 
-        ctx.beginPath();
-        ctx.strokeStyle = 'black';
-        ctx.setLineDash([0,0]);
-        ctx.moveTo(start.x, start.y);
-        ctx.lineTo(endX, endY);
-        ctx.stroke();
+        // MANUAL WIRING, we will eschew this for A*
+        // ctx.beginPath();
+        // ctx.strokeStyle = 'black';
+        // ctx.setLineDash([0,0]);
+        // ctx.moveTo(start.x, start.y);
+        // ctx.lineTo(endX, endY);
+        // ctx.stroke();
       }
       handleWireHighlight(WIRE_BOARD, mouse, OCCUPIED, CELL_SIZE);
     }
@@ -138,6 +139,13 @@ const Home = ({tool}) => {
 
     // handle wire segments
     // TODO: refactor this and place in grid.js
+    // In reality, all that really needs to be done is to implement A* as a
+    // subroutine to this process, the wires themselves are meaningless, only
+    // instantiation of the future connection class.
+    //
+    // Remember that WIRE_SEGMENTS is an array with objects of type
+    // {start: {x,y}, end: {x,y}}
+
     WIRE_SEGMENTS.forEach(w => {
       ctx.beginPath();
       ctx.strokeStyle = 'black';
@@ -184,8 +192,17 @@ const Home = ({tool}) => {
   }, [draw])
 
   useEffect(() => {
-    WIRE_SEGMENTS.push({start,end});
-  },[end]);
+    for (let n = 0; n < wireRoute.length - 1; n++) {
+      const X0 = wireRoute[n].x;
+      const Y0 = wireRoute[n].y;
+      const X1 = wireRoute[n+1].x;
+      const Y1 = wireRoute[n+1].y;
+      WIRE_SEGMENTS.push({
+        start: {x: X0 * CELL_SIZE + CELL_SIZE/2, y: Y0 * CELL_SIZE + CELL_SIZE/2},
+        end: {x: X1 * CELL_SIZE + CELL_SIZE/2, y: Y1 * CELL_SIZE + CELL_SIZE/2}
+      })
+    }
+  }, [end]);
 
   const handleClick = ({nativeEvent}) => {
     const mouse = mouseRef.current;
@@ -224,7 +241,18 @@ const Home = ({tool}) => {
         const cellQuad = {x: mouse.x % CELL_SIZE - (CELL_SIZE/2),
                           y: mouse.y % CELL_SIZE - (CELL_SIZE/2)};
         const snapped = quadrantSnapper(cellQuad, mouse, CELL_SIZE);
+        const {x:occX, y:occY} = occupiedSpace(snapped.x,snapped.y,CELL_SIZE);
+        const junction = OCCUPIED[occY][occX];
+
+        if(junction < -1) {
+          setIo('input');
+        }
+        if(junction > 1) {
+          setIo('output');
+        }
+
         setStart(snapped);
+        setOccStart({x:occX,y:occY});
 
         // Change to wiring state, important because on exit we will push
         // connection class instantiations.
@@ -235,10 +263,24 @@ const Home = ({tool}) => {
         const cellQuad = {x: mouse.x % CELL_SIZE - (CELL_SIZE/2),
                           y: mouse.y % CELL_SIZE - (CELL_SIZE/2)};
         const snapped = quadrantSnapper(cellQuad, mouse, CELL_SIZE);
+        const {x:occX, y:occY} = occupiedSpace(snapped.x,snapped.y,CELL_SIZE);
+        setIo('start');
         setEnd(snapped);
+        setOccEnd({x:occX,y:occY})
 
+        // sponge: aStar call!
         // Connection logic will be instantiated at this point, we will check
         // for input/outputs of gates here.
+        // NOTE: we pass points in this form so that a history lookup is aware
+        // of each cell's previous step, i.e. parent.
+        const wirePath = aStar(OCCUPIED, {point: {x:occStart.x,y:occStart.y},
+                                          parent:null},
+                                         {point: {x:occX,y:occY},
+                                          parent:null},
+                                          canvasRef.current,
+                                          CELL_SIZE);
+        console.log(wirePath);
+        setWireRoute(wirePath);
         setIsWiring(false);
       }
     }
@@ -284,6 +326,7 @@ const Home = ({tool}) => {
     e.preventDefault();
     if(isWiring) {
       setIsWiring(false);
+      setIo('start');
     }
     console.log(OCCUPIED);
   }
