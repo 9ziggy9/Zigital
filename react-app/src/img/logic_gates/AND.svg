@@ -22,9 +22,9 @@
      inkscape:pagecheckerboard="0"
      showgrid="false"
      inkscape:zoom="15.9"
-     inkscape:cx="82.044025"
+     inkscape:cx="193.33333"
      inkscape:cy="25"
-     inkscape:window-width="1878"
+     inkscape:window-width="927"
      inkscape:window-height="1010"
      inkscape:window-x="1939"
      inkscape:window-y="47"
@@ -34,35 +34,39 @@
      fill="none"
      stroke="#000000"
      stroke-width="2"
-     d="m 69.825386,24.907925 v 0 0 l 13.496002,7.17e-4 M 31,15 9.2889519,15.126936 M 32,35 10.783599,35.126984 v 0"
+     d="m 69.825386,24.907925 v 0 0 l 13.496002,7.17e-4 M 30.878605,8.674612 9.5590421,8.7505376 M 31.668061,41.576542 v 0 0 L 9.5547886,41.867914 31.668061,41.576542"
      id="path65"
-     sodipodi:nodetypes="ccccccccc" />
+     sodipodi:nodetypes="ccccccccccc" />
   <path
      d="M30 5V45H50.47619c11.267908 0 20-9.000045 20-20s-8.732091-20-20-20H30zm2.857143 2.857143H50.47619c9.760663 0 16.666667 7.639955 16.666667 17.142857 0 9.502902-7.382195 17.142857-17.142857 17.142857H32.857143V7.857143z"
      id="path67" />
   <ellipse
      style="fill:#000000;fill-opacity:1;fill-rule:evenodd"
      id="path177"
-     cx="11.49887"
-     cy="15.038019"
+     cx="10.61789"
+     cy="8.8831997"
      rx="3.9862022"
      ry="4.0763268" />
   <ellipse
      style="fill:#000000;fill-opacity:1;fill-rule:evenodd"
      id="path177-3"
-     cx="11.337875"
-     cy="35.043442"
+     cx="10.36337"
+     cy="40.86618"
      rx="3.9862022"
      ry="4.0763268" />
   <ellipse
-     style="fill:#000000;fill-opacity:1;fill-rule:evenodd"
+     style="fill:#000000;fill-opacity:1;fill-rule:evenodd;stroke-width:0.999975"
      id="path177-3-6"
-     cx="80.830688"
-     cy="24.657156"
-     rx="3.9862022"
+     cx="84.225677"
+     cy="24.869345"
+     rx="3.9860001"
      ry="4.0763268" />
   <path
      id="path1905"
-     d="M 9.2889519,15.126936 31,15 Z M 5,35 h 27 z"
+     d="M 9.2889519,15.126936 30.878605,8.674612 Z M 5,35 h 27 z"
      sodipodi:nodetypes="cccccc" />
+  <path
+     style="fill:#eeeeee;stroke:#000000;stroke-width:0.0628931;fill-opacity:1"
+     d="M 32.861635,24.996828 V 7.8552909 l 9.512579,0.02473 c 10.017458,0.026042 9.793402,0.01958 11.413926,0.3291769 4.144308,0.7917594 7.707164,3.0723982 10.122374,6.4794862 3.229954,4.55643 4.081438,10.706761 2.225969,16.078332 -2.055038,5.949322 -7.20895,10.206284 -13.495643,11.146959 -1.320259,0.19755 -2.56263,0.22245 -11.147129,0.223418 l -8.632076,9.73e-4 z"
+     id="path48" />
 </svg>

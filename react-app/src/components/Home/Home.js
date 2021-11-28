@@ -23,7 +23,7 @@ import {toolLabels, gateLabels} from '../ComponentsTree/ComponentsTree';
 import "../../index.css";
 
 // Global canvas variables
-const CELL_SIZE = 40;
+const CELL_SIZE = 20;
 const GRID = []; // general grid, used in bg rendering process
 const CIRCUIT_BOARD = []; // contains drawable gate elements
 const WIRE_BOARD = []; // contains cells in which wires are instantiated

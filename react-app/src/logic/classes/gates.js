@@ -46,6 +46,6 @@ export class Gate {
         break;
       default: break;
     }
-    this.ctx.drawImage(img, this.x, this.y - 9.5, this.width, this.height);
+    this.ctx.drawImage(img, this.x, this.y-1, this.width*1.25, this.height * 1.25);
   }
 }

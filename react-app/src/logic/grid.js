@@ -76,88 +76,70 @@ export function quadrantSnapper(cell, mouse, size) {
 export function gateIo(occupied, mouse, tool, size, X, Y) {
   const cellX = X/size;
   const cellY = Y/size;
+  function occupier() {
+    occupied[cellY-1][cellX] = 1;
+    occupied[cellY-1][cellX+1] = 1;
+    occupied[cellY-1][cellX+2] = 1;
+    occupied[cellY-1][cellX+3] = 1;
+    occupied[cellY-1][cellX+4] = 1;
+    occupied[cellY][cellX + 1] = 1;
+    occupied[cellY][cellX + 2] = 1;
+    occupied[cellY + 1][cellX + 1] = 1;
+    occupied[cellY + 1][cellX] = 1;
+    occupied[cellY + 1][cellX + 2] = 1;
+    occupied[cellY + 1][cellX + 3] = 1;
+    occupied[cellY+3][cellX] = 1;
+    occupied[cellY+3][cellX+1] = 1;
+    occupied[cellY+3][cellX+2] = 1;
+    occupied[cellY+3][cellX+3] = 1;
+    occupied[cellY+3][cellX+4] = 1;
+    occupied[cellY][cellX+4] = 1;
+    occupied[cellY][cellX+3] = 1;
+    occupied[cellY+2][cellX+1] = 1;
+    occupied[cellY+2][cellX+2] = 1;
+    occupied[cellY+2][cellX+3] = 1;
+    occupied[cellY+2][cellX+4] = 1;
+  }
+  function junctioner(i,o) {
+      occupied[cellY][cellX] = i;
+      occupied[cellY + 2][cellX] = i;
+      occupied[cellY+1][cellX + 4] = o;
+  }
   switch(tool) {
     case 'not':
       // INPUT JUNCTIONS
       occupied[cellY][cellX] = -2;
-      occupied[cellY + 1][cellX] = -2;
+      occupied[cellY + 2][cellX] = -2;
       // GATE ITSELF (expanded to deter path finding along edges)
       // Primary cells
-      occupied[cellY-1][cellX] = 1;
-      occupied[cellY-1][cellX+1] = 1;
-      occupied[cellY-1][cellX+2] = 1;
-      occupied[cellY-1][cellX+3] = 1;
-      occupied[cellY][cellX + 1] = 1;
-      occupied[cellY][cellX + 2] = 1;
-      occupied[cellY + 1][cellX + 1] = 1;
-      occupied[cellY + 1][cellX + 2] = 1;
-      occupied[cellY+2][cellX] = 1;
-      occupied[cellY+2][cellX+1] = 1;
-      occupied[cellY+2][cellX+2] = 1;
-      occupied[cellY+2][cellX+3] = 1;
+      occupier();
       // OUTPUT JUNCTIONS
       occupied[cellY][cellX + 3] = 2;
       occupied[cellY + 1][cellX + 3] = 2;
       break;
     case 'or':
-      occupied[cellY][cellX] = -3;
-      occupied[cellY + 1][cellX] = -3;
-      occupied[cellY][cellX + 1] = 1;
-      occupied[cellY][cellX + 2] = 1;
-      occupied[cellY + 1][cellX + 1] = 1;
-      occupied[cellY + 1][cellX + 2] = 1;
-      occupied[cellY][cellX + 3] = 3;
-      occupied[cellY + 1][cellX + 3] = 3;
+      occupier();
+      junctioner(-3,3);
       break;
     case 'and':
-      occupied[cellY][cellX] = -4;
-      occupied[cellY + 1][cellX] = -4;
-      occupied[cellY][cellX + 1] = 1;
-      occupied[cellY][cellX + 2] = 1;
-      occupied[cellY + 1][cellX + 1] = 1;
-      occupied[cellY + 1][cellX + 2] = 1;
-      occupied[cellY][cellX + 3] = 4;
-      occupied[cellY + 1][cellX + 3] = 4;
+      occupier();
+      junctioner(-4,4);
       break;
     case 'xor':
-      occupied[cellY][cellX] = -5;
-      occupied[cellY + 1][cellX] = -5;
-      occupied[cellY][cellX + 1] = 1;
-      occupied[cellY][cellX + 2] = 1;
-      occupied[cellY + 1][cellX + 1] = 1;
-      occupied[cellY + 1][cellX + 2] = 1;
-      occupied[cellY][cellX + 3] = 5;
-      occupied[cellY + 1][cellX + 3] = 5;
+      occupier();
+      junctioner(-5,5);
       break;
     case 'nor':
-      occupied[cellY][cellX] = -6;
-      occupied[cellY + 1][cellX] = -6;
-      occupied[cellY][cellX + 1] = 1;
-      occupied[cellY][cellX + 2] = 1;
-      occupied[cellY + 1][cellX + 1] = 1;
-      occupied[cellY + 1][cellX + 2] = 1;
-      occupied[cellY][cellX + 3] = 6;
-      occupied[cellY + 1][cellX + 3] = 6;
+      occupier();
+      junctioner(-6,6);
       break;
     case 'nand':
-      occupied[cellY][cellX] = -7;
-      occupied[cellY + 1][cellX] = -7;
-      occupied[cellY][cellX + 1] = 1;
-      occupied[cellY][cellX + 2] = 1;
-      occupied[cellY + 1][cellX + 1] = 1;
-      occupied[cellY + 1][cellX + 2] = 1;
-      occupied[cellY][cellX + 3] = 7;
-      occupied[cellY + 1][cellX + 3] = 7;
+      occupier();
+      junctioner(-7,7);
       break;
     case 'xnor':
-      occupied[cellY][cellX] = -8;
-      occupied[cellY + 1][cellX] = -8;
-      occupied[cellY][cellX + 1] = 1;
-      occupied[cellY][cellX + 2] = 1;
-      occupied[cellY + 1][cellX + 1] = 1;
-      occupied[cellY + 1][cellX + 2] = 1;
-      occupied[cellY][cellX + 3] = 8;
-      occupied[cellY + 1][cellX + 3] = 8;
+      occupier();
+      junctioner(-8,8);
       break;
     default: break;
   }
