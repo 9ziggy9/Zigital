@@ -181,20 +181,50 @@ export function generateComponent(layer, occupied, mouse,
   }
 }
 
-export function openWireRoute(occupied, ctx, size, io) {
+export function openWireRoute(occupied, ctx, size, io='start') {
   for (let y = 0; y < occupied[0].length; y++) {
     for (let x = 0; x < occupied.length; x++) {
-      if (occupied[y][x] === 1) {
-        ctx.fillStyle = 'rgba(175,0,0,0.5)';
-        ctx.fillRect(x*size, y*size, size, size);
+      if (io === 'start') {
+        if (occupied[y][x] === 1) {
+          ctx.fillStyle = 'rgba(175,0,0,0.5)';
+          ctx.fillRect(x*size, y*size, size, size);
+        }
+        if (occupied[y][x] > 1) {
+          ctx.fillStyle = 'rgba(0,87,0,0.5)';
+          ctx.fillRect(x*size, y*size, size, size);
+        }
+        if (occupied[y][x] < -1) {
+          ctx.fillStyle = 'rgba(0,87,0,0.5)';
+          ctx.fillRect(x*size, y*size, size, size);
+        }
       }
-      if (occupied[y][x] > 1) {
-        ctx.fillStyle = 'rgba(0,87,0,0.5)';
-        ctx.fillRect(x*size, y*size, size, size);
+      if (io === 'input') {
+        if (occupied[y][x] === 1) {
+          ctx.fillStyle = 'rgba(175,0,0,0.5)';
+          ctx.fillRect(x*size, y*size, size, size);
+        }
+        if (occupied[y][x] > 1) {
+          ctx.fillStyle = 'rgba(0,87,0,0.5)';
+          ctx.fillRect(x*size, y*size, size, size);
+        }
+        if (occupied[y][x] < -1) {
+          ctx.fillStyle = 'rgba(175,0,0,0.5)';
+          ctx.fillRect(x*size, y*size, size, size);
+        }
       }
-      if (occupied[y][x] < -1) {
-        ctx.fillStyle = 'rgba(0,87,0,0.5)';
-        ctx.fillRect(x*size, y*size, size, size);
+      if (io === 'output') {
+        if (occupied[y][x] === 1) {
+          ctx.fillStyle = 'rgba(175,0,0,0.5)';
+          ctx.fillRect(x*size, y*size, size, size);
+        }
+        if (occupied[y][x] > 1) {
+          ctx.fillStyle = 'rgba(0,87,0,0.5)';
+          ctx.fillRect(x*size, y*size, size, size);
+        }
+        if (occupied[y][x] < -1) {
+          ctx.fillStyle = '175,0,0,0.5';
+          ctx.fillRect(x*size, y*size, size, size);
+        }
       }
     }
   }

@@ -46,6 +46,9 @@ const Home = ({tool}) => {
   const [isWiring, setIsWiring] = useState(false);
   const [start, setStart] = useState({x:null, y:null});
   const [end, setEnd] = useState({x:null, y:null});
+  const [occStart, setOccStart] = useState({x:null, y:null});
+  const [occEnd, setOccEnd] = useState({x:null, y:null});
+  const [io, setIo] = useState('start');
 
   const drawBackground = (ctx) => {
     ctx.fillStyle = '#5fafd7';
@@ -111,14 +114,11 @@ const Home = ({tool}) => {
       handleGateHighlight(CIRCUIT_BOARD, mouse);
     }
     if (tool === "wire") {
-      openWireRoute(OCCUPIED, ctx, CELL_SIZE);
+      openWireRoute(OCCUPIED, ctx, CELL_SIZE, io);
       if (isWiring) {
         const cellQuad = {x: mouse.x % CELL_SIZE - (CELL_SIZE/2),
                           y: mouse.y % CELL_SIZE - (CELL_SIZE/2)};
         const {x:endX, y:endY} = quadrantSnapper(cellQuad, mouse, CELL_SIZE);
-        const {x:occX, y:occY} = occupiedSpace(endX,endY,CELL_SIZE);
-        console.log(occX, occY);
-        console.log(OCCUPIED[occY][occX]);
 
         ctx.beginPath();
         ctx.strokeStyle = 'black';
@@ -183,7 +183,7 @@ const Home = ({tool}) => {
 
   useEffect(() => {
     WIRE_SEGMENTS.push({start,end});
-  },[end]);
+  }, [end]);
 
   const handleClick = ({nativeEvent}) => {
     const mouse = mouseRef.current;
@@ -222,6 +222,16 @@ const Home = ({tool}) => {
         const cellQuad = {x: mouse.x % CELL_SIZE - (CELL_SIZE/2),
                           y: mouse.y % CELL_SIZE - (CELL_SIZE/2)};
         const snapped = quadrantSnapper(cellQuad, mouse, CELL_SIZE);
+        const {x:occX, y:occY} = occupiedSpace(snapped.x,snapped.y,CELL_SIZE);
+        const junction = OCCUPIED[occY][occX];
+
+        if(junction < -1) {
+          setIo('input');
+        }
+        if(junction > 1) {
+          setIo('output');
+        }
+
         setStart(snapped);
 
         // Change to wiring state, important because on exit we will push
