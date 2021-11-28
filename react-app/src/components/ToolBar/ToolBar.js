@@ -4,7 +4,7 @@ import ProjectTree from '../ProjectTree/ProjectTree';
 import SettingsTree from '../SettingsTree/SettingsTree';
 import "../../index.css"
 
-const ToolBar = ({setTool, save}) => {
+const ToolBar = ({setTool, save, setProject}) => {
   const rhsMenus = ['components-tree', 'project-tree'];
   const rhsIds = ['components-btn', 'project-btn'];
   const toggleMenu = (id, menu) => {
@@ -67,7 +67,7 @@ const ToolBar = ({setTool, save}) => {
     <div className="canvas-overlay">
         <div className="components-area">
             <div id="project-tree" className="hidden">
-              <ProjectTree setTool={setTool} save={save}/>
+              <ProjectTree setTool={setTool} save={save} setProject={setProject}/>
             </div>
         </div>
     </div>

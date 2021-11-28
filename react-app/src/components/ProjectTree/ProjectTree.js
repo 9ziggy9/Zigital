@@ -1,9 +1,8 @@
 import React from 'react';
 import './ProjectTree.css';
 import { useSelector } from 'react-redux';
-import {Project} from '../../logic/classes/project';
 
-const ProjectTree = ({setTool, save}) => {
+const ProjectTree = ({setTool, save, setProject}) => {
   const user = useSelector(state => state.session.user);
 
   const saveProject = async () => {
@@ -23,10 +22,10 @@ const ProjectTree = ({setTool, save}) => {
   }
 
   const getProject = async () => {
-    const res = await fetch(`/api/projects/1`)
+    const res = await fetch(`/api/projects/2`)
     if (res.ok) {
       const data = await res.json();
-      console.log(data);
+      setProject(data.project.state);
     }
   }
 

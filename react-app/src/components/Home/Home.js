@@ -36,7 +36,7 @@ let OCCUPIED; // occupation array for collisions
 let WIRE_COLORS = ['black', 'black', '#ffaf00', "#d75f00", '#d70000', '#5f8700',
                   '#ff5faf', '#8700af', '#d7875f', '#d0d0d0', '#af005f']
 
-const Home = ({tool, save, setSave}) => {
+const Home = ({tool, save, setSave, project}) => {
   const backgroundRef = useRef(null);
   const backgroundCtxRef = useRef(null);
   const canvasRef = useRef(null);
@@ -64,6 +64,23 @@ const Home = ({tool, save, setSave}) => {
   // // // // // ////
   // sponge: init //
   // // // // // //
+
+  useEffect(() => {
+    if(project) {
+      console.log(project.bulbs);
+      BULBS = project.bulbs;
+      console.log(project.gates);
+      GATES = project.gates.map(g => new Gate(g.x,g.y,CELL_SIZE,contextRef.current,g.gate));
+      console.log(project.occupied);
+      OCCUPIED = project.occupied;
+      console.log(project.power);
+      POWER = project.power;
+      console.log(project.wires);
+      WIRE_SEGMENTS = project.wires;
+    } else {
+      console.log('no project');
+    }
+  }, [project])
 
   useEffect(() => {
     const canvas = backgroundRef.current;

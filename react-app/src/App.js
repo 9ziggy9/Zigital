@@ -23,6 +23,7 @@ function App() {
   // TOOL BAR STATE //
   const [tool, setTool] = useState('black');
   const [save, setSave] = useState(null);
+  const [project, setProject] = useState(null);
 
 
   useEffect(() => {
@@ -76,9 +77,10 @@ function App() {
         </ProtectedRoute>
         <ProtectedRoute path='/home' exact={true} >
           <div className="app-container">
-            <ToolBar setTool={setTool} save={save}/>
+            <ToolBar setTool={setTool} save={save} setProject={setProject}/>
             <Home tool={tool}
                   save={save}
+                  project={project}
                   setSave={setSave} />
           </div>
         </ProtectedRoute>
