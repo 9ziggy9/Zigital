@@ -32,6 +32,8 @@ let GATES = []; // set of instantiated gates
 let BULBS = []; // set of instantiated bulbs/endpoints
 let POWER = []; // set of power sources
 let OCCUPIED; // occupation array for collisions
+let WIRE_COLORS = ['black', 'black', '#ffaf00', "#d75f00", '#d70000', '#5f8700',
+                  '#ff5faf', '#8700af', '#d7875f', '#d0d0d0', '#af005f']
 
 const Home = ({tool, save, setSave}) => {
   const backgroundRef = useRef(null);
@@ -51,9 +53,10 @@ const Home = ({tool, save, setSave}) => {
   const [occEnd, setOccEnd] = useState({x:null, y:null});
   const [wireRoute, setWireRoute] = useState([]);
   const [io, setIo] = useState('start');
+  const [wireColor, setWireColor] = useState(0);
 
   const drawBackground = (ctx) => {
-    ctx.fillStyle = '#5fafd7';
+    ctx.fillStyle = '#696969';
     ctx.fillRect(0, 0, ctx.canvas.width, ctx.canvas.height);
   }
 
@@ -148,8 +151,7 @@ const Home = ({tool, save, setSave}) => {
 
     WIRE_SEGMENTS.forEach(w => {
       ctx.beginPath();
-      ctx.strokeStyle = 'black';
-      ctx.setLineDash([0,0]);
+      ctx.strokeStyle = w.color;
       ctx.moveTo(w.start.x, w.start.y);
       ctx.lineTo(w.end.x, w.end.y);
       ctx.stroke();
@@ -199,9 +201,11 @@ const Home = ({tool, save, setSave}) => {
       const Y1 = wireRoute[n+1].y;
       WIRE_SEGMENTS.push({
         start: {x: X0 * CELL_SIZE + CELL_SIZE/2, y: Y0 * CELL_SIZE + CELL_SIZE/2},
-        end: {x: X1 * CELL_SIZE + CELL_SIZE/2, y: Y1 * CELL_SIZE + CELL_SIZE/2}
+        end: {x: X1 * CELL_SIZE + CELL_SIZE/2, y: Y1 * CELL_SIZE + CELL_SIZE/2},
+        color: WIRE_COLORS[wireColor % WIRE_COLORS.length]
       })
     }
+    setWireColor(n => n+1);
   }, [end]);
 
   const handleClick = ({nativeEvent}) => {

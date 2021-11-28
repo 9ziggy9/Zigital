@@ -7,8 +7,6 @@ const ProjectTree = ({setTool, save}) => {
   const user = useSelector(state => state.session.user);
 
   const saveProject = async () => {
-    console.log('hello click');
-    console.log(save);
     const res = await fetch(`/api/projects/${user.id}`, {
       method: 'POST',
       headers: {
