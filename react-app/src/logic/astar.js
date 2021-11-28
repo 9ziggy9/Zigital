@@ -58,7 +58,6 @@ export function aStar(occupied, start, end) {
   // I have to use a transpose because I have zero fucking forsight.
   // Hack as fuck but it won't hurt time complexity. God damnit.
   let access = occupied.map(y => y.slice());
-  console.log(occupied);
   for (let y = 0; y < access.length; y++) {
     for (let x = 0; x < access[0].length; x++) {
       if (occupied[y][x] === 1)
@@ -67,7 +66,6 @@ export function aStar(occupied, start, end) {
         access[y][x] = 1;
     }
   }
-  console.log(access);
   let queue = [];
   let visited = [];
   queue.push(start);

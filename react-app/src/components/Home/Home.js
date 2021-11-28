@@ -193,9 +193,13 @@ const Home = ({tool}) => {
 
   useEffect(() => {
     for (let n = 0; n < wireRoute.length - 1; n++) {
+      const X0 = wireRoute[n].x;
+      const Y0 = wireRoute[n].y;
+      const X1 = wireRoute[n+1].x;
+      const Y1 = wireRoute[n+1].y;
       WIRE_SEGMENTS.push({
-        start: {x: wireRoute[n].x * CELL_SIZE + CELL_SIZE/2, y: wireRoute[n].y * CELL_SIZE + CELL_SIZE/2},
-        end: {x: wireRoute[n+1].x * CELL_SIZE + CELL_SIZE/2, y: wireRoute[n+1].y * CELL_SIZE + CELL_SIZE/2}
+        start: {x: X0 * CELL_SIZE + CELL_SIZE/2, y: Y0 * CELL_SIZE + CELL_SIZE/2},
+        end: {x: X1 * CELL_SIZE + CELL_SIZE/2, y: Y1 * CELL_SIZE + CELL_SIZE/2}
       })
     }
   }, [end]);
