@@ -33,7 +33,7 @@ let BULBS = []; // set of instantiated bulbs/endpoints
 let POWER = []; // set of power sources
 let OCCUPIED; // occupation array for collisions
 
-const Home = ({tool}) => {
+const Home = ({tool, save, setSave}) => {
   const backgroundRef = useRef(null);
   const backgroundCtxRef = useRef(null);
   const canvasRef = useRef(null);
@@ -299,6 +299,8 @@ const Home = ({tool}) => {
         !(mouse.x - G.x <= G.width && mouse.x - G.x > 0 &&
           mouse.y - G.y <= G.height && mouse.y - G.y > 0 ));
     }
+
+    setSave(new Project(GATES, BULBS, POWER, WIRE_SEGMENTS, OCCUPIED))
   }
 
   // const handleMouseDown = ({nativeEvent}) => {

@@ -1,19 +1,21 @@
 import React from 'react';
 import './ProjectTree.css';
 import { useSelector } from 'react-redux';
+import {Project} from '../../logic/classes/project';
 
-const ProjectTree = ({setTool}) => {
+const ProjectTree = ({setTool, save}) => {
   const user = useSelector(state => state.session.user);
 
   const saveProject = async () => {
     console.log('hello click');
+    console.log(save);
     const res = await fetch(`/api/projects/${user.id}`, {
       method: 'POST',
       headers: {
         "Content-Type": "application/json",
       },
       body: JSON.stringify({
-        hello: 'world'
+        save: save
       }),
     });
     if (res.ok) {

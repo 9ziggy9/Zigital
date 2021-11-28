@@ -8,5 +8,5 @@ project_routes = Blueprint('projects', __name__)
 def save_project(user_id):
     if user_id != current_user.id:
         return 'whatcha doing there bud?'
-    hello_world = request.json['hello']
-    return {'hello': hello_world}
+    saved_project = request.json['save']
+    return {'save': saved_project}

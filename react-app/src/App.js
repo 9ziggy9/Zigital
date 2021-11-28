@@ -22,6 +22,7 @@ function App() {
   const dispatch = useDispatch();
   // TOOL BAR STATE //
   const [tool, setTool] = useState('black');
+  const [save, setSave] = useState(null);
 
 
   useEffect(() => {
@@ -75,8 +76,10 @@ function App() {
         </ProtectedRoute>
         <ProtectedRoute path='/home' exact={true} >
           <div className="app-container">
-            <ToolBar setTool={setTool}/>
-            <Home tool={tool}/>
+            <ToolBar setTool={setTool} save={save}/>
+            <Home tool={tool}
+                  save={save}
+                  setSave={setSave} />
           </div>
         </ProtectedRoute>
       </Switch>
