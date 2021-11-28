@@ -73,6 +73,88 @@ export function quadrantSnapper(cell, mouse, size) {
   }
 }
 
+export function gateIo(occupied, mouse, tool, size, X, Y) {
+  const cellX = X/size;
+  const cellY = Y/size;
+  switch(tool) {
+    case 'not':
+      // INPUT JUNCTIONS
+      occupied[cellY][cellX] = -2;
+      occupied[cellY + 1][cellX] = -2;
+      // GATE ITSELF (expanded to deter path finding along edges)
+      // Primary cells
+      occupied[cellY][cellX + 1] = 1;
+      occupied[cellY][cellX + 2] = 1;
+      occupied[cellY + 1][cellX + 1] = 1;
+      occupied[cellY + 1][cellX + 2] = 1;
+      // OUTPUT JUNCTIONS
+      occupied[cellY][cellX + 3] = 2;
+      occupied[cellY + 1][cellX + 3] = 2;
+      break;
+    case 'or':
+      occupied[cellY][cellX] = -3;
+      occupied[cellY + 1][cellX] = -3;
+      occupied[cellY][cellX + 1] = 1;
+      occupied[cellY][cellX + 2] = 1;
+      occupied[cellY + 1][cellX + 1] = 1;
+      occupied[cellY + 1][cellX + 2] = 1;
+      occupied[cellY][cellX + 3] = 3;
+      occupied[cellY + 1][cellX + 3] = 3;
+      break;
+    case 'and':
+      occupied[cellY][cellX] = -4;
+      occupied[cellY + 1][cellX] = -4;
+      occupied[cellY][cellX + 1] = 1;
+      occupied[cellY][cellX + 2] = 1;
+      occupied[cellY + 1][cellX + 1] = 1;
+      occupied[cellY + 1][cellX + 2] = 1;
+      occupied[cellY][cellX + 3] = 4;
+      occupied[cellY + 1][cellX + 3] = 4;
+      break;
+    case 'xor':
+      occupied[cellY][cellX] = -5;
+      occupied[cellY + 1][cellX] = -5;
+      occupied[cellY][cellX + 1] = 1;
+      occupied[cellY][cellX + 2] = 1;
+      occupied[cellY + 1][cellX + 1] = 1;
+      occupied[cellY + 1][cellX + 2] = 1;
+      occupied[cellY][cellX + 3] = 5;
+      occupied[cellY + 1][cellX + 3] = 5;
+      break;
+    case 'nor':
+      occupied[cellY][cellX] = -6;
+      occupied[cellY + 1][cellX] = -6;
+      occupied[cellY][cellX + 1] = 1;
+      occupied[cellY][cellX + 2] = 1;
+      occupied[cellY + 1][cellX + 1] = 1;
+      occupied[cellY + 1][cellX + 2] = 1;
+      occupied[cellY][cellX + 3] = 6;
+      occupied[cellY + 1][cellX + 3] = 6;
+      break;
+    case 'nand':
+      occupied[cellY][cellX] = -7;
+      occupied[cellY + 1][cellX] = -7;
+      occupied[cellY][cellX + 1] = 1;
+      occupied[cellY][cellX + 2] = 1;
+      occupied[cellY + 1][cellX + 1] = 1;
+      occupied[cellY + 1][cellX + 2] = 1;
+      occupied[cellY][cellX + 3] = 7;
+      occupied[cellY + 1][cellX + 3] = 7;
+      break;
+    case 'xnor':
+      occupied[cellY][cellX] = -8;
+      occupied[cellY + 1][cellX] = -8;
+      occupied[cellY][cellX + 1] = 1;
+      occupied[cellY][cellX + 2] = 1;
+      occupied[cellY + 1][cellX + 1] = 1;
+      occupied[cellY + 1][cellX + 2] = 1;
+      occupied[cellY][cellX + 3] = 8;
+      occupied[cellY + 1][cellX + 3] = 8;
+      break;
+    default: break;
+  }
+}
+
 export function generateComponent(layer, occupied, mouse,
                                   size, ctx, tool) {
   const gateLabels = new Set(['not', 'or', 'and',
@@ -81,33 +163,21 @@ export function generateComponent(layer, occupied, mouse,
   const gridPositionY = mouse.y - (mouse.y % (size * 2));
   if (gateLabels.has(tool)) {
     layer.push(new Gate(gridPositionX, gridPositionY, size, ctx, tool));
-    // INPUT JUNCTIONS
-    occupied[gridPositionY/size][gridPositionX/size] = 2;
-    occupied[(gridPositionY/size) + 1][gridPositionX/size] = 2;
-    // GATE ITSELF (expanded to deter path finding along edges)
-    // Primary cells
-    occupied[gridPositionY/size][(gridPositionX/size) + 1] = 1;
-    occupied[gridPositionY/size][(gridPositionX/size) + 2] = 1;
-    occupied[(gridPositionY/size)+1][(gridPositionX/size) + 1] = 1;
-    occupied[(gridPositionY/size)+1][(gridPositionX/size) + 2] = 1;
-    // OUTPUT JUNCTIONS
-    occupied[gridPositionY/size][(gridPositionX/size)+3] = 3;
-    occupied[(gridPositionY/size) + 1][(gridPositionX/size)+3] = 3;
+    gateIo(occupied, mouse, tool, size, gridPositionX, gridPositionY);
   } else if (tool === 'bulb') {
     layer.push(new Bulb(gridPositionX, gridPositionY, size, ctx));
-    occupied[gridPositionY/size][gridPositionX/size] = 2;
+    occupied[gridPositionY/size][gridPositionX/size] = -9;
     occupied[gridPositionY/size][(gridPositionX/size) + 1] = 1;
     occupied[gridPositionY/size][(gridPositionX/size) + 2] = 1;
     occupied[(gridPositionY/size)+1][(gridPositionX/size) + 1] = 1;
     occupied[(gridPositionY/size)+1][(gridPositionX/size) + 2] = 1;
-    occupied[gridPositionY/size][(gridPositionX/size)+3] = 3;
   } else if (tool === 'power') {
     layer.push(new Power(gridPositionX, gridPositionY, size, ctx));
     occupied[gridPositionY/size][(gridPositionX/size) + 1] = 1;
     occupied[gridPositionY/size][(gridPositionX/size) + 2] = 1;
     occupied[(gridPositionY/size)+1][(gridPositionX/size) + 1] = 1;
     occupied[(gridPositionY/size)+1][(gridPositionX/size) + 2] = 1;
-    occupied[gridPositionY/size][(gridPositionX/size)+3] = 3;
+    occupied[gridPositionY/size][(gridPositionX/size)+3] = 9;
   }
 }
 
