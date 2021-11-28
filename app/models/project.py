@@ -10,4 +10,13 @@ class Project(db.Model):
     description = db.Column(db.String(500))
     state = db.Column(JSONB)
 
+    def to_dict(self):
+        return {
+            "id": self.id,
+            "user_id": self.user_id,
+            "title": self.title,
+            "description": self.description,
+            "state": self.state
+        }
+
     user = db.relationship("User", back_populates="project");

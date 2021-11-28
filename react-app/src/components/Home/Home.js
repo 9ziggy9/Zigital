@@ -123,11 +123,11 @@ const Home = ({tool, save, setSave}) => {
     if (tool === "wire") {
       openWireRoute(OCCUPIED, ctx, CELL_SIZE, io);
       if (isWiring) {
-        const cellQuad = {x: mouse.x % CELL_SIZE - (CELL_SIZE/2),
-                          y: mouse.y % CELL_SIZE - (CELL_SIZE/2)};
-        const {x:endX, y:endY} = quadrantSnapper(cellQuad, mouse, CELL_SIZE);
 
         // MANUAL WIRING, we will eschew this for A*
+        // const cellQuad = {x: mouse.x % CELL_SIZE - (CELL_SIZE),
+        //                   y: mouse.y % CELL_SIZE - (CELL_SIZE)};
+        // const {x:endX, y:endY} = quadrantSnapper(cellQuad, mouse, CELL_SIZE);
         // ctx.beginPath();
         // ctx.strokeStyle = 'black';
         // ctx.setLineDash([0,0]);

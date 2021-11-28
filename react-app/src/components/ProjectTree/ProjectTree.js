@@ -22,13 +22,21 @@ const ProjectTree = ({setTool, save}) => {
     }
   }
 
+  const getProject = async () => {
+    const res = await fetch(`/api/projects/1`)
+    if (res.ok) {
+      const data = await res.json();
+      console.log(data);
+    }
+  }
+
   return (
     <>
       <div className='btn-list'>
         <button id='save' onClick={saveProject}>
           save project
         </button>
-        <button id='load'>
+        <button id='load' onClick={getProject}>
           load project
         </button>
         <button id='delete'>
