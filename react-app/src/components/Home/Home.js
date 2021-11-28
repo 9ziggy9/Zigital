@@ -292,6 +292,7 @@ const Home = ({tool}) => {
     e.preventDefault();
     if(isWiring) {
       setIsWiring(false);
+      setIo('start');
     }
     console.log(OCCUPIED);
   }

@@ -218,11 +218,11 @@ export function openWireRoute(occupied, ctx, size, io='start') {
           ctx.fillRect(x*size, y*size, size, size);
         }
         if (occupied[y][x] > 1) {
-          ctx.fillStyle = 'rgba(0,87,0,0.5)';
+          ctx.fillStyle = 'rgba(175,0,0,0.5)';
           ctx.fillRect(x*size, y*size, size, size);
         }
         if (occupied[y][x] < -1) {
-          ctx.fillStyle = '175,0,0,0.5';
+          ctx.fillStyle = 'rgba(0,87,0,0.5)';
           ctx.fillRect(x*size, y*size, size, size);
         }
       }
