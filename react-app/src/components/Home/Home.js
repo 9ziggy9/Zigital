@@ -49,6 +49,7 @@ const Home = ({tool}) => {
   const [end, setEnd] = useState({x:null, y:null});
   const [occStart, setOccStart] = useState({x:null, y:null});
   const [occEnd, setOccEnd] = useState({x:null, y:null});
+  const [wireRoute, setWireRoute] = useState([]);
   const [io, setIo] = useState('start');
 
   const drawBackground = (ctx) => {
@@ -95,8 +96,8 @@ const Home = ({tool}) => {
     // Initialize circuit board
     createGrid(contextRef.current, CELL_SIZE*2, CIRCUIT_BOARD, 4);
     createGrid(contextRef.current, CELL_SIZE/2, WIRE_BOARD, 4);
-    OCCUPIED = [...Array(Math.floor(canvasRef.current.width / (CELL_SIZE * 2)))]
-          .map(e => Array(Math.floor(canvasRef.current.height / (CELL_SIZE * 2)))
+    OCCUPIED = [...Array(Math.floor(canvasRef.current.height / (CELL_SIZE * 2)))]
+          .map(e => Array(Math.floor(canvasRef.current.width / (CELL_SIZE * 2)))
           .fill(0));
   }, []);
 
@@ -191,7 +192,12 @@ const Home = ({tool}) => {
   }, [draw])
 
   useEffect(() => {
-    WIRE_SEGMENTS.push({start,end});
+    for (let n = 0; n < wireRoute.length - 1; n++) {
+      WIRE_SEGMENTS.push({
+        start: {x: wireRoute[n].x * CELL_SIZE + CELL_SIZE/2, y: wireRoute[n].y * CELL_SIZE + CELL_SIZE/2},
+        end: {x: wireRoute[n+1].x * CELL_SIZE + CELL_SIZE/2, y: wireRoute[n+1].y * CELL_SIZE + CELL_SIZE/2}
+      })
+    }
   }, [end]);
 
   const handleClick = ({nativeEvent}) => {
@@ -263,10 +269,14 @@ const Home = ({tool}) => {
         // for input/outputs of gates here.
         // NOTE: we pass points in this form so that a history lookup is aware
         // of each cell's previous step, i.e. parent.
-        console.log(occStart.x, occStart.y);
-        console.log(occX, occY);
-        aStar(OCCUPIED, {point: {x:occStart.x,y:occStart.y}, parent:null},
-                        {point: {x:occX,y:occY}, parent:null});
+        const wirePath = aStar(OCCUPIED, {point: {x:occStart.x,y:occStart.y},
+                                          parent:null},
+                                         {point: {x:occX,y:occY},
+                                          parent:null},
+                                          canvasRef.current,
+                                          CELL_SIZE);
+        console.log(wirePath);
+        setWireRoute(wirePath);
         setIsWiring(false);
       }
     }
