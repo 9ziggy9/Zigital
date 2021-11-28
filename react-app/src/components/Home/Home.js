@@ -27,6 +27,7 @@ const CELL_SIZE = 20;
 const GRID = []; // general grid, used in bg rendering process
 const CIRCUIT_BOARD = []; // contains drawable gate elements
 const WIRE_BOARD = []; // contains cells in which wires are instantiated
+const SNAP_BOARD = [];
 let WIRE_SEGMENTS = []; // contains drawable wire segments
 let GATES = []; // set of instantiated gates
 let BULBS = []; // set of instantiated bulbs/endpoints
@@ -98,6 +99,7 @@ const Home = ({tool, save, setSave}) => {
 
     // Initialize circuit board
     createGrid(contextRef.current, CELL_SIZE*2, CIRCUIT_BOARD, 4);
+    createGrid(contextRef.current, CELL_SIZE, SNAP_BOARD, 4);
     createGrid(contextRef.current, CELL_SIZE/2, WIRE_BOARD, 4);
     OCCUPIED = [...Array(Math.floor(canvasRef.current.height / (CELL_SIZE * 2)))]
           .map(e => Array(Math.floor(canvasRef.current.width / (CELL_SIZE * 2)))
@@ -133,7 +135,7 @@ const Home = ({tool, save, setSave}) => {
         // ctx.lineTo(endX, endY);
         // ctx.stroke();
       }
-      handleWireHighlight(WIRE_BOARD, mouse, OCCUPIED, CELL_SIZE);
+      handleWireHighlight(SNAP_BOARD, mouse, OCCUPIED, CELL_SIZE);
     }
 
     // handle wire segments
@@ -243,8 +245,8 @@ const Home = ({tool, save, setSave}) => {
         // to determine establish with respect to what point of reference we shoud
         // be finding the center relative to.
 
-        const cellQuad = {x: mouse.x % CELL_SIZE - (CELL_SIZE/2),
-                          y: mouse.y % CELL_SIZE - (CELL_SIZE/2)};
+        const cellQuad = {x: mouse.x % CELL_SIZE - (CELL_SIZE),
+                          y: mouse.y % CELL_SIZE - (CELL_SIZE)};
         const snapped = quadrantSnapper(cellQuad, mouse, CELL_SIZE);
         const {x:occX, y:occY} = occupiedSpace(snapped.x,snapped.y,CELL_SIZE);
         const junction = OCCUPIED[occY][occX];
@@ -265,8 +267,8 @@ const Home = ({tool, save, setSave}) => {
 
       } else {
 
-        const cellQuad = {x: mouse.x % CELL_SIZE - (CELL_SIZE/2),
-                          y: mouse.y % CELL_SIZE - (CELL_SIZE/2)};
+        const cellQuad = {x: mouse.x % CELL_SIZE - (CELL_SIZE),
+                          y: mouse.y % CELL_SIZE - (CELL_SIZE)};
         const snapped = quadrantSnapper(cellQuad, mouse, CELL_SIZE);
         const {x:occX, y:occY} = occupiedSpace(snapped.x,snapped.y,CELL_SIZE);
         setIo('start');
@@ -281,9 +283,7 @@ const Home = ({tool, save, setSave}) => {
         const wirePath = aStar(OCCUPIED, {point: {x:occStart.x,y:occStart.y},
                                           parent:null},
                                          {point: {x:occX,y:occY},
-                                          parent:null},
-                                          canvasRef.current,
-                                          CELL_SIZE);
+                                          parent:null});
         setWireRoute(wirePath);
         setIsWiring(false);
       }
