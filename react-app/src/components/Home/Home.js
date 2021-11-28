@@ -136,10 +136,6 @@ const Home = ({tool, save, setSave}) => {
       handleWireHighlight(WIRE_BOARD, mouse, OCCUPIED, CELL_SIZE);
     }
 
-    handleGates(GATES);
-    handleBulbs(BULBS);
-    handlePower(POWER);
-
     // handle wire segments
     // TODO: refactor this and place in grid.js
     // In reality, all that really needs to be done is to implement A* as a
@@ -151,11 +147,16 @@ const Home = ({tool, save, setSave}) => {
 
     WIRE_SEGMENTS.forEach(w => {
       ctx.beginPath();
-      ctx.strokeStyle = w.color;
       ctx.moveTo(w.start.x, w.start.y);
       ctx.lineTo(w.end.x, w.end.y);
+      ctx.strokeStyle = w.color;
       ctx.stroke();
     })
+
+    handleGates(GATES);
+    handleBulbs(BULBS);
+    handlePower(POWER);
+
 
     // Using this as a performance indication
     ctx.beginPath()
