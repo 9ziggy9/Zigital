@@ -16,6 +16,7 @@ import {
   openWireRoute,
   occupiedSpace,
 } from '../../logic/grid';
+import {aStar} from '../../logic/astar.js';
 import {Project} from '../../logic/classes/project';
 import {Gate} from '../../logic/classes/gates';
 import {toolLabels, gateLabels} from '../ComponentsTree/ComponentsTree';
@@ -143,6 +144,7 @@ const Home = ({tool}) => {
     //
     // Remember that WIRE_SEGMENTS is an array with objects of type
     // {start: {x,y}, end: {x,y}}
+
     WIRE_SEGMENTS.forEach(w => {
       ctx.beginPath();
       ctx.strokeStyle = 'black';
@@ -253,8 +255,11 @@ const Home = ({tool}) => {
         setIo('start');
         setEnd(snapped);
 
+        // sponge: aStar call!
         // Connection logic will be instantiated at this point, we will check
         // for input/outputs of gates here.
+        aStar(OCCUPIED, {point: {x:0,y:0}, parent:null},
+                        {point: {x:10,y:10}, parent:null});
         setIsWiring(false);
       }
     }
