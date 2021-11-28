@@ -182,18 +182,18 @@ export function generateComponent(layer, occupied, mouse,
 }
 
 export function openWireRoute(occupied, ctx, size, io) {
-  for (let y = 0; y < occupied.length; y++) {
-    for (let x = 0; x < occupied[0].length; x++) {
+  for (let y = 0; y < occupied[0].length; y++) {
+    for (let x = 0; x < occupied.length; x++) {
       if (occupied[y][x] === 1) {
-        ctx.fillStyle = '#af0000';
+        ctx.fillStyle = 'rgba(175,0,0,0.5)';
         ctx.fillRect(x*size, y*size, size, size);
       }
-      if (occupied[y][x] === 2) {
-        ctx.fillStyle = '#008700';
+      if (occupied[y][x] > 1) {
+        ctx.fillStyle = 'rgba(0,87,0,0.5)';
         ctx.fillRect(x*size, y*size, size, size);
       }
-      if (occupied[y][x] === 3) {
-        ctx.fillStyle = '#008700';
+      if (occupied[y][x] < -1) {
+        ctx.fillStyle = 'rgba(0,87,0,0.5)';
         ctx.fillRect(x*size, y*size, size, size);
       }
     }
