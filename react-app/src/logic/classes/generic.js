@@ -20,7 +20,7 @@ export class Cell {
     if (collision(this, mouse)) {
       this.ctx.strokeStyle = color;
       this.ctx.lineWidth = this.lw;
-      this.ctx.strokeRect(this.x, this.y, this.width*3, this.height*1.5);
+      this.ctx.strokeRect(this.x, this.y, this.width*2.5, this.height*1.5);
     }
   }
 

@@ -73,7 +73,6 @@ export function aStar(occupied, start, end) {
     let current = queue[0];
     visited.push(current);
     if (current.point.x === end.point.x && current.point.y === end.point.y) {
-      console.log('attempting receonstruct');
       const path = reconstructPath(visited);
       return path;
     }

@@ -279,7 +279,6 @@ const Home = ({tool}) => {
                                           parent:null},
                                           canvasRef.current,
                                           CELL_SIZE);
-        console.log(wirePath);
         setWireRoute(wirePath);
         setIsWiring(false);
       }
