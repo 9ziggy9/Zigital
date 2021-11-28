@@ -242,6 +242,7 @@ const Home = ({tool}) => {
         }
 
         setStart(snapped);
+        setOccStart({x:occX,y:occY});
 
         // Change to wiring state, important because on exit we will push
         // connection class instantiations.
@@ -252,14 +253,20 @@ const Home = ({tool}) => {
         const cellQuad = {x: mouse.x % CELL_SIZE - (CELL_SIZE/2),
                           y: mouse.y % CELL_SIZE - (CELL_SIZE/2)};
         const snapped = quadrantSnapper(cellQuad, mouse, CELL_SIZE);
+        const {x:occX, y:occY} = occupiedSpace(snapped.x,snapped.y,CELL_SIZE);
         setIo('start');
         setEnd(snapped);
+        setOccEnd({x:occX,y:occY})
 
         // sponge: aStar call!
         // Connection logic will be instantiated at this point, we will check
         // for input/outputs of gates here.
-        aStar(OCCUPIED, {point: {x:0,y:0}, parent:null},
-                        {point: {x:10,y:10}, parent:null});
+        // NOTE: we pass points in this form so that a history lookup is aware
+        // of each cell's previous step, i.e. parent.
+        console.log(occStart.x, occStart.y);
+        console.log(occX, occY);
+        aStar(OCCUPIED, {point: {x:occStart.x,y:occStart.y}, parent:null},
+                        {point: {x:occX,y:occY}, parent:null});
         setIsWiring(false);
       }
     }
