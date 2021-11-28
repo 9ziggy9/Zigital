@@ -120,12 +120,13 @@ const Home = ({tool}) => {
                           y: mouse.y % CELL_SIZE - (CELL_SIZE/2)};
         const {x:endX, y:endY} = quadrantSnapper(cellQuad, mouse, CELL_SIZE);
 
-        ctx.beginPath();
-        ctx.strokeStyle = 'black';
-        ctx.setLineDash([0,0]);
-        ctx.moveTo(start.x, start.y);
-        ctx.lineTo(endX, endY);
-        ctx.stroke();
+        // MANUAL WIRING, we will eschew this for A*
+        // ctx.beginPath();
+        // ctx.strokeStyle = 'black';
+        // ctx.setLineDash([0,0]);
+        // ctx.moveTo(start.x, start.y);
+        // ctx.lineTo(endX, endY);
+        // ctx.stroke();
       }
       handleWireHighlight(WIRE_BOARD, mouse, OCCUPIED, CELL_SIZE);
     }
@@ -136,6 +137,12 @@ const Home = ({tool}) => {
 
     // handle wire segments
     // TODO: refactor this and place in grid.js
+    // In reality, all that really needs to be done is to implement A* as a
+    // subroutine to this process, the wires themselves are meaningless, only
+    // instantiation of the future connection class.
+    //
+    // Remember that WIRE_SEGMENTS is an array with objects of type
+    // {start: {x,y}, end: {x,y}}
     WIRE_SEGMENTS.forEach(w => {
       ctx.beginPath();
       ctx.strokeStyle = 'black';
@@ -243,6 +250,7 @@ const Home = ({tool}) => {
         const cellQuad = {x: mouse.x % CELL_SIZE - (CELL_SIZE/2),
                           y: mouse.y % CELL_SIZE - (CELL_SIZE/2)};
         const snapped = quadrantSnapper(cellQuad, mouse, CELL_SIZE);
+        setIo('start');
         setEnd(snapped);
 
         // Connection logic will be instantiated at this point, we will check
