@@ -44,6 +44,10 @@
     align-items: center;
 }
 
+a {
+    color: black;
+}
+
 .btn-list > button:hover {
     background-color: #5f8700;
 }

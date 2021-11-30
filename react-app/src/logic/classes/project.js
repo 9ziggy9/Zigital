@@ -1,10 +1,13 @@
 export class Project {
-  constructor(gates, bulbs, power, wires, occupied) {
+  constructor(gates, bulbs, power,
+              wires, occupied, fsm, map) {
     this.gates = gates;
     this.bulbs = bulbs;
     this.power = power;
     this.wires = wires;
     this.occupied = occupied;
+    this.fsm = fsm;
+    this.map = map;
   }
 
   pack() {
@@ -14,6 +17,8 @@ export class Project {
       power: this.power,
       wires: this.wires,
       occupied: this.occupied,
+      fsm: this.fsm,
+      map: this.map
     });
   }
 

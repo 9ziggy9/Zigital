@@ -1,45 +1,134 @@
 import React from 'react';
+import {useEffect, useState} from 'react';
+import { useDispatch } from 'react-redux';
 import './ProjectTree.css';
 import { useSelector } from 'react-redux';
+import { useHistory } from 'react-router-dom';
+import { saveProject, getProjects } from '../../store/session';
 
 const ProjectTree = ({setTool, save, setProject}) => {
+  const history = useHistory();
+  const dispatch = useDispatch();
   const user = useSelector(state => state.session.user);
+  const projects = useSelector(state => state.session.projects);
+  const [projectId, setProjectId] = useState(null);
+  const [projectTitle, setProjectTitle] = useState('project title');
+  const [projectDesc, setProjectDesc] = useState('project description');
+  const [refresh, setRefresh] = useState(0);
 
-  const saveProject = async () => {
-    const res = await fetch(`/api/projects/${user.id}`, {
-      method: 'POST',
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        save: save
-      }),
-    });
-    if (res.ok) {
-      const data = await res.json();
-      console.log(data);
+  useEffect(() => {
+    (async() => {
+      await dispatch(getProjects());
+    })();
+  }, [dispatch, refresh]);
+
+  const toggleLoad = (menu) => {
+    const projectNode = document.getElementById('pr-id');
+    const menuNode = document.getElementById(menu);
+    if (!menuNode.classList.contains("hidden")) {
+      menuNode.classList.add("hidden");
+      projectNode.classList.remove("hidden");
+    }
+    else {
+      menuNode.classList.remove("hidden");
+      projectNode.classList.add("hidden");
     }
   }
 
-  const getProject = async () => {
-    const res = await fetch(`/api/projects/2`)
+  const updateProjectTitle = (e) => {
+    e.preventDefault();
+    setProjectTitle(e.target.value);
+  };
+
+  const updateProjectDesc = (e) => {
+    e.preventDefault();
+    setProjectDesc(e.target.value);
+  };
+
+  const saveProjectA = async () => {
+    const data = await dispatch(saveProject(user.id, save,
+                                            projectTitle, projectDesc));
+    setRefresh(n => n + 1);
+    toggleLoad('save-menu');
+  }
+
+  const loadProject = async(id) => {
+    const res = await fetch(`/api/projects/${id}`)
     if (res.ok) {
       const data = await res.json();
       setProject(data.project.state);
+      setProjectId(data.project.id);
     }
+    toggleLoad('load-menu');
+  }
+
+  const deleteProject = async () => {
+    const res = await fetch(`/api/projects/${user.id}/${projectId}/delete`)
+    if (res.ok) {
+      const data = await res.json();
+      setProject(null);
+    }
+    toggleLoad('delete-menu');
+    history.go(0);
   }
 
   return (
     <>
-      <div className='btn-list'>
-        <button id='save' onClick={saveProject}>
+      <div id='pr-id' className='btn-list'>
+        <button id='save' onClick={() => toggleLoad('save-menu')}>
           save project
         </button>
-        <button id='load' onClick={getProject}>
+        <button id='load' onClick={() => toggleLoad('load-menu')}>
           load project
         </button>
-        <button id='delete'>
+        <button id='delete' onClick={() => toggleLoad('delete-menu')}>
           delete project
+        </button>
+      </div>
+      <div id='load-menu' className='btn-list hidden'>
+        <div id='project-title'>PROJECTS</div>
+        {projects && projects.map(p => (
+          <button className='project-load-button' key={`prj-${p.id}`}
+                  onClick={() => loadProject(p.id)}>
+            {p.title}
+          </button>
+        ))};
+        <button id='cancel' onClick={() => toggleLoad('load-menu')}>
+          cancel
+        </button>
+      </div>
+      <div id='save-menu' className='btn-list hidden'>
+        <div id='project-title'>SAVE PROJECT</div>
+        <div className='login-form-field'>
+          <input
+            className='save-project-inputs'
+            name='project_title'
+            type='text'
+            placeholder='project title'
+            value={projectTitle}
+            onChange={updateProjectTitle}
+          />
+          <textarea
+            name='project_desc'
+            type='text'
+            placeholder='short description'
+            rows='6'
+            value={projectDesc}
+            onChange={updateProjectDesc}
+          ></textarea>
+        </div>
+        <button id='project-save' onClick={() => saveProjectA()}>
+          save
+        </button>
+        <button id='cancel' onClick={() => toggleLoad('save-menu')}>
+          cancel
+        </button>
+      </div>
+      <div id='delete-menu' className='btn-list hidden'>
+        <div id='delete-title'>Are you sure you want to delete?</div>
+        <button id='cnf-del' onClick={() => deleteProject()}>yes, delete</button>
+        <button id='cancel' onClick={() => toggleLoad('delete-menu')}>
+          cancel
         </button>
       </div>
     </>
