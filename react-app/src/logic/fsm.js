@@ -76,6 +76,11 @@ export function determine_component(x,y,occ) {
       if (occ[y-2][x] === -8)
         return {type:'xnor', id:`${x}`+`${y-3}`}
       return {type:'xnor',id:`${x}`+`${y-1}`};
+    // POWER
+    case 9:
+      return {type:'power', id:`${x-4}`+`${y-1}`}
+    case -9:
+      return {type:'bulb', id:`${x}`+`${y-1}`}
     default: break;
   }
 }

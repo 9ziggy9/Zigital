@@ -38,6 +38,7 @@ let WIRE_COLORS = ['black', 'black', '#ffaf00', "#d75f00", '#d70000', '#5f8700',
                   '#ff5faf', '#8700af', '#d7875f', '#d0d0d0', '#af005f']
 
 const MACHINE = [];
+let STATE_MAP;
 
 const Home = ({tool, save, setSave, project}) => {
   const backgroundRef = useRef(null);
@@ -319,23 +320,65 @@ const Home = ({tool, save, setSave, project}) => {
         setIsWiring(false);
         const startC = determine_component(occStart.x, occStart.y, OCCUPIED);
         const endC = determine_component(occX, occY, OCCUPIED);
-        const STATE_MAP = mHash(MACHINE, 'id');
+        STATE_MAP = mHash(MACHINE, 'id');
+        console.log(STATE_MAP);
         if (OCCUPIED[occY][occX] > 1) {
-          if (STATE_MAP[startC.id] === undefined)
+          if (STATE_MAP[startC.id] === undefined) {
             MACHINE.push({
               id: startC.id,
               type: startC.type,
               input: [endC.id, 'F'],
               state: 0,
             });
-          if (STATE_MAP[endC.id] === undefined)
+          } else {
+            const component = STATE_MAP[startC.id];
+            let looking = true;
+            component['input'] = component['input'].map(i => {
+              if (i === 'F' && looking) {
+                looking = false;
+                return endC.id;
+              }
+              return i;
+            })
+          }
+          if (STATE_MAP[endC.id] === undefined) {
             MACHINE.push({
               id: endC.id,
               type: endC.type,
               input: ['F', 'F'],
               state: 0,
             });
+          }
         }
+        if (OCCUPIED[occY][occX] < 0) {
+          if (STATE_MAP[startC.id] === undefined) {
+            MACHINE.push({
+              id: startC.id,
+              type: startC.type,
+              input: ['F','F'],
+              state: 0,
+            });
+          }
+          if (STATE_MAP[endC.id] === undefined) {
+            MACHINE.push({
+              id: endC.id,
+              type: endC.type,
+              input: [startC.id, 'F'],
+              state: 0,
+            });
+          } else {
+            const component = STATE_MAP[endC.id];
+            let looking = true;
+            component['input'] = component['input'].map(i => {
+              if (i === 'F' && looking) {
+                looking = false;
+                return startC.id;
+              }
+              return i;
+            })
+          }
+        }
+        console.log(MACHINE);
       }
     }
 
