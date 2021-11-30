@@ -20,6 +20,8 @@ import {
 import {aStar} from '../../logic/astar.js';
 import {Project} from '../../logic/classes/project';
 import {Gate} from '../../logic/classes/gates';
+import {Bulb} from '../../logic/classes/bulb';
+import {Power} from '../../logic/classes/power';
 import {toolLabels, gateLabels} from '../ComponentsTree/ComponentsTree';
 import "../../index.css";
 
@@ -37,7 +39,7 @@ let OCCUPIED; // occupation array for collisions
 let WIRE_COLORS = ['black', 'black', '#ffaf00', "#d75f00", '#d70000', '#5f8700',
                   '#ff5faf', '#8700af', '#d7875f', '#d0d0d0', '#af005f']
 
-const MACHINE = [];
+let MACHINE = [];
 let STATE_MAP;
 
 const Home = ({tool, save, setSave, project}) => {
@@ -72,18 +74,16 @@ const Home = ({tool, save, setSave, project}) => {
 
   useEffect(() => {
     if(project) {
-      console.log(project.bulbs);
-      BULBS = project.bulbs;
-      console.log(project.gates);
+      BULBS = project.bulbs.map(b => new Bulb(b.x,b.y,CELL_SIZE,contextRef.current, b.state));
       GATES = project.gates.map(g => new Gate(g.x,g.y,CELL_SIZE,contextRef.current,g.gate));
-      console.log(project.occupied);
       OCCUPIED = project.occupied;
-      console.log(project.power);
-      POWER = project.power;
-      console.log(project.wires);
+      POWER = project.power.map(p => new Power(p.x,p.y,CELL_SIZE,contextRef.current, p.state));
       WIRE_SEGMENTS = project.wires;
+      MACHINE = project.fsm;
+      STATE_MAP = project.map;
+      fsm_eval(MACHINE,STATE_MAP);
     } else {
-      console.log('no project');
+      console.log('new project');
     }
   }, [project])
 
@@ -360,7 +360,6 @@ const Home = ({tool, save, setSave, project}) => {
         const startC = determine_component(occStart.x, occStart.y, OCCUPIED);
         const endC = determine_component(occX, occY, OCCUPIED);
         STATE_MAP = mHash(MACHINE, 'id');
-        console.log(STATE_MAP);
         if (OCCUPIED[occY][occX] > 1) {
           if (STATE_MAP[startC.id] === undefined) {
             MACHINE.push({
@@ -425,22 +424,34 @@ const Home = ({tool, save, setSave, project}) => {
     }
 
     if (tool === 'delete') {
-      GATES = GATES.filter(G =>
-        !(mouse.x - G.x <= G.width && mouse.x - G.x > 0 &&
-          mouse.y - G.y <= G.height && mouse.y - G.y > 0 ));
-      WIRE_SEGMENTS = WIRE_SEGMENTS.filter(W => {
-        //need to implement this, for now, just clear
-        return false;
-      });
-      BULBS = BULBS.filter(G =>
-        !(mouse.x - G.x <= G.width && mouse.x - G.x > 0 &&
-          mouse.y - G.y <= G.height && mouse.y - G.y > 0 ));
-      POWER = POWER.filter(G =>
-        !(mouse.x - G.x <= G.width && mouse.x - G.x > 0 &&
-          mouse.y - G.y <= G.height && mouse.y - G.y > 0 ));
+      GATES = [];
+      WIRE_SEGMENTS = [];
+      BULBS = [];
+      POWER = [];
+      MACHINE = [];
+      STATE_MAP = [];
+      for (let y = 0; y < OCCUPIED.length; y++) {
+        for (let x = 0; x < OCCUPIED[0].length; x++) {
+          OCCUPIED[y][x] = 0;
+        }
+      }
+      // GATES = GATES.filter(G =>
+      //   !(mouse.x - G.x <= G.width && mouse.x - G.x > 0 &&
+      //     mouse.y - G.y <= G.height && mouse.y - G.y > 0 ));
+      // WIRE_SEGMENTS = WIRE_SEGMENTS.filter(W => {
+      //   //need to implement this, for now, just clear
+      //   return false;
+      // });
+      // BULBS = BULBS.filter(G =>
+      //   !(mouse.x - G.x <= G.width && mouse.x - G.x > 0 &&
+      //     mouse.y - G.y <= G.height && mouse.y - G.y > 0 ));
+      // POWER = POWER.filter(G =>
+      //   !(mouse.x - G.x <= G.width && mouse.x - G.x > 0 &&
+      //     mouse.y - G.y <= G.height && mouse.y - G.y > 0 ));
     }
 
-    setSave(new Project(GATES, BULBS, POWER, WIRE_SEGMENTS, OCCUPIED))
+    setSave(new Project(GATES, BULBS, POWER, WIRE_SEGMENTS,
+                        OCCUPIED, MACHINE, STATE_MAP));
   }
 
   // const handleMouseDown = ({nativeEvent}) => {

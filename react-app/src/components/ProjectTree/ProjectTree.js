@@ -49,6 +49,14 @@ const ProjectTree = ({setTool, save, setProject}) => {
     toggleLoad('save-menu');
   }
 
+  const loadProject = async(id) => {
+    const res = await fetch(`/api/projects/${id}`)
+    if (res.ok) {
+      const data = await res.json();
+      setProject(data.project.state);
+    }
+  }
+
   return (
     <>
       <div id='pr-id' className='btn-list'>
@@ -65,7 +73,8 @@ const ProjectTree = ({setTool, save, setProject}) => {
       <div id='load-menu' className='btn-list hidden'>
         <div id='project-title'>PROJECTS</div>
         {projects && projects.map(p => (
-          <button className='project-load-button' key={`prj-${p.id}`}>
+          <button className='project-load-button' key={`prj-${p.id}`}
+                  onClick={() => loadProject(p.id)}>
             {p.title}
           </button>
         ))};
