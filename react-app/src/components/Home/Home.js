@@ -3,6 +3,7 @@ import React, {
   useState,
   useEffect
 } from 'react';
+import {mHash, determine_component, fsm_eval} from '../../logic/fsm.js';
 import {
   createGrid,
   handleGrid,
@@ -36,6 +37,9 @@ let OCCUPIED; // occupation array for collisions
 let WIRE_COLORS = ['black', 'black', '#ffaf00', "#d75f00", '#d70000', '#5f8700',
                   '#ff5faf', '#8700af', '#d7875f', '#d0d0d0', '#af005f']
 
+const MACHINE = [];
+let STATE_MAP;
+
 const Home = ({tool, save, setSave, project}) => {
   const backgroundRef = useRef(null);
   const backgroundCtxRef = useRef(null);
@@ -55,6 +59,7 @@ const Home = ({tool, save, setSave, project}) => {
   const [wireRoute, setWireRoute] = useState([]);
   const [io, setIo] = useState('start');
   const [wireColor, setWireColor] = useState(0);
+  const [machineState, setMachineState] = useState([]);
 
   const drawBackground = (ctx) => {
     ctx.fillStyle = '#696969';
@@ -134,9 +139,9 @@ const Home = ({tool, save, setSave, project}) => {
     let mouse = mouseRef.current;
 
     // Selection highlighting
-    if (gateLabels.has(tool)) {
-      handleGateHighlight(CIRCUIT_BOARD, mouse);
-    }
+    if (gateLabels.has(tool)) handleGateHighlight(CIRCUIT_BOARD, mouse);
+    if (tool === "bulb") handleGateHighlight(CIRCUIT_BOARD, mouse);
+    if (tool === "power") handleGateHighlight(CIRCUIT_BOARD, mouse);
     if (tool === "wire") {
       openWireRoute(OCCUPIED, ctx, CELL_SIZE, io);
       if (isWiring) {
@@ -249,7 +254,46 @@ const Home = ({tool, save, setSave, project}) => {
       generateComponent(BULBS, OCCUPIED, mouse, CELL_SIZE, context, tool)
     }
 
-    // // // // // // // // // // //
+    if (tool === 'click') {
+      const cellQuad = {x: mouse.x % CELL_SIZE - (CELL_SIZE),
+                        y: mouse.y % CELL_SIZE - (CELL_SIZE)};
+      const snapped = quadrantSnapper(cellQuad, mouse, CELL_SIZE);
+      const {x:X, y:Y} = occupiedSpace(snapped.x,snapped.y,CELL_SIZE);
+      let X0, Y0;
+      if (OCCUPIED[Y][X] === 10) {
+        POWER.forEach(b => {
+          if (mouse.x > b.x && mouse.x < (b.x + 5*CELL_SIZE) &&
+              mouse.y > b.y && mouse.y < (b.y + 3*CELL_SIZE)) {
+            b.switchState();
+            X0 = b.x / CELL_SIZE;
+            Y0 = b.y / CELL_SIZE;
+          }
+        });
+        STATE_MAP = mHash(MACHINE,'id');
+        const powerHash = `${X0}`+`${Y0}`;
+        if (STATE_MAP[powerHash].state)
+          STATE_MAP[powerHash]['state'] = 0;
+        else
+          STATE_MAP[powerHash]['state'] = 1;
+
+        // RUN THE FSM
+        fsm_eval(MACHINE, STATE_MAP);
+        //
+
+        for (let state in STATE_MAP) {
+          if (STATE_MAP[state].type === 'bulb') {
+            const [bX,bY] = STATE_MAP[state].at;
+            const newState = STATE_MAP[state].state;
+            BULBS.forEach(b => {
+              if (b.x === bX && b.y === bY)
+                b.state = newState;
+            })
+          }
+        }
+      }
+    }
+
+    // * // // // // // // // // // //
     // TOOL STATE LOGIC HANDLING //
     // sponge: wires            //
     // // // // // // // // // //
@@ -313,6 +357,70 @@ const Home = ({tool, save, setSave, project}) => {
                                           parent:null});
         setWireRoute(wirePath);
         setIsWiring(false);
+        const startC = determine_component(occStart.x, occStart.y, OCCUPIED);
+        const endC = determine_component(occX, occY, OCCUPIED);
+        STATE_MAP = mHash(MACHINE, 'id');
+        console.log(STATE_MAP);
+        if (OCCUPIED[occY][occX] > 1) {
+          if (STATE_MAP[startC.id] === undefined) {
+            MACHINE.push({
+              id: startC.id,
+              type: startC.type,
+              input: [endC.id, 'F'],
+              at: [CELL_SIZE*occStart.x, CELL_SIZE*occStart.y-20],
+              state: 0,
+            });
+          } else {
+            const component = STATE_MAP[startC.id];
+            let looking = true;
+            component['input'] = component['input'].map(i => {
+              if (i === 'F' && looking) {
+                looking = false;
+                return endC.id;
+              }
+              return i;
+            })
+          }
+          if (STATE_MAP[endC.id] === undefined) {
+            MACHINE.push({
+              id: endC.id,
+              type: endC.type,
+              input: ['F', 'F'],
+              at: [CELL_SIZE*occX, CELL_SIZE*occY-20],
+              state: 0,
+            });
+          }
+        }
+        if (OCCUPIED[occY][occX] < 0) {
+          if (STATE_MAP[startC.id] === undefined) {
+            MACHINE.push({
+              id: startC.id,
+              type: startC.type,
+              input: ['F','F'],
+              at: [CELL_SIZE*occStart.x, CELL_SIZE*occStart.y-20],
+              state: 0,
+            });
+          }
+          if (STATE_MAP[endC.id] === undefined) {
+            MACHINE.push({
+              id: endC.id,
+              type: endC.type,
+              input: [startC.id, 'F'],
+              at: [CELL_SIZE*occX, CELL_SIZE*occY-20],
+              state: 0,
+            });
+          } else {
+            const component = STATE_MAP[endC.id];
+            let looking = true;
+            component['input'] = component['input'].map(i => {
+              if (i === 'F' && looking) {
+                looking = false;
+                return startC.id;
+              }
+              return i;
+            })
+          }
+        }
       }
     }
 
@@ -361,7 +469,6 @@ const Home = ({tool, save, setSave, project}) => {
       setIsWiring(false);
       setIo('start');
     }
-    console.log(OCCUPIED);
   }
 
   return (
