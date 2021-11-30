@@ -259,14 +259,22 @@ const Home = ({tool, save, setSave, project}) => {
                         y: mouse.y % CELL_SIZE - (CELL_SIZE)};
       const snapped = quadrantSnapper(cellQuad, mouse, CELL_SIZE);
       const {x:X, y:Y} = occupiedSpace(snapped.x,snapped.y,CELL_SIZE);
+      let X0, Y0;
       if (OCCUPIED[Y][X] === 10) {
-        console.log('clicked power');
         POWER.forEach(b => {
           if (mouse.x > b.x && mouse.x < (b.x + 5*CELL_SIZE) &&
               mouse.y > b.y && mouse.y < (b.y + 3*CELL_SIZE)) {
             b.switchState();
+            X0 = b.x / CELL_SIZE;
+            Y0 = b.y / CELL_SIZE;
           }
         });
+        STATE_MAP = mHash(MACHINE,'id');
+        const powerHash = `${X0}`+`${Y0}`;
+        if (STATE_MAP[powerHash].state)
+          STATE_MAP[powerHash]['state'] = 0;
+        else
+          STATE_MAP[powerHash]['state'] = 1;
       }
     }
 
@@ -394,7 +402,6 @@ const Home = ({tool, save, setSave, project}) => {
             })
           }
         }
-        console.log(MACHINE);
       }
     }
 
