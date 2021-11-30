@@ -275,8 +275,20 @@ const Home = ({tool, save, setSave, project}) => {
           STATE_MAP[powerHash]['state'] = 0;
         else
           STATE_MAP[powerHash]['state'] = 1;
+
+        // RUN THE FSM
         fsm_eval(MACHINE, STATE_MAP);
-        console.log(MACHINE);
+        //
+
+        for (let state in STATE_MAP) {
+          if (STATE_MAP[state].type === 'bulb') {
+            const [bX,bY] = STATE_MAP[state].at;
+            BULBS.forEach(b => {
+              if (b.x === bX && b.y === bY)
+                b.switchState();
+            })
+          }
+        }
       }
     }
 
@@ -354,6 +366,7 @@ const Home = ({tool, save, setSave, project}) => {
               id: startC.id,
               type: startC.type,
               input: [endC.id, 'F'],
+              at: [CELL_SIZE*occStart.x, CELL_SIZE*occStart.y-20],
               state: 0,
             });
           } else {
@@ -372,6 +385,7 @@ const Home = ({tool, save, setSave, project}) => {
               id: endC.id,
               type: endC.type,
               input: ['F', 'F'],
+              at: [CELL_SIZE*occX, CELL_SIZE*occY-20],
               state: 0,
             });
           }
@@ -382,6 +396,7 @@ const Home = ({tool, save, setSave, project}) => {
               id: startC.id,
               type: startC.type,
               input: ['F','F'],
+              at: [CELL_SIZE*occStart.x, CELL_SIZE*occStart.y-20],
               state: 0,
             });
           }
@@ -390,6 +405,7 @@ const Home = ({tool, save, setSave, project}) => {
               id: endC.id,
               type: endC.type,
               input: [startC.id, 'F'],
+              at: [CELL_SIZE*occX, CELL_SIZE*occY-20],
               state: 0,
             });
           } else {
