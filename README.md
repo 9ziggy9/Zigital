@@ -19,9 +19,11 @@ Note that delete will remove all components at the moment, I am looking to fix t
 Projects can be saved and loaded but currently I have not yet implemented abstraction of components.
 
 ## Coming soon
-Abstraction of circuits to be used as custom components; this will be done via compilation of truth
+- Abstraction of circuits to be used as custom components; this will be done via compilation of truth
 tables by permuting over all possible inputs. From this it would be relatively straightforward to
 return a custom logic function for the desired component via closure.
+- Heuristic to A* can and should be modified to limit number of turns; this will improved the gnarling
+of paths which is a bit of an issue for massive circuits.
 
 ## Known bugs
 - Currently deletion of wires is done in one foul swoop, a proximity deletion to a wire needs to be
