@@ -231,6 +231,23 @@ const Home = ({tool, save, setSave, project}) => {
       })
     }
     setWireColor(n => n+1);
+    try {
+      STATE_MAP = mHash(MACHINE,'id');
+      fsm_eval(MACHINE, STATE_MAP);
+      for (let state in STATE_MAP) {
+        if (STATE_MAP[state].type === 'bulb') {
+          const [bX,bY] = STATE_MAP[state].at;
+          const newState = STATE_MAP[state].state;
+          BULBS.forEach(b => {
+            if (b.x === bX && b.y === bY)
+              b.state = newState;
+          })
+        }
+      }
+    } catch {
+      console.log('not ready')
+    }
+
   }, [end]);
 
   const handleClick = ({nativeEvent}) => {
@@ -277,7 +294,11 @@ const Home = ({tool, save, setSave, project}) => {
           STATE_MAP[powerHash]['state'] = 1;
 
         // RUN THE FSM
-        fsm_eval(MACHINE, STATE_MAP);
+        try {
+          fsm_eval(MACHINE, STATE_MAP);
+        } catch {
+          console.log('not ready');
+        }
         //
 
         for (let state in STATE_MAP) {
