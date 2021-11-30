@@ -44,7 +44,10 @@ export function fsm_eval(mch, map) {
 
 export function determine_component(x,y,occ) {
   switch (occ[y][x]) {
-    case 2: break;
+    case -2:
+      return {type:'not',id:`${x}`+`${y-1}`};
+    case 2:
+      return {type:'not',id:`${x-4}`+`${y-1}`};
     case 3:
       return {type:'or',id:`${x-4}`+`${y-2}`};
     case 4:

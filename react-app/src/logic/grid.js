@@ -114,14 +114,24 @@ export function gateIo(occupied, mouse, tool, size, X, Y) {
   switch(tool) {
     case 'not':
       // INPUT JUNCTIONS
-      occupied[cellY][cellX] = -2;
-      occupied[cellY + 2][cellX] = -2;
+      occupied[cellY+1][cellX] = -2;
       // GATE ITSELF (expanded to deter path finding along edges)
       // Primary cells
-      occupier();
+      occupied[cellY][cellX] = 1;
+      occupied[cellY][cellX+1] = 1;
+      occupied[cellY][cellX+2] = 1;
+      occupied[cellY][cellX+3] = 1;
+      occupied[cellY][cellX+4] = 1;
+      occupied[cellY+2][cellX] = 1;
+      occupied[cellY+2][cellX+1] = 1;
+      occupied[cellY+2][cellX+2] = 1;
+      occupied[cellY+2][cellX+3] = 1;
+      occupied[cellY+2][cellX+4] = 1;
       // OUTPUT JUNCTIONS
-      occupied[cellY][cellX + 3] = 2;
-      occupied[cellY + 1][cellX + 3] = 2;
+      occupied[cellY+1][cellX+4] = 2;
+      occupied[cellY+1][cellX+1] = 1;
+      occupied[cellY+1][cellX+2] = 1;
+      occupied[cellY+1][cellX+3] = 1;
       break;
     case 'or':
       occupier();

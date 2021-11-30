@@ -390,8 +390,8 @@ const Home = ({tool, save, setSave, project}) => {
                                           parent:null});
         setWireRoute(wirePath);
         setIsWiring(false);
-        const startC = determine_component(occStart.x, occStart.y, OCCUPIED);
-        const endC = determine_component(occX, occY, OCCUPIED);
+        let startC = determine_component(occStart.x, occStart.y, OCCUPIED);
+        let endC = determine_component(occX, occY, OCCUPIED);
         STATE_MAP = mHash(MACHINE, 'id');
         if (OCCUPIED[occY][occX] > 1) {
           if (STATE_MAP[startC.id] === undefined) {
