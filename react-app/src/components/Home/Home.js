@@ -259,7 +259,9 @@ const Home = ({tool, save, setSave, project}) => {
                         y: mouse.y % CELL_SIZE - (CELL_SIZE)};
       const snapped = quadrantSnapper(cellQuad, mouse, CELL_SIZE);
       const {x:X, y:Y} = occupiedSpace(snapped.x,snapped.y,CELL_SIZE);
-      console.log(X,Y);
+      if (OCCUPIED[Y][X] === 10) {
+        console.log('clicked power');
+      }
     }
 
     // * // // // // // // // // // //
