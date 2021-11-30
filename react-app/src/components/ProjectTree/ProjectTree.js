@@ -11,12 +11,13 @@ const ProjectTree = ({setTool, save, setProject}) => {
   const projects = useSelector(state => state.session.projects);
   const [projectTitle, setProjectTitle] = useState('project title');
   const [projectDesc, setProjectDesc] = useState('project description');
+  const [refresh, setRefresh] = useState(0);
 
   useEffect(() => {
     (async() => {
       await dispatch(getProjects());
     })();
-  }, [dispatch]);
+  }, [dispatch, refresh]);
 
   const toggleLoad = (menu) => {
     const projectNode = document.getElementById('pr-id');
@@ -44,13 +45,8 @@ const ProjectTree = ({setTool, save, setProject}) => {
   const saveProjectA = async () => {
     const data = await dispatch(saveProject(user.id, save,
                                             projectTitle, projectDesc));
+    setRefresh(n => n + 1);
     toggleLoad('save-menu');
-  }
-
-  const getProjectsA = async () => {
-    toggleLoad('load-menu')
-    const data = await dispatch(getProjects());
-    console.log(projects);
   }
 
   return (
@@ -59,7 +55,7 @@ const ProjectTree = ({setTool, save, setProject}) => {
         <button id='save' onClick={() => toggleLoad('save-menu')}>
           save project
         </button>
-        <button id='load' onClick={() => getProjectsA()}>
+        <button id='load' onClick={() => toggleLoad('load-menu')}>
           load project
         </button>
         <button id='delete' onClick={() => toggleLoad('delete-menu')}>
@@ -68,27 +64,11 @@ const ProjectTree = ({setTool, save, setProject}) => {
       </div>
       <div id='load-menu' className='btn-list hidden'>
         <div id='project-title'>PROJECTS</div>
-        <button className='project-load-button'>
-          example 1
-        </button>
-        <button className='project-load-button'>
-          example 2
-        </button>
-        <button className='project-load-button'>
-          example 3
-        </button>
-        <button className='project-load-button'>
-          example 4
-        </button>
-        <button className='project-load-button'>
-          example 5
-        </button>
-        <button className='project-load-button'>
-          example 6
-        </button>
-        <button className='project-load-button'>
-          example 7
-        </button>
+        {projects && projects.map(p => (
+          <button className='project-load-button' key={`prj-${p.id}`}>
+            {p.title}
+          </button>
+        ))};
         <button id='cancel' onClick={() => toggleLoad('load-menu')}>
           cancel
         </button>

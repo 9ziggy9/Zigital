@@ -144,7 +144,7 @@ export default function reducer(state = initialState, action) {
       return { user: null }
     case SAVE_PROJECT:
       newState = Object.assign({}, state);
-      newState.project = action.payload;
+      newState.project = action.payload.project;
       return newState;
     case GET_PROJECTS:
       newState = Object.assign({}, state);
