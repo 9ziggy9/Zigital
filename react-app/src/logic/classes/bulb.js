@@ -1,4 +1,5 @@
-import BULBOFF from '../../img/logic_gates/BULBOFF.svg'
+import BULBOFF from '../../img/logic_gates/BULBOFF.svg';
+import {collision} from '../grid';
 
 export class Bulb {
   constructor(x, y, cellSize, ctx) {
@@ -12,6 +13,14 @@ export class Bulb {
   draw(){
     let img = new Image();
     img.src = BULBOFF;
-    this.ctx.drawImage(img, this.x, this.y - 9.5, this.width, this.height);
+    this.ctx.drawImage(img, this.x, this.y-1, this.width*1.25, this.height * 1.25);
+  }
+
+  drawHighlight(mouse, color){
+    if (collision(this, mouse)) {
+      this.ctx.strokeStyle = color;
+      this.ctx.lineWidth = this.lw;
+      this.ctx.strokeRect(this.x, this.y, this.width*2.5, this.height*1.5);
+    }
   }
 }

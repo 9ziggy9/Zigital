@@ -8,6 +8,7 @@ import {
   handleGrid,
   handleGateHighlight,
   handleWireHighlight,
+  handleOtherHighlight,
   handleGates,
   handleBulbs,
   handlePower,
@@ -134,9 +135,9 @@ const Home = ({tool, save, setSave, project}) => {
     let mouse = mouseRef.current;
 
     // Selection highlighting
-    if (gateLabels.has(tool)) {
-      handleGateHighlight(CIRCUIT_BOARD, mouse);
-    }
+    if (gateLabels.has(tool)) handleGateHighlight(CIRCUIT_BOARD, mouse);
+    if (tool === "bulb") handleGateHighlight(CIRCUIT_BOARD, mouse);
+    if (tool === "power") handleGateHighlight(CIRCUIT_BOARD, mouse);
     if (tool === "wire") {
       openWireRoute(OCCUPIED, ctx, CELL_SIZE, io);
       if (isWiring) {

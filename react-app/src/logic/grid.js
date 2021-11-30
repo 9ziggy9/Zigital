@@ -33,6 +33,12 @@ export function handleGateHighlight(grid, mouse, color='white') {
   }
 }
 
+export function handleOtherHighlight(grid, mouse, color='white') {
+  for (let i = 0; i < grid.length; i++) {
+    grid[i].drawHighlight(mouse, color);
+  }
+}
+
 export function handleWireHighlight(grid, mouse, occupied, size) {
   for (let i = 0; i < grid.length; i++) {
     grid[i].drawWireCell(mouse, occupied, size);
@@ -156,18 +162,43 @@ export function generateComponent(layer, occupied, mouse,
     gateIo(occupied, mouse, tool, size, gridPositionX, gridPositionY);
   } else if (tool === 'bulb') {
     layer.push(new Bulb(gridPositionX, gridPositionY, size, ctx));
-    occupied[gridPositionY/size][gridPositionX/size] = -9;
+    occupied[gridPositionY/size][gridPositionX/size] = 1;
     occupied[gridPositionY/size][(gridPositionX/size) + 1] = 1;
     occupied[gridPositionY/size][(gridPositionX/size) + 2] = 1;
-    occupied[(gridPositionY/size)+1][(gridPositionX/size) + 1] = 1;
-    occupied[(gridPositionY/size)+1][(gridPositionX/size) + 2] = 1;
+    occupied[gridPositionY/size][(gridPositionX/size)+3] = 1;
+    occupied[gridPositionY/size][(gridPositionX/size)+4] = 1;
+
+    occupied[gridPositionY/size+1][(gridPositionX/size)+4] = 1;
+    occupied[gridPositionY/size+1][gridPositionX/size] = -9;
+    occupied[gridPositionY/size+1][(gridPositionX/size) + 1] = 1;
+    occupied[gridPositionY/size+1][(gridPositionX/size) + 2] = 1;
+    occupied[gridPositionY/size+1][(gridPositionX/size)+3] = 1;
+
+    occupied[gridPositionY/size+2][gridPositionX/size] = 1;
+    occupied[gridPositionY/size+2][(gridPositionX/size) + 1] = 1;
+    occupied[gridPositionY/size+2][(gridPositionX/size) + 2] = 1;
+    occupied[gridPositionY/size+2][(gridPositionX/size)+3] = 1;
+    occupied[gridPositionY/size+2][(gridPositionX/size)+4] = 1;
   } else if (tool === 'power') {
     layer.push(new Power(gridPositionX, gridPositionY, size, ctx));
-    occupied[gridPositionY/size][(gridPositionX/size) + 1] = 1;
-    occupied[gridPositionY/size][(gridPositionX/size) + 2] = 1;
-    occupied[(gridPositionY/size)+1][(gridPositionX/size) + 1] = 1;
-    occupied[(gridPositionY/size)+1][(gridPositionX/size) + 2] = 1;
-    occupied[gridPositionY/size][(gridPositionX/size)+3] = 9;
+    occupied[gridPositionY/size][gridPositionX/size] = 10;
+    occupied[gridPositionY/size][(gridPositionX/size) + 1] = 10;
+    occupied[gridPositionY/size][(gridPositionX/size) + 2] = 10;
+    occupied[gridPositionY/size][(gridPositionX/size)+3] = 10;
+    occupied[gridPositionY/size][(gridPositionX/size)+4] = 10;
+
+    occupied[gridPositionY/size+1][(gridPositionX/size)+4] = 9;
+
+    occupied[gridPositionY/size+1][gridPositionX/size] = 10;
+    occupied[gridPositionY/size+1][(gridPositionX/size) + 1] = 10;
+    occupied[gridPositionY/size+1][(gridPositionX/size) + 2] = 10;
+    occupied[gridPositionY/size+1][(gridPositionX/size)+3] = 10;
+
+    occupied[gridPositionY/size+2][gridPositionX/size] = 10;
+    occupied[gridPositionY/size+2][(gridPositionX/size) + 1] = 10;
+    occupied[gridPositionY/size+2][(gridPositionX/size) + 2] = 10;
+    occupied[gridPositionY/size+2][(gridPositionX/size)+3] = 10;
+    occupied[gridPositionY/size+2][(gridPositionX/size)+4] = 10;
   }
 }
 
@@ -175,43 +206,43 @@ export function openWireRoute(occupied, ctx, size, io='start') {
   for (let y = 0; y < occupied.length; y++) {
     for (let x = 0; x < occupied[0].length; x++) {
       if (io === 'start') {
-        if (occupied[y][x] === 1) {
+        if (occupied[y][x] === 1 || occupied[y][x] === 10) {
           ctx.fillStyle = 'rgba(175,0,0,0.5)';
           ctx.fillRect(x*size, y*size, size, size);
         }
-        if (occupied[y][x] > 1) {
+        if (occupied[y][x] > 1 && occupied[y][x] !== 10) {
           ctx.fillStyle = 'rgba(0,87,0,0.5)';
           ctx.fillRect(x*size, y*size, size, size);
         }
-        if (occupied[y][x] < -1) {
+        if (occupied[y][x] < -1 && occupied[y][x] !== 10) {
           ctx.fillStyle = 'rgba(0,87,0,0.5)';
           ctx.fillRect(x*size, y*size, size, size);
         }
       }
       if (io === 'input') {
-        if (occupied[y][x] === 1) {
+        if (occupied[y][x] === 1 || occupied[y][x] === 10) {
           ctx.fillStyle = 'rgba(175,0,0,0.5)';
           ctx.fillRect(x*size, y*size, size, size);
         }
-        if (occupied[y][x] > 1) {
+        if (occupied[y][x] > 1 && occupied[y][x] !== 10) {
           ctx.fillStyle = 'rgba(0,87,0,0.5)';
           ctx.fillRect(x*size, y*size, size, size);
         }
-        if (occupied[y][x] < -1) {
+        if (occupied[y][x] < -1 && occupied[y][x] !== 10) {
           ctx.fillStyle = 'rgba(175,0,0,0.5)';
           ctx.fillRect(x*size, y*size, size, size);
         }
       }
       if (io === 'output') {
-        if (occupied[y][x] === 1) {
+        if (occupied[y][x] === 1 || occupied[y][x] === 10) {
           ctx.fillStyle = 'rgba(175,0,0,0.5)';
           ctx.fillRect(x*size, y*size, size, size);
         }
-        if (occupied[y][x] > 1) {
+        if (occupied[y][x] > 1 && occupied[y][x] !== 10) {
           ctx.fillStyle = 'rgba(175,0,0,0.5)';
           ctx.fillRect(x*size, y*size, size, size);
         }
-        if (occupied[y][x] < -1) {
+        if (occupied[y][x] < -1 && occupied[y][x] !== 10) {
           ctx.fillStyle = 'rgba(0,87,0,0.5)';
           ctx.fillRect(x*size, y*size, size, size);
         }
