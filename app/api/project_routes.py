@@ -37,3 +37,15 @@ def get_projects():
     print(projects)
     print('\n hello \n')
     return {"projects": [{'id': project.to_dict()['id'], 'title': project.to_dict()['title'], 'description': project.to_dict()['description']} for project in projects]}
+
+@project_routes.route('/<int:user_id>/<int:project_id>/delete', methods=['GET'])
+def del_project(user_id,project_id):
+    if user_id != current_user.id:
+        return 'not so fast there, hackerman'
+    project = Project.query.filter_by(id=project_id).first()
+    print('\n hello \n')
+    print(project)
+    print('\n hello \n')
+    db.session.delete(project)
+    db.session.commit()
+    return {'status':'successfully deleted'};

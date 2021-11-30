@@ -3,12 +3,15 @@ import {useEffect, useState} from 'react';
 import { useDispatch } from 'react-redux';
 import './ProjectTree.css';
 import { useSelector } from 'react-redux';
+import { useHistory } from 'react-router-dom';
 import { saveProject, getProjects } from '../../store/session';
 
 const ProjectTree = ({setTool, save, setProject}) => {
+  const history = useHistory();
   const dispatch = useDispatch();
   const user = useSelector(state => state.session.user);
   const projects = useSelector(state => state.session.projects);
+  const [projectId, setProjectId] = useState(null);
   const [projectTitle, setProjectTitle] = useState('project title');
   const [projectDesc, setProjectDesc] = useState('project description');
   const [refresh, setRefresh] = useState(0);
@@ -54,7 +57,19 @@ const ProjectTree = ({setTool, save, setProject}) => {
     if (res.ok) {
       const data = await res.json();
       setProject(data.project.state);
+      setProjectId(data.project.id);
     }
+    toggleLoad('load-menu');
+  }
+
+  const deleteProject = async () => {
+    const res = await fetch(`/api/projects/${user.id}/${projectId}/delete`)
+    if (res.ok) {
+      const data = await res.json();
+      setProject(null);
+    }
+    toggleLoad('delete-menu');
+    history.go(0);
   }
 
   return (
@@ -111,7 +126,7 @@ const ProjectTree = ({setTool, save, setProject}) => {
       </div>
       <div id='delete-menu' className='btn-list hidden'>
         <div id='delete-title'>Are you sure you want to delete?</div>
-        <button id='cnf-del'>yes, delete</button>
+        <button id='cnf-del' onClick={() => deleteProject()}>yes, delete</button>
         <button id='cancel' onClick={() => toggleLoad('delete-menu')}>
           cancel
         </button>
