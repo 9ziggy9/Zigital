@@ -14,7 +14,7 @@ const xnor = (a,b) => not(a ^ b);
 export function fsm_eval(mch, map) {
   const OP = (logic, component) => {
     const out1 = map[component.input[0]];
-    const out2 = map[component.input[2]];
+    const out2 = map[component.input[1]];
     component.state = (out1 === 'F' || out2 === 'F')
     ? 'F'
     : logic(out1.state, out2.state);

@@ -283,9 +283,10 @@ const Home = ({tool, save, setSave, project}) => {
         for (let state in STATE_MAP) {
           if (STATE_MAP[state].type === 'bulb') {
             const [bX,bY] = STATE_MAP[state].at;
+            const newState = STATE_MAP[state].state;
             BULBS.forEach(b => {
               if (b.x === bX && b.y === bY)
-                b.switchState();
+                b.state = newState;
             })
           }
         }
