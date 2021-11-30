@@ -1,10 +1,22 @@
 import React from 'react';
-import {useState} from 'react';
+import {useEffect, useState} from 'react';
+import { useDispatch } from 'react-redux';
 import './ProjectTree.css';
 import { useSelector } from 'react-redux';
+import { saveProject, getProjects } from '../../store/session';
 
 const ProjectTree = ({setTool, save, setProject}) => {
+  const dispatch = useDispatch();
   const user = useSelector(state => state.session.user);
+  const projects = useSelector(state => state.session.projects);
+  const [projectTitle, setProjectTitle] = useState('project title');
+  const [projectDesc, setProjectDesc] = useState('project description');
+
+  useEffect(() => {
+    (async() => {
+      await dispatch(getProjects());
+    })();
+  }, [dispatch]);
 
   const toggleLoad = (menu) => {
     const projectNode = document.getElementById('pr-id');
@@ -19,28 +31,26 @@ const ProjectTree = ({setTool, save, setProject}) => {
     }
   }
 
-  const saveProject = async () => {
-    const res = await fetch(`/api/projects/${user.id}`, {
-      method: 'POST',
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        save: save
-      }),
-    });
-    if (res.ok) {
-      const data = await res.json();
-      console.log(data);
-    }
+  const updateProjectTitle = (e) => {
+    e.preventDefault();
+    setProjectTitle(e.target.value);
+  };
+
+  const updateProjectDesc = (e) => {
+    e.preventDefault();
+    setProjectDesc(e.target.value);
+  };
+
+  const saveProjectA = async () => {
+    const data = await dispatch(saveProject(user.id, save,
+                                            projectTitle, projectDesc));
+    toggleLoad('save-menu');
   }
 
-  const getProject = async () => {
-    const res = await fetch(`/api/projects/2`)
-    if (res.ok) {
-      const data = await res.json();
-      setProject(data.project.state);
-    }
+  const getProjectsA = async () => {
+    toggleLoad('load-menu')
+    const data = await dispatch(getProjects());
+    console.log(projects);
   }
 
   return (
@@ -49,7 +59,7 @@ const ProjectTree = ({setTool, save, setProject}) => {
         <button id='save' onClick={() => toggleLoad('save-menu')}>
           save project
         </button>
-        <button id='load' onClick={() => toggleLoad('load-menu')}>
+        <button id='load' onClick={() => getProjectsA()}>
           load project
         </button>
         <button id='delete' onClick={() => toggleLoad('delete-menu')}>
@@ -91,19 +101,19 @@ const ProjectTree = ({setTool, save, setProject}) => {
             name='project_title'
             type='text'
             placeholder='project title'
-            /* value={project_title} */
-            /* onChange={updateProjectTitle} */
+            value={projectTitle}
+            onChange={updateProjectTitle}
           />
           <textarea
             name='project_desc'
             type='text'
             placeholder='short description'
             rows='6'
-            /* value={project_title} */
-            /* onChange={updateProjectTitle} */
+            value={projectDesc}
+            onChange={updateProjectDesc}
           ></textarea>
         </div>
-        <button id='project-save' onClick={() => toggleLoad('save-menu')}>
+        <button id='project-save' onClick={() => saveProjectA()}>
           save
         </button>
         <button id='cancel' onClick={() => toggleLoad('save-menu')}>

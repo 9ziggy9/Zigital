@@ -1,6 +1,8 @@
 // constants
 const SET_USER = 'session/SET_USER';
 const REMOVE_USER = 'session/REMOVE_USER';
+const SAVE_PROJECT = 'session/SAVE_PROJECT';
+const GET_PROJECTS = 'session/GET_PROJECTS';
 
 const setUser = (user) => ({
   type: SET_USER,
@@ -11,7 +13,44 @@ const removeUser = () => ({
   type: REMOVE_USER,
 })
 
-const initialState = { user: null };
+const setProject = (project) => ({
+  type: SAVE_PROJECT,
+  payload: project
+})
+
+const setProjectsList = (projects) => ({
+  type: GET_PROJECTS,
+  payload: projects
+})
+
+const initialState = { user: null, project: null, projects: [] };
+
+export const saveProject = (uid, save, pt, pd) => async (dispatch) => {
+  const res = await fetch(`/api/projects/${uid}`, {
+    method: 'POST',
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({
+      save: save,
+      title: pt,
+      description: pd,
+    }),
+  });
+  if (res.ok) {
+    const data = await res.json();
+    dispatch(setProject(data));
+  }
+}
+
+export const getProjects = () => async (dispatch) => {
+  const res = await fetch(`/api/projects/all`);
+  if (res.ok) {
+    const data = await res.json();
+    dispatch(setProjectsList(data));
+    return;
+  }
+}
 
 export const authenticate = () => async (dispatch) => {
   const response = await fetch('/api/auth/', {
@@ -24,7 +63,6 @@ export const authenticate = () => async (dispatch) => {
     if (data.errors) {
       return;
     }
-  
     dispatch(setUser(data));
   }
 }
@@ -98,11 +136,20 @@ export const signUp = (username, email, password) => async (dispatch) => {
 }
 
 export default function reducer(state = initialState, action) {
+  let newState;
   switch (action.type) {
     case SET_USER:
       return { user: action.payload }
     case REMOVE_USER:
       return { user: null }
+    case SAVE_PROJECT:
+      newState = Object.assign({}, state);
+      newState.project = action.payload;
+      return newState;
+    case GET_PROJECTS:
+      newState = Object.assign({}, state);
+      newState.projects = [...action.payload.projects];
+      return newState;
     default:
       return state;
   }
