@@ -19,6 +19,13 @@ const LoginForm = () => {
     }
   };
 
+  const demoLogin = async () => {
+    const data = await dispatch(login('demo@aa.io', 'password'));
+    if (data) {
+      setErrors(data);
+    }
+  }
+
   const updateEmail = (e) => {
     setEmail(e.target.value);
   };
@@ -72,6 +79,7 @@ const LoginForm = () => {
                 />
               </div>
                 <button type='submit'>login</button>
+                <button onClick={()=>demoLogin()}>demo</button>
               <div className='login-text subtext'>
                 <p>
                   See navbar to sign up for a free account.
