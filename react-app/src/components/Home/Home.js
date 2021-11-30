@@ -3,12 +3,12 @@ import React, {
   useState,
   useEffect
 } from 'react';
+import {mHash, fsm_eval} from '../../logic/fsm.js';
 import {
   createGrid,
   handleGrid,
   handleGateHighlight,
   handleWireHighlight,
-  handleOtherHighlight,
   handleGates,
   handleBulbs,
   handlePower,
