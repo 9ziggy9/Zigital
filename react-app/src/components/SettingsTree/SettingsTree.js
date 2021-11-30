@@ -19,7 +19,7 @@ const SettingsTree = () => {
             </div>
         </div>
         <button id="about">
-          about
+          <a href="https://github.com/9ziggy9/Zigital">about</a>
         </button>
         <button id="delete-act">
           user settings
