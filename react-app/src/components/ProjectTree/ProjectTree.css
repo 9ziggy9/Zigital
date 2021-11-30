@@ -28,6 +28,18 @@
     align-items: center;
 }
 
+#project-save {
+    background-color: #5f8700;
+    height:40px;
+    width: 100%;
+    font-family: 'VT323', monospace;
+    font-weight: bold;
+    font-size:24px;
+    display: flex;
+    justify-content: space-evenly;
+    align-items: center;
+}
+
 .project-load-button {
     height:40px;
     width: 100%;
@@ -45,6 +57,34 @@
     font-family: 'VT323', monospace;
     font-weight: bold;
     font-size:40px;
+    display: flex;
+    justify-content: space-evenly;
+    align-items: center;
+}
+
+.save-project-inputs {
+    text-align:center;
+    height:40px;
+    width: 100%;
+    font-family: 'VT323', monospace;
+    font-weight: bold;
+    font-size:40px;
+    display: flex;
+    justify-content: space-evenly;
+    align-items: center;
+}
+
+textarea {
+    background-color: #444444;
+    opacity:0.7;
+    color: #eeeeee;
+    width: 97%;
+    resize:none;
+    text-align:center;
+    width: 98%;
+    font-family: 'VT323', monospace;
+    font-weight: bold;
+    font-size:24px;
     display: flex;
     justify-content: space-evenly;
     align-items: center;

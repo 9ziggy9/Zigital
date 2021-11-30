@@ -46,7 +46,7 @@ const ProjectTree = ({setTool, save, setProject}) => {
   return (
     <>
       <div id='pr-id' className='btn-list'>
-        <button id='save' onClick={saveProject}>
+        <button id='save' onClick={() => toggleLoad('save-menu')}>
           save project
         </button>
         <button id='load' onClick={() => toggleLoad('load-menu')}>
@@ -80,6 +80,33 @@ const ProjectTree = ({setTool, save, setProject}) => {
           example 7
         </button>
         <button id='cancel' onClick={() => toggleLoad('load-menu')}>
+          cancel
+        </button>
+      </div>
+      <div id='save-menu' className='btn-list hidden'>
+        <div id='project-title'>SAVE PROJECT</div>
+        <div className='login-form-field'>
+          <input
+            className='save-project-inputs'
+            name='project_title'
+            type='text'
+            placeholder='project title'
+            /* value={project_title} */
+            /* onChange={updateProjectTitle} */
+          />
+          <textarea
+            name='project_desc'
+            type='text'
+            placeholder='short description'
+            rows='6'
+            /* value={project_title} */
+            /* onChange={updateProjectTitle} */
+          ></textarea>
+        </div>
+        <button id='project-save' onClick={() => toggleLoad('save-menu')}>
+          save
+        </button>
+        <button id='cancel' onClick={() => toggleLoad('save-menu')}>
           cancel
         </button>
       </div>
