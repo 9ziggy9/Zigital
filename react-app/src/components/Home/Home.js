@@ -260,15 +260,27 @@ const Home = ({tool, save, setSave, project}) => {
     // // // // // // // // // //
 
     if (gateLabels.has(tool)) {
-      generateComponent(GATES, OCCUPIED, mouse, CELL_SIZE, context, tool)
+      try {
+        generateComponent(GATES, OCCUPIED, mouse, CELL_SIZE, context, tool)
+      } catch {
+        console.log('out of bounds');
+      }
     }
 
     if (tool === 'power') {
-      generateComponent(POWER, OCCUPIED, mouse, CELL_SIZE, context, tool)
+      try {
+        generateComponent(POWER, OCCUPIED, mouse, CELL_SIZE, context, tool)
+      } catch {
+        console.log('out of bounds');
+      }
     }
 
     if (tool === 'bulb') {
-      generateComponent(BULBS, OCCUPIED, mouse, CELL_SIZE, context, tool)
+      try {
+        generateComponent(BULBS, OCCUPIED, mouse, CELL_SIZE, context, tool)
+      } catch {
+        console.log('out of bounds');
+      }
     }
 
     if (tool === 'click') {
