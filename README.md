@@ -7,7 +7,7 @@ React is used as a UI to user settings and pallette selections. The POSTGRES db 
 is implemented via Flask/SQLAlchemy.
 
 Zigital uses a finite state machine implementation to model the circuits in real time. Wire paths
-are instantiated via A* and connections populate the FSM.
+are computed via A* and connections instantiates populate the FSM.
 
 ## Brief tutorial
 It is best practice to place down components and then move on to wire, click inputs to outputs to
