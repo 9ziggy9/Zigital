@@ -1,4 +1,5 @@
 import BULBOFF from '../../img/logic_gates/BULBOFF.svg';
+import BULBON from '../../img/logic_gates/BULBON.svg';
 import {collision} from '../grid';
 
 export class Bulb {
@@ -10,10 +11,15 @@ export class Bulb {
     this.ctx = ctx;
   }
 
-  draw(){
+  draw(state='off'){
     let img = new Image();
-    img.src = BULBOFF;
-    this.ctx.drawImage(img, this.x, this.y-1, this.width*1.25, this.height * 1.25);
+    if (state === 'off') {
+      img.src = BULBOFF;
+      this.ctx.drawImage(img, this.x, this.y-1, this.width*1.25, this.height * 1.25);
+    } else {
+      img.src = BULBON;
+      this.ctx.drawImage(img, this.x, this.y-1, this.width*1.25, this.height * 1.25);
+    }
   }
 
   drawHighlight(mouse, color){

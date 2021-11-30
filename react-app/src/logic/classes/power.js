@@ -1,4 +1,5 @@
 import SWITCHOFF from '../../img/logic_gates/SWITCHOFF.svg'
+import SWITCHON from '../../img/logic_gates/SWITCHON.svg'
 
 export class Power {
   constructor(x, y, cellSize, ctx) {
@@ -9,9 +10,14 @@ export class Power {
     this.ctx = ctx;
   }
 
-  draw(){
+  draw(state='off'){
     let img = new Image();
-    img.src = SWITCHOFF;
-    this.ctx.drawImage(img, this.x, this.y-1, this.width*1.25, this.height * 1.25);
+    if (state === 'off') {
+      img.src = SWITCHOFF;
+      this.ctx.drawImage(img, this.x, this.y-1, this.width*1.25, this.height * 1.25);
+    } else {
+      img.src = SWITCHON;
+      this.ctx.drawImage(img, this.x, this.y-1, this.width*1.25, this.height * 1.25);
+    }
   }
 }

@@ -261,6 +261,13 @@ const Home = ({tool, save, setSave, project}) => {
       const {x:X, y:Y} = occupiedSpace(snapped.x,snapped.y,CELL_SIZE);
       if (OCCUPIED[Y][X] === 10) {
         console.log('clicked power');
+        POWER.forEach(b => {
+          if (mouse.x > b.x && mouse.x < (b.x + 5*CELL_SIZE) &&
+              mouse.y > b.y && mouse.y < (b.y + 3*CELL_SIZE)) {
+            console.log('found it');
+            return;
+          }
+        });
       }
     }
 
