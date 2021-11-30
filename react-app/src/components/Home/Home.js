@@ -264,8 +264,7 @@ const Home = ({tool, save, setSave, project}) => {
         POWER.forEach(b => {
           if (mouse.x > b.x && mouse.x < (b.x + 5*CELL_SIZE) &&
               mouse.y > b.y && mouse.y < (b.y + 3*CELL_SIZE)) {
-            console.log('found it');
-            return;
+            b.switchState();
           }
         });
       }
