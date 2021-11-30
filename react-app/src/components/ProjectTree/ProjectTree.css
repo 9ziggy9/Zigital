@@ -62,6 +62,17 @@
     align-items: center;
 }
 
+#delete-title {
+    height:40px;
+    width: 100%;
+    font-family: 'VT323', monospace;
+    font-weight: bold;
+    font-size:20px;
+    display: flex;
+    justify-content: space-evenly;
+    align-items: center;
+}
+
 .save-project-inputs {
     text-align:center;
     height:40px;
@@ -69,6 +80,18 @@
     font-family: 'VT323', monospace;
     font-weight: bold;
     font-size:40px;
+    display: flex;
+    justify-content: space-evenly;
+    align-items: center;
+}
+
+#cnf-del {
+    background-color: #af0000;
+    height:40px;
+    width: 100%;
+    font-family: 'VT323', monospace;
+    font-weight: bold;
+    font-size:24px;
     display: flex;
     justify-content: space-evenly;
     align-items: center;

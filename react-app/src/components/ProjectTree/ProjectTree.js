@@ -52,7 +52,7 @@ const ProjectTree = ({setTool, save, setProject}) => {
         <button id='load' onClick={() => toggleLoad('load-menu')}>
           load project
         </button>
-        <button id='delete'>
+        <button id='delete' onClick={() => toggleLoad('delete-menu')}>
           delete project
         </button>
       </div>
@@ -107,6 +107,13 @@ const ProjectTree = ({setTool, save, setProject}) => {
           save
         </button>
         <button id='cancel' onClick={() => toggleLoad('save-menu')}>
+          cancel
+        </button>
+      </div>
+      <div id='delete-menu' className='btn-list hidden'>
+        <div id='delete-title'>Are you sure you want to delete?</div>
+        <button id='cnf-del'>yes, delete</button>
+        <button id='cancel' onClick={() => toggleLoad('delete-menu')}>
           cancel
         </button>
       </div>
