@@ -275,6 +275,8 @@ const Home = ({tool, save, setSave, project}) => {
           STATE_MAP[powerHash]['state'] = 0;
         else
           STATE_MAP[powerHash]['state'] = 1;
+        fsm_eval(MACHINE, STATE_MAP);
+        console.log(MACHINE);
       }
     }
 

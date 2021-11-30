@@ -33,6 +33,11 @@ export function fsm_eval(mch, map) {
       component.state = out === 'F' ? 'F' : not(out.state);
       return;
     }
+    if (component.type === 'bulb')  {
+      const out = map[component.input[0]];
+      component.state = out === 'F' ? 'F' : out.state;
+      return;
+    }
   })
   return mch;
 }
