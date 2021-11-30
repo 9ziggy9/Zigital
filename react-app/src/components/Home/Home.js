@@ -3,7 +3,7 @@ import React, {
   useState,
   useEffect
 } from 'react';
-import {mHash, fsm_eval} from '../../logic/fsm.js';
+import {mHash, determine_component, fsm_eval} from '../../logic/fsm.js';
 import {
   createGrid,
   handleGrid,
@@ -37,6 +37,8 @@ let OCCUPIED; // occupation array for collisions
 let WIRE_COLORS = ['black', 'black', '#ffaf00', "#d75f00", '#d70000', '#5f8700',
                   '#ff5faf', '#8700af', '#d7875f', '#d0d0d0', '#af005f']
 
+const MACHINE = [];
+
 const Home = ({tool, save, setSave, project}) => {
   const backgroundRef = useRef(null);
   const backgroundCtxRef = useRef(null);
@@ -56,6 +58,7 @@ const Home = ({tool, save, setSave, project}) => {
   const [wireRoute, setWireRoute] = useState([]);
   const [io, setIo] = useState('start');
   const [wireColor, setWireColor] = useState(0);
+  const [machineState, setMachineState] = useState([]);
 
   const drawBackground = (ctx) => {
     ctx.fillStyle = '#696969';
@@ -314,6 +317,25 @@ const Home = ({tool, save, setSave, project}) => {
                                           parent:null});
         setWireRoute(wirePath);
         setIsWiring(false);
+        const startC = determine_component(occStart.x, occStart.y, OCCUPIED);
+        const endC = determine_component(occX, occY, OCCUPIED);
+        const STATE_MAP = mHash(MACHINE, 'id');
+        if (OCCUPIED[occY][occX] > 1) {
+          if (STATE_MAP[startC.id] === undefined)
+            MACHINE.push({
+              id: startC.id,
+              type: startC.type,
+              input: [endC.id, 'F'],
+              state: 0,
+            });
+          if (STATE_MAP[endC.id] === undefined)
+            MACHINE.push({
+              id: endC.id,
+              type: endC.type,
+              input: ['F', 'F'],
+              state: 0,
+            });
+        }
       }
     }
 
@@ -362,7 +384,6 @@ const Home = ({tool, save, setSave, project}) => {
       setIsWiring(false);
       setIo('start');
     }
-    console.log(OCCUPIED);
   }
 
   return (

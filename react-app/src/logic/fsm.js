@@ -36,3 +36,48 @@ export function fsm_eval(mch, map) {
   })
   return mch;
 }
+
+export function determine_component(x,y,occ) {
+  switch (occ[y][x]) {
+    case 2: break;
+    case 3:
+      return {type:'or',id:`${x-4}`+`${y-2}`};
+    case 4:
+      return {type:'and',id:`${x-4}`+`${y-2}`};
+    case 5:
+      return {type:'xor',id:`${x-4}`+`${y-2}`};
+    case 6:
+      return {type:'nor',id:`${x-4}`+`${y-2}`};
+    case 7:
+      return {type:'nand',id:`${x-4}`+`${y-2}`};
+    case 8:
+      return {type:'xnor',id:`${x-4}`+`${y-2}`};
+    case -3:
+      if (occ[y-2][x] === -3)
+        return {type:'or', id:`${x}`+`${y-3}`}
+      return {type:'or',id:`${x}`+`${y-1}`};
+    case -4:
+      if (occ[y-2][x] === -4)
+        return {type:'and', id:`${x}`+`${y-3}`}
+      return {type:'and',id:`${x}`+`${y-1}`};
+    case -5:
+      if (occ[y-2][x] === -5)
+        return {type:'xor', id:`${x}`+`${y-3}`}
+      return {type:'xor',id:`${x}`+`${y-1}`};
+    case -6:
+      if (occ[y-2][x] === -6)
+        return {type:'nor', id:`${x}`+`${y-3}`}
+      return {type:'nor',id:`${x}`+`${y-1}`};
+    case -7:
+      if (occ[y-2][x] === -7)
+        return {type:'nand', id:`${x}`+`${y-3}`}
+      return {type:'nand',id:`${x}`+`${y-1}`};
+    case -8:
+      if (occ[y-2][x] === -8)
+        return {type:'xnor', id:`${x}`+`${y-3}`}
+      return {type:'xnor',id:`${x}`+`${y-1}`};
+    default: break;
+  }
+}
+
+export function fsm_push(mch) {}
