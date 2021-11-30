@@ -7,7 +7,8 @@ React is used as a UI to user settings and pallette selections. The POSTGRES db 
 is implemented via Flask/SQLAlchemy.
 
 Zigital uses a finite state machine implementation to model the circuits in real time. Wire paths
-are computed via A* and connections instantiates populate the FSM.
+are computed via A* and connections are instantiated when inputs and outputs are connected. An evaluation
+function fires whenever power states are modified and the FSM is transitioned to the next state.
 
 ## Brief tutorial
 It is best practice to place down components and then move on to wire, click inputs to outputs to
@@ -15,6 +16,12 @@ instantiate a component in the finite state machine. By clicking power sources (
 state will be updated and the results can be interpreted via connections to bulbs.
 Left click to cancel path currently being drawn.
 Note that delete will remove all components at the moment, I am looking to fix this shortly.
+Projects can be saved and loaded but currently I have not yet implemented abstraction of components.
+
+## Coming soon
+Abstraction of circuits to be used as custom components; this will be done via compilation of truth
+tables by permuting over all possible inputs. From this it would be relatively straightforward to
+return a custom logic function for the desired component via closure.
 
 ## Known bugs
 - Currently deletion of wires is done in one foul swoop, a proximity deletion to a wire needs to be
