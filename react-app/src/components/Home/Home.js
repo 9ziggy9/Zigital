@@ -254,7 +254,15 @@ const Home = ({tool, save, setSave, project}) => {
       generateComponent(BULBS, OCCUPIED, mouse, CELL_SIZE, context, tool)
     }
 
-    // // // // // // // // // // //
+    if (tool === 'click') {
+      const cellQuad = {x: mouse.x % CELL_SIZE - (CELL_SIZE),
+                        y: mouse.y % CELL_SIZE - (CELL_SIZE)};
+      const snapped = quadrantSnapper(cellQuad, mouse, CELL_SIZE);
+      const {x:X, y:Y} = occupiedSpace(snapped.x,snapped.y,CELL_SIZE);
+      console.log(X,Y);
+    }
+
+    // * // // // // // // // // // //
     // TOOL STATE LOGIC HANDLING //
     // sponge: wires            //
     // // // // // // // // // //

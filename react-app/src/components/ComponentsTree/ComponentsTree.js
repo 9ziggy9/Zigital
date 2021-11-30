@@ -11,11 +11,13 @@ import WIRE from '../../img/logic_gates/WIRE.svg';
 import BULBOFF from '../../img/logic_gates/BULBOFF.svg';
 import SWITCHOFF from '../../img/logic_gates/SWITCHOFF.svg';
 import DELETE from '../../img/logic_gates/DELETE.svg';
+import CLICK from '../../img/logic_gates/CLICK.svg';
 
 export const gateLabels = new Set(['not', 'or', 'and',
                                   'xor', 'nor', 'nand',
                                   'xnor']);
-export const toolLabels = new Set(['wire', 'delete', 'power', 'bulb']);
+export const toolLabels = new Set(['wire', 'delete', 'power',
+                                   'bulb', 'click']);
 
 const ComponentsTree = ({setTool}) => {
   const selectTool = (id) => {
@@ -63,6 +65,10 @@ const ComponentsTree = ({setTool}) => {
       case 'bulb':
         console.log('OTHER: bulb selected');
         setTool('bulb');
+        break;
+      case 'click':
+        console.log('OTHER: click selected');
+        setTool('click');
         break;
       default: break;
     }
@@ -122,6 +128,10 @@ const ComponentsTree = ({setTool}) => {
         <button id="bulb" onClick={() => selectTool('bulb')}>
           <img src={BULBOFF} alt=""/>
           <p>BULB</p>
+        </button>
+        <button id="click" onClick={() => selectTool('click')}>
+          <img src={CLICK} alt=""/>
+          <p>CLICK</p>
         </button>
         <button id="delete" onClick={() => selectTool('delete')}>
           <img src={DELETE} alt=""/>
