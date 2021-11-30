@@ -16,6 +16,40 @@
     align-items: center;
 }
 
+#cancel {
+    background-color: #d7af5f;
+    height:40px;
+    width: 100%;
+    font-family: 'VT323', monospace;
+    font-weight: bold;
+    font-size:24px;
+    display: flex;
+    justify-content: space-evenly;
+    align-items: center;
+}
+
+.project-load-button {
+    height:40px;
+    width: 100%;
+    font-family: 'VT323', monospace;
+    font-weight: bold;
+    font-size:24px;
+    display: flex;
+    justify-content: space-evenly;
+    align-items: center;
+}
+
+#project-title {
+    height:40px;
+    width: 100%;
+    font-family: 'VT323', monospace;
+    font-weight: bold;
+    font-size:40px;
+    display: flex;
+    justify-content: space-evenly;
+    align-items: center;
+}
+
 .btn-list > button:hover {
     background-color: #5f8700;
 }

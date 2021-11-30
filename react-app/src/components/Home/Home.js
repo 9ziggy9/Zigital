@@ -183,9 +183,9 @@ const Home = ({tool, save, setSave, project}) => {
 
 
     // Using this as a performance indication
-    ctx.beginPath()
-    ctx.arc(1100, 720, 80*Math.sin(frameCount*0.05)**2, 0, 2*Math.PI)
-    ctx.fill()
+    // ctx.beginPath()
+    // ctx.arc(1100, 720, 80*Math.sin(frameCount*0.05)**2, 0, 2*Math.PI)
+    // ctx.fill()
   }
 
   useEffect(() => {
