@@ -4,7 +4,7 @@ import LogoutButton from '../auth/LogoutButton';
 import React from 'react';
 import "./SettingsTree.css";
 
-const SettingsTree = () => {
+const SettingsTree = ({setAbout}) => {
   const user = useSelector(state => state.session.user);
 
   return (
@@ -18,8 +18,11 @@ const SettingsTree = () => {
                 {user?.email}
             </div>
         </div>
-        <button id="about">
-          <a href="https://github.com/9ziggy9/Zigital">about</a>
+        {/* <button id="about"> */}
+        {/*   <a href="https://github.com/9ziggy9/Zigital">about</a> */}
+        {/* </button> */}
+        <button id="about" onClick={() => setAbout(n => ~n & 1)}>
+          about
         </button>
         <button id="delete-act">
           user settings

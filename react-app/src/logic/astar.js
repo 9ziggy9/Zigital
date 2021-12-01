@@ -21,6 +21,7 @@ function turnCost(a,b,v) {
 }
 
 function neighbors(cell, access, target = {x:0, y:0}, v={x:0,y:0}) {
+    const weight = 1;
     const {x, y} = cell.point;
     const neighbors = [];
     if (x + 1 < access[0].length && access[y][x+1]) {
@@ -30,7 +31,7 @@ function neighbors(cell, access, target = {x:0, y:0}, v={x:0,y:0}) {
         neighbors.push({
             point: b,
             parent: a,
-            distance: taxiD(b, target) + turnCost(a,b,v)
+            distance: taxiD(b, target) + weight*turnCost(a,b,v)
         });
     }
     if (x - 1 >= 0 && access[y][x-1]) {
@@ -40,7 +41,7 @@ function neighbors(cell, access, target = {x:0, y:0}, v={x:0,y:0}) {
         neighbors.push({
             point: b,
             parent: a,
-            distance: taxiD(b, target) + turnCost(a,b,v)
+            distance: taxiD(b, target) + weight*turnCost(a,b,v)
         });
     }
     if (y + 1 < access.length && access[y+1][x]) {
@@ -50,7 +51,7 @@ function neighbors(cell, access, target = {x:0, y:0}, v={x:0,y:0}) {
         neighbors.push({
             point: b,
             parent: a,
-            distance: taxiD(b, target) + turnCost(a,b,v)
+            distance: taxiD(b, target) + weight*turnCost(a,b,v)
         });
     }
     if (y - 1 >= 0 && access[y-1][x]) {
@@ -60,7 +61,7 @@ function neighbors(cell, access, target = {x:0, y:0}, v={x:0,y:0}) {
         neighbors.push({
             point: b,
             parent: a,
-            distance: taxiD(b, target) + turnCost(a,b,v)
+            distance: taxiD(b, target) + weight*turnCost(a,b,v)
         });
     }
     return neighbors;

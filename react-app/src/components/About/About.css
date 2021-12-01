@@ -1,0 +1,86 @@
+.about-area{
+    pointer-events: none;
+    position:relative;
+    grid-area: 1/1/1/14;
+}
+
+#about-box {
+    pointer-events: auto;
+    background-color:#333333;
+    opacity: 0.9;
+    border: 2px solid #444444;
+    z-index:2;
+    width:100%;
+    height:100%;
+    animation-name: slide-in;
+    animation-duration: 0.5s;
+}
+
+@keyframes slide-in {
+    from {
+        margin-top: -100%;
+        opacity: 0;
+    }
+    to {
+        margin-top:0%;
+        opacity: 0.9;
+    }
+}
+
+.unclickable {
+    pointer-events: none;
+}
+
+.shadow-grid {
+    width: 100%;
+    height: 100%;
+    display: grid;
+    grid-template-columns: repeat(9, 1fr);
+    grid-template-rows: repeat(7, 1fr);
+    grid-column-gap: 0px;
+    grid-row-gap: 0px;
+}
+
+#close-btn {
+    border:none;
+    font-family: 'VT323', monospace;
+    font-size: 28px;
+    color: #eeeeee;
+    background-color: #af0000;
+    border-radius: 5%;
+    height: 40%;
+    width: 60%;
+}
+
+.pro-image {
+    background: url('https://avatars.githubusercontent.com/u/75019436?v=4') center 0;
+    border-radius: 5%;
+    opacity: 1;
+    width: 100%;
+    height: 100%;
+    grid-area: 2 / 2 / 4 / 4;
+}
+
+.about-me-here {
+    background-color:black;
+    padding: 0;
+    padding-left: 20px;
+    padding-top: none;
+    font-family: 'VT323', monospace;
+    font-size: 28px;
+    color: #eeeeee;
+    display: flex;
+    justify-content: left;
+    grid-area: 2 / 4 / 4 / 9;
+}
+
+.about-me-here p {
+    margin: 0;
+    font-size:50px;
+}
+
+.div3 { grid-area: 4 / 2 / 6 / 9; }
+.div4 { grid-area: 6 / 2 / 7 / 3; }
+.div5 { grid-area: 6 / 3 / 7 / 4; }
+
+.close { grid-area: 6 / 7 / 7 / 9; }

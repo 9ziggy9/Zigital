@@ -1,10 +1,14 @@
 import React from 'react';
 import ComponentsTree from '../ComponentsTree/ComponentsTree';
 import ProjectTree from '../ProjectTree/ProjectTree';
+import About from '../About/About';
 import SettingsTree from '../SettingsTree/SettingsTree';
-import "../../index.css"
+import {useState, useEffect} from 'react';
+import "../../index.css";
+import "../About/About.css";
 
 const ToolBar = ({setTool, save, setProject}) => {
+  const [about,setAbout] = useState(0);
   const rhsMenus = ['components-tree', 'project-tree'];
   const rhsIds = ['components-btn', 'project-btn'];
   const toggleMenu = (id, menu) => {
@@ -32,6 +36,30 @@ const ToolBar = ({setTool, save, setProject}) => {
               other.classList.add("unhighlight");
             })
   }
+
+  useEffect(() => {
+    if (about === 1) {
+      const aboutNode = document.getElementById('about-box')
+      const settingsNode = document.getElementById('settings-tree')
+      const settingsBtn = document.getElementById('profile-btn')
+      const componentsBtn = document.getElementById('components-btn')
+      const projectBtn = document.getElementById('project-btn')
+      if (aboutNode.classList.contains("hidden")) {
+        aboutNode.classList.remove("hidden");
+        settingsNode.classList.add("hidden");
+        settingsBtn.classList.add("unclickable");
+        settingsBtn.classList.remove("highlight");
+        componentsBtn.classList.add("unclickable");
+        projectBtn.classList.add("unclickable");
+      } else {
+        aboutNode.classList.add("hidden");
+        settingsBtn.classList.remove("unclickable");
+        componentsBtn.classList.remove("unclickable");
+        projectBtn.classList.remove("unclickable");
+      }
+    }
+  }, [about])
+
   return (
     <>
     <div className="toolbar">
@@ -74,7 +102,14 @@ const ToolBar = ({setTool, save, setProject}) => {
     <div className="canvas-overlay">
         <div className="settings-area">
           <div id="settings-tree" className="hidden">
-            <SettingsTree />
+            <SettingsTree setAbout={setAbout}/>
+          </div>
+        </div>
+    </div>
+    <div className="canvas-overlay">
+        <div className="about-area">
+          <div id="about-box" className="hidden">
+            <About setAbout={setAbout}/>
           </div>
         </div>
     </div>
