@@ -19,29 +19,35 @@ Note that delete will remove all components at the moment, I am looking to fix t
 Projects can be saved and loaded but currently I have not yet implemented abstraction of components.
 
 ## Coming soon
-- Abstraction of circuits to be used as custom components; this will be done via compilation of truth
+- [OPEN] Abstraction of circuits to be used as custom components; this will be done via compilation of truth
 tables by permuting over all possible inputs. From this it would be relatively straightforward to
 return a custom logic function for the desired component via closure.
-- Heuristic to A* can and should be modified to limit number of turns; this will improved the gnarling
-of paths which is a bit of an issue for massive circuits.
+- [CLOSED] Heuristic to A* can and should be modified to limit number of turns; this will improved the gnarling
+of paths which is a bit of an issue for massive circuits. -- SOLVED, (however my heuristic can still be
+improved. It may be worth while to look at some of the source code of Kicad as my method by use of testing
+local cross product of visited and future displacements is not very predictive)
 
 ## Known bugs
-- Currently deletion of wires is done in one foul swoop, a proximity deletion to a wire needs to be
+- [OPEN] Canvas overflow handling needs to be implemented, surprisingly unpacking projects doesn't lead to
+  crash on small screen sizes. Should size of canvas be set dynamically or fixed? I'm leaning towards
+  fixed. Some CSS trickery is likely needed.
+- [OPEN] On load, tool should default to 'click' to make pressing buttons less confusing.
+- [CLOSED] Currently deletion of wires is done in one foul swoop, a proximity deletion to a wire needs to be
 implemented post haste to make quick modification of wires less taxing. -- SOLVED: lame solution
-- Snap highlighting is missing on bulb and power components, this is a trivial fix. -- SOLVED
-- Snap highlighting on gate imputs is slightly dubious, this will need to be rectified in order
+- [CLOSED] Snap highlighting is missing on bulb and power components, this is a trivial fix. -- SOLVED
+- [CLOSED] Snap highlighting on gate imputs is slightly dubious, this will need to be rectified in order
 to facilitate a clean instantiation of connection objects. -- SOLVED
-- Dead links are currently left on the page as a development goal reminder, these will be removed
+- [CLOSED] Dead links are currently left on the page as a development goal reminder, these will be removed
 before true deployment. -- SOLVED
-- Serialization of nested JSON objects in the database prove to be a non-trivial task. This is essential
+- [CLOSED] Serialization of nested JSON objects in the database prove to be a non-trivial task. This is essential
 for users to be able to save component abstractions and projects. Some more consideration needs to be made
 as to how this can be accomplished with SQLAlchemy and Alembic. -- SOLVED
 
 ## Wishful thinking
-- In the near future A* will be implemented as an alternative to manually routing wires, I
+- [CLOSED] In the near future A* will be implemented as an alternative to manually routing wires, I
 have actually already established the code base for this in a prior project (see my maze solving app)
 but I need to do some more thinking on how to adapt the code cleanly. -- SOLVED
-- The next step up from simple combinational logic would be to implement time-dependence in the form
+- [OPEN] The next step up from simple combinational logic would be to implement time-dependence in the form
 of a simple clock.
 
 ## References
