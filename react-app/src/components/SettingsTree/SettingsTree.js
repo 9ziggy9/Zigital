@@ -25,7 +25,7 @@ const SettingsTree = ({setAbout}) => {
           about
         </button>
         <button id="delete-act">
-          user settings
+          tutorial
         </button>
           <NavLink to='/sign-up' exact={true} activeClassName='active'>
             <LogoutButton />

@@ -1,7 +1,7 @@
 import React from 'react';
 import './About.css';
 
-const About = () => {
+const About = ({setAbout}) => {
   return (
     <>
       <div className="shadow-grid">
@@ -26,7 +26,7 @@ const About = () => {
         <div className="pro-image">
         </div>
         <div className="close">
-            <button id="close-btn">
+            <button id="close-btn" onClick={() => setAbout(0)}>
                 close
             </button>
         </div>

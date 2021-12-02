@@ -44,21 +44,23 @@ const ToolBar = ({setTool, save, setProject}) => {
       const settingsBtn = document.getElementById('profile-btn')
       const componentsBtn = document.getElementById('components-btn')
       const projectBtn = document.getElementById('project-btn')
-      if (aboutNode.classList.contains("hidden")) {
-        aboutNode.classList.remove("hidden");
-        settingsNode.classList.add("hidden");
-        settingsBtn.classList.add("unclickable");
-        settingsBtn.classList.remove("highlight");
-        componentsBtn.classList.add("unclickable");
-        projectBtn.classList.add("unclickable");
-      } else {
-        aboutNode.classList.add("hidden");
-        settingsBtn.classList.remove("unclickable");
-        componentsBtn.classList.remove("unclickable");
-        projectBtn.classList.remove("unclickable");
-      }
+      aboutNode.classList.remove("hidden");
+      settingsNode.classList.add("hidden");
+      settingsBtn.classList.add("unclickable");
+      settingsBtn.classList.remove("highlight");
+      componentsBtn.classList.add("unclickable");
+      projectBtn.classList.add("unclickable");
+    } else {
+      const aboutNode = document.getElementById('about-box')
+      const settingsBtn = document.getElementById('profile-btn')
+      const componentsBtn = document.getElementById('components-btn')
+      const projectBtn = document.getElementById('project-btn')
+      aboutNode.classList.add("hidden");
+      settingsBtn.classList.remove("unclickable");
+      componentsBtn.classList.remove("unclickable");
+      projectBtn.classList.remove("unclickable");
     }
-  }, [about])
+  }, [about, setAbout])
 
   return (
     <>
