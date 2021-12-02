@@ -14,7 +14,7 @@ const About = () => {
         <div className='about-proj-here'>
           <h2>project details</h2>
           <p>
-            Zigital works via a finite state machine implementation. A* is used on component connect to draw wires, but it is the act of clicking between two components which instantiates a connection object which is hash mapped and evaluated on state changes. Currently the addition of clocks and component abstraction is under development. One day I hope to have flip-flops.
+            Zigital works via a finite state machine implementation. A* is used on component connect to draw wires, but it is the act of clicking between two components which instantiates a connection object which is hash mapped and evaluated on state changes. Currently the addition of clocks and component abstraction is under development. One day I hope to have flip-flops. For more details on usage see the tutorial located in user settings.
           </p>
         </div>
         <div className="gh">
