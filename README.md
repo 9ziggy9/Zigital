@@ -3,7 +3,7 @@ A digital logic simulator.
 
 ## About
 Zigital aims to do primitive digital logic simulation via vanilla JavaScript with HTML5 canvas.
-React is used as a UI to user settings and pallette selections. The POSTGRES db and backend api
+React is used as a UI to user settings and pallette selections. The postgreSQL db and backend api
 is implemented via Flask/SQLAlchemy.
 
 Zigital uses a finite state machine implementation to model the circuits in real time. Wire paths
