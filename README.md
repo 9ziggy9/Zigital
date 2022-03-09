@@ -30,7 +30,7 @@ local cross product of visited and future displacements is not very predictive)
 ## Known bugs
 - [OPEN] Canvas overflow handling needs to be implemented, surprisingly unpacking projects doesn't lead to
   crash on small screen sizes. Should size of canvas be set dynamically or fixed? I'm leaning towards
-  fixed. Some CSS trickery is likely needed.
+  fixed. Some CSS trickery is likely needed. Perhaps scrolling is simplest.
 - [OPEN] On load, tool should default to 'click' to make pressing buttons less confusing.
 - [CLOSED] Currently deletion of wires is done in one foul swoop, a proximity deletion to a wire needs to be
 implemented post haste to make quick modification of wires less taxing. -- SOLVED: lame solution
